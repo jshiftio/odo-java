@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>odo-java</artifactId>
+    <groupId>com.lordofthejars.odo</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <artifactId>odo-binary</artifactId>
+  
+  <name>odo-binary</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${project.basedir}/src/main/resources/binaries</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.googlecode.maven-download-plugin</groupId>
+        <artifactId>download-maven-plugin</artifactId>
+        <version>1.4.1</version>
+        <executions>
+          <execution>
+            <id>install-diferencia-mac</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-darwin-amd64</url>
+              <unpack>false</unpack>
+              <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>install-diferencia-linux</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-linux-amd64</url>
+              <unpack>false</unpack>
+              <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>install-diferencia-win</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-windows-amd64.exe</url>
+              <unpack>false</unpack>
+              <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
