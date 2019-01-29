@@ -1,6 +1,5 @@
 package com.lordofhejars.odo.core;
 
-import com.lordofthejars.odo.api.OdoConfiguration;
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.CreateCommand;
 import com.lordofthejars.odo.core.commands.DeleteCommand;

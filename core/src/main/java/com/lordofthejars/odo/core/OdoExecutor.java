@@ -61,6 +61,8 @@ class OdoExecutor {
         }
     }
 
+    // TODO wait until machine output to create an event based system
+
     String checkForFailure(int exitCode) {
         if (exitCode > 0) {
             final InputStream errorStream = this.startedProcess.getErrorStream();

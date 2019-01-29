@@ -19,7 +19,7 @@ public class LocationResolverChain {
             return getLocalLocationResolver(odoConfiguration.getLocalOdo());
         }
 
-        final String odoBinary = this.operatingSystemConfig.resolveDiferenciaBinary();
+        final String odoBinary = this.operatingSystemConfig.resolveOdoBinary();
 
         if (System.getProperty(ODO_VERSION) != null) {
             return getUrlLocationResolver(odoBinary, System.getProperty(ODO_VERSION));

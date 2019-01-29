@@ -2,7 +2,7 @@ package com.lordofthejars.odo.core.resolvers;
 
 class OperatingSystemConfig {
 
-    private static final String DIFERENCIA_BINARY_FORMAT = "odo-%s-amd64%s";
+    private static final String ODO_BINARY_FORMAT = "odo-%s-amd64%s";
 
     private String osName;
 
@@ -10,7 +10,7 @@ class OperatingSystemConfig {
         this.osName = osName;
     }
 
-    String resolveDiferenciaBinary() {
+    String resolveOdoBinary() {
         final OperatingSystemFamily operativeSystem = OperatingSystemFamily.resolve(this.osName);
 
         String extension = "";
@@ -19,7 +19,7 @@ class OperatingSystemConfig {
             extension = ".exe";
         }
 
-        return String.format(DIFERENCIA_BINARY_FORMAT, operativeSystem.getLabel(), extension);
+        return String.format(ODO_BINARY_FORMAT, operativeSystem.getLabel(), extension);
 
     }
 
