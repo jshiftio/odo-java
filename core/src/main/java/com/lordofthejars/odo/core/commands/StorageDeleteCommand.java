@@ -81,8 +81,8 @@ public class StorageDeleteCommand implements Command {
             return this;
         }
 
-        public StorageDeleteCommand.Builder withForce() {
-            this.storageDeleteCommand.force = Boolean.TRUE;
+        public StorageDeleteCommand.Builder withForce(boolean force) {
+            this.storageDeleteCommand.force = force;
             return this;
         }
 

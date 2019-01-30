@@ -68,8 +68,8 @@ public class DeleteCommand implements Command {
             return this;
         }
 
-        public DeleteCommand.Builder withForce() {
-            this.urDeleteCommand.force = Boolean.TRUE;
+        public DeleteCommand.Builder withForce(boolean force) {
+            this.urDeleteCommand.force = force;
             return this;
         }
 

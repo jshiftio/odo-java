@@ -81,8 +81,8 @@ public class UrlDeleteCommand implements Command {
             return this;
         }
 
-        public UrlDeleteCommand.Builder withForce() {
-            this.urlDeleteCommand.force = Boolean.TRUE;
+        public UrlDeleteCommand.Builder withForce(boolean force) {
+            this.urlDeleteCommand.force = force;
             return this;
         }
 
