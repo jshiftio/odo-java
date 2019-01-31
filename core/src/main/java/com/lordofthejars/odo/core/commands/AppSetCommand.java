@@ -31,6 +31,10 @@ public class AppSetCommand implements Command {
             arguments.add(project);
         }
 
+        if (extraCommands != null) {
+            arguments.addAll(extraCommands);
+        }
+
         return arguments;
     }
 
@@ -43,6 +47,11 @@ public class AppSetCommand implements Command {
 
         public AppSetCommand.Builder withProject(String project) {
             this.appCreateCommand.project = project;
+            return this;
+        }
+
+        public AppSetCommand.Builder withExtraArguments(List<String> extraArguments) {
+            this.appCreateCommand.extraCommands = extraArguments;
             return this;
         }
 

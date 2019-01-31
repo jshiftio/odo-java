@@ -33,6 +33,10 @@ public class AppCreateCommand implements Command {
             arguments.add(project);
         }
 
+        if (extraCommands != null) {
+            arguments.addAll(extraCommands);
+        }
+
         return arguments;
     }
 
@@ -50,6 +54,11 @@ public class AppCreateCommand implements Command {
 
         public AppCreateCommand.Builder withProject(String project) {
             this.appCreateCommand.project = project;
+            return this;
+        }
+
+        public AppCreateCommand.Builder withExtraArguments(List<String> extraArguments) {
+            this.appCreateCommand.extraCommands = extraArguments;
             return this;
         }
 

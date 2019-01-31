@@ -27,7 +27,7 @@ public class StorageCommandTest {
         // Then
 
         assertThat(cliCommand)
-            .containsExactlyInAnyOrder(transform("storage create mystorage --path=/opt/app-root/src/storage/ --size=1Gi"));
+            .containsExactlyInAnyOrder(transform("storage create mystorage --path /opt/app-root/src/storage/ --size 1Gi"));
 
     }
 
