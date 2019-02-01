@@ -34,7 +34,7 @@
         <version>1.4.1</version>
         <executions>
           <execution>
-            <id>install-diferencia-mac</id>
+            <id>install-odo-mac</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
@@ -46,7 +46,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>install-diferencia-linux</id>
+            <id>install-odo-linux</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
@@ -58,7 +58,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>install-diferencia-win</id>
+            <id>install-odo-win</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
