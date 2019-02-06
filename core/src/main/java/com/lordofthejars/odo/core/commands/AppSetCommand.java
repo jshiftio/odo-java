@@ -39,24 +39,24 @@ public class AppSetCommand implements Command {
     }
 
     public static class Builder {
-        private AppSetCommand appCreateCommand;
+        private AppSetCommand appSetCommand;
 
         public Builder(String appName) {
-            this.appCreateCommand = new AppSetCommand(appName);
+            this.appSetCommand = new AppSetCommand(appName);
         }
 
         public AppSetCommand.Builder withProject(String project) {
-            this.appCreateCommand.project = project;
+            this.appSetCommand.project = project;
             return this;
         }
 
         public AppSetCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.appCreateCommand.extraCommands = extraArguments;
+            this.appSetCommand.extraCommands = extraArguments;
             return this;
         }
 
         public AppSetCommand build() {
-            return appCreateCommand;
+            return appSetCommand;
         }
     }
 }

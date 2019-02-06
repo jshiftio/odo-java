@@ -31,16 +31,12 @@ public class AppCommand implements Command {
 
         if (appCreateCommand != null) {
             arguments.addAll(appCreateCommand.getCliCommand());
+        } else if (appDeleteCommand != null) {
+            arguments.addAll(appDeleteCommand.getCliCommand());
+        } else if (appSetCommand != null) {
+            arguments.addAll(appSetCommand.getCliCommand());
         } else {
-            if (appDeleteCommand != null) {
-                arguments.addAll(appDeleteCommand.getCliCommand());
-            } else {
-                if (appSetCommand != null) {
-                    arguments.addAll(appSetCommand.getCliCommand());
-                } else {
-                    throw new IllegalArgumentException("App command requires a subcommand.");
-                }
-            }
+            throw new IllegalArgumentException("App command requires a subcommand.");
         }
 
         return arguments;

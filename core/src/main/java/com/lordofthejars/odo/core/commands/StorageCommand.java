@@ -36,20 +36,14 @@ public class StorageCommand implements Command {
 
         if (storageCreateCommand != null) {
             arguments.addAll(storageCreateCommand.getCliCommand());
-        } else {
-            if (storageDeleteCommand != null) {
+        } else if (storageDeleteCommand != null) {
                 arguments.addAll(storageDeleteCommand.getCliCommand());
-            } else {
-                if (storageMountCommand != null) {
-                    arguments.addAll(storageMountCommand.getCliCommand());
-                } else {
-                    if (storageUnmountCommand != null) {
-                        arguments.addAll(storageUnmountCommand.getCliCommand());
-                    } else {
-                        throw new IllegalArgumentException("Storage command requires a subcommand.");
-                    }
-                }
-            }
+        } else if (storageMountCommand != null) {
+            arguments.addAll(storageMountCommand.getCliCommand());
+        } else if (storageUnmountCommand != null) {
+            arguments.addAll(storageUnmountCommand.getCliCommand());
+        } else {
+            throw new IllegalArgumentException("Storage command requires a subcommand.");
         }
 
         return arguments;

@@ -17,9 +17,9 @@ public class FileManager {
     }
 
     Path copyToTemp() throws IOException {
-        final Path diferenciaTempDirectory = Files.createTempDirectory("odo");
+        final Path odoTempDirectory = Files.createTempDirectory("odo");
 
-        final Path output = diferenciaTempDirectory.resolve(this.name);
+        final Path output = odoTempDirectory.resolve(this.name);
         try(final InputStream stream = this.content) {
             Files.copy(stream, output, StandardCopyOption.REPLACE_EXISTING);
         }

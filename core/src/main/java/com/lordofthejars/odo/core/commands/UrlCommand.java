@@ -27,12 +27,10 @@ public class UrlCommand implements Command {
 
         if (urlCreateCommand != null) {
             arguments.addAll(urlCreateCommand.getCliCommand());
+        } else if (urlDeleteCommand != null) {
+            arguments.addAll(urlDeleteCommand.getCliCommand());
         } else {
-            if (urlDeleteCommand != null) {
-                arguments.addAll(urlDeleteCommand.getCliCommand());
-            } else {
                 throw new IllegalArgumentException("Url command requires a subcommand.");
-            }
         }
 
         return arguments;
