@@ -51,9 +51,7 @@ public class ProjectCommand implements Command {
         return argumentList;
     }
 
-
     public static class Builder {
-
         private ProjectCommand projectCommand;
 
         public Builder(ProjectCreateCommand projectCreateCommand) {
@@ -97,7 +95,11 @@ public class ProjectCommand implements Command {
             return this;
         }
 
-        public ProjectCommand build() { return this.projectCommand; }
+        public ProjectCommand.Builder withExtraArguments(List<String> extraArguments) {
+            projectCommand.arguments.addAll(extraArguments);
+            return this;
+        }
 
+        public ProjectCommand build() { return this.projectCommand; }
     }
 }
