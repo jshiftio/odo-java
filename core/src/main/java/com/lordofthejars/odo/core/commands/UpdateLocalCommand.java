@@ -1,0 +1,65 @@
+package com.lordofthejars.odo.core.commands;
+
+import com.lordofthejars.odo.api.Command;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class UpdateLocalCommand implements Command {
+    private final static String COMMAND_FLAG = "--local";
+
+    private String component;
+    private String localDir;
+    private List<String> extraCommands;
+
+    private UpdateLocalCommand(){
+    }
+
+    @Override
+    public List<String> getCliCommand() {
+        final List<String> arguments = new ArrayList<>();
+
+        if (component != null) {
+            arguments.add(component);
+        }
+
+        arguments.add(COMMAND_FLAG);
+
+        if (localDir != null) {
+            arguments.add(localDir);
+        }
+
+        if (extraCommands != null) {
+            arguments.addAll(extraCommands);
+        }
+
+        return arguments;
+    }
+
+    public static class Builder {
+        private UpdateLocalCommand updateLocalCommand;
+
+        public Builder() {
+            this.updateLocalCommand = new UpdateLocalCommand();
+        }
+
+        public UpdateLocalCommand.Builder forComponent(String componentName) {
+            this.updateLocalCommand.component = componentName;
+            return this;
+        }
+
+        public UpdateLocalCommand.Builder directory(String dirName) {
+            this.updateLocalCommand.localDir = dirName;
+            return this;
+        }
+
+        public UpdateLocalCommand.Builder withExtraArguments(List<String> extraArguments) {
+            this.updateLocalCommand.extraCommands = extraArguments;
+            return this;
+        }
+
+        public UpdateLocalCommand build() {
+            return updateLocalCommand;
+        }
+    }
+}
