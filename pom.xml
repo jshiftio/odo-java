@@ -23,10 +23,13 @@
     <assertj.version>3.10.0</assertj.version>
     <mockito.version>2.23.4</mockito.version>
     <minimaljson.version>0.9.5</minimaljson.version>
-    <odo.version>0.0.17</odo.version>
+    <odo.version>0.0.19</odo.version>
     <junit.version>5.4.0-RC1</junit.version>
     <jgit.version>5.2.1.201812262042-r</jgit.version>
     <openshift.client.version>4.1.1</openshift.client.version>
+    <servicecatalog.version>1.0.3</servicecatalog.version>
+    <awaitility.version>3.1.6</awaitility.version>
+    <zt-exec.version>1.10</zt-exec.version>
   </properties>
 
   <modules>
@@ -77,6 +80,21 @@
         <groupId>io.fabric8</groupId>
         <artifactId>openshift-client</artifactId>
         <version>${openshift.client.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>me.snowdrop</groupId>
+        <artifactId>servicecatalog-client</artifactId>
+        <version>${servicecatalog.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.awaitility</groupId>
+        <artifactId>awaitility</artifactId>
+        <version>${awaitility.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.zeroturnaround</groupId>
+        <artifactId>zt-exec</artifactId>
+        <version>${zt-exec.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

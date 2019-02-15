@@ -1,4 +1,4 @@
-package com.lordofthejars.odo.testbed.junit5;
+package com.lordofthejars.odo.testbed.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GitClone {
     String value();
+    String subdir() default  "";
 }

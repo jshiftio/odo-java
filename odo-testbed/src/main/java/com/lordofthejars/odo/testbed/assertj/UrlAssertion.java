@@ -3,7 +3,12 @@ package com.lordofthejars.odo.testbed.assertj;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 import org.assertj.core.api.AbstractAssert;
+import org.awaitility.Awaitility;
+import org.awaitility.core.ConditionTimeoutException;
+
+import static org.awaitility.Awaitility.await;
 
 public class UrlAssertion extends AbstractAssert<UrlAssertion, String> {
 
@@ -12,7 +17,25 @@ public class UrlAssertion extends AbstractAssert<UrlAssertion, String> {
     }
 
     public static UrlAssertion assertThat(String url) {
+        if (!url.startsWith("http")) {
+            url = "http://" + url;
+        }
         return new UrlAssertion(url);
+    }
+
+    public UrlAssertion isUpAndRunningBeforeSeconds(long seconds) {
+
+        try {
+            await().atMost(seconds, TimeUnit.SECONDS).until(() -> {
+                int statusCode = getStatusCode();
+                return statusCode > 200 && statusCode < 299;
+            });
+        } catch (ConditionTimeoutException e) {
+            failWithMessage("Expected status code for <%s> be between 200 and 299 after <%s> seconds", actual, seconds);
+        }
+
+        return this;
+
     }
 
     /**

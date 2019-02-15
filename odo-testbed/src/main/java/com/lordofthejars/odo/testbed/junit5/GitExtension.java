@@ -1,9 +1,11 @@
 package com.lordofthejars.odo.testbed.junit5;
 
+import com.lordofthejars.odo.testbed.api.GitClone;
 import java.io.IOException;
 import java.lang.reflect.AnnotatedElement;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.logging.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -15,6 +17,8 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
 
 public class GitExtension implements BeforeAllCallback, ParameterResolver {
+
+    private static final Logger logger = Logger.getLogger(GitExtension.class.getName());
 
     private final Path sharedTempDir;
     private Path projectDirectory;
@@ -39,17 +43,42 @@ public class GitExtension implements BeforeAllCallback, ParameterResolver {
 
             final Path directory = sharedTempDir.resolve(repoName(gitClone.value()));
 
+            logger.info(String.format("Cloning %s repo to %s", gitClone.value(), directory));
+
             try {
                 Files.createDirectories(directory);
-                Git.cloneRepository()
-                    .setURI(gitClone.value())
-                    .setDirectory(directory.toFile())
-                    .call();
 
-                projectDirectory = directory;
+                if (gitClone.subdir().isEmpty()) {
+                    clone(gitClone.value(), directory);
+                    projectDirectory = directory;
+                } else {
+                    sparseCheckout(gitClone.value(), directory, gitClone.subdir());
+                    projectDirectory = directory.resolve(gitClone.subdir());
+                }
+
             } catch (GitAPIException | IOException e) {
                 throw new IllegalArgumentException(e);
             }
+        }
+    }
+
+    private void clone(String repo, Path directory) throws GitAPIException {
+        final Git git = Git.cloneRepository()
+            .setURI(repo)
+            .setDirectory(directory.toFile())
+            .call();
+        git.getRepository().close();
+    }
+
+    private void sparseCheckout(String repo, Path directory, String path) throws GitAPIException, IOException {
+
+        try (final Git gitRepo = Git.cloneRepository()
+            .setURI(repo)
+            .setDirectory(directory.toFile())
+            .setNoCheckout(true)
+            .call()) {
+
+            gitRepo.checkout().setName("master").setStartPoint("origin/master").addPath(path).call();
         }
     }
 

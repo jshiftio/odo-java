@@ -16,6 +16,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.lordofthejars.odo</groupId>
+      <artifactId>odo-java-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
     </dependency>
@@ -34,6 +39,14 @@
     <dependency>
       <groupId>io.fabric8</groupId>
       <artifactId>openshift-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>me.snowdrop</groupId>
+      <artifactId>servicecatalog-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
     </dependency>
   </dependencies>
 

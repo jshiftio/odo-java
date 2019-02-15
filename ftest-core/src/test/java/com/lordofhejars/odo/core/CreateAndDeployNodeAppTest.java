@@ -8,7 +8,7 @@ import com.lordofthejars.odo.core.commands.UrlCommand;
 import com.lordofthejars.odo.core.commands.UrlCreateCommand;
 import com.lordofthejars.odo.core.commands.UrlDeleteCommand;
 import com.lordofthejars.odo.testbed.assertj.UrlAssertion;
-import com.lordofthejars.odo.testbed.junit5.GitClone;
+import com.lordofthejars.odo.testbed.api.GitClone;
 import com.lordofthejars.odo.testbed.junit5.GitExtension;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftConditionExtension;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftInjector;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         OpenShiftInjector.class // Injects OpeShift client to do assertions
     })
 @GitClone("https://github.com/openshift/nodejs-ex") // Project to clone
-public class CreateDeployTest {
+public class CreateAndDeployNodeAppTest {
 
     private final Odo odo = new Odo(); // Creates Odo instance
 

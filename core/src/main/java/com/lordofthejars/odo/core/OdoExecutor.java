@@ -2,75 +2,93 @@ package com.lordofthejars.odo.core;
 
 import com.lordofthejars.odo.api.Command;
 import com.lordofthejars.odo.api.OdoConfiguration;
-import java.io.BufferedReader;
+import com.lordofthejars.odo.terminal.CaptureOutput;
+import com.lordofthejars.odo.terminal.ConsoleOutput;
+import com.lordofthejars.odo.terminal.StreamDispatcher;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.zeroturnaround.exec.InvalidExitValueException;
+import org.zeroturnaround.exec.ProcessExecutor;
 
 class OdoExecutor {
 
     private static final Logger logger = Logger.getLogger(OdoExecutor.class.getName());
 
-    private Process startedProcess;
     private OdoConfiguration odoConfiguration;
 
     OdoExecutor(OdoConfiguration odoConfiguration) {
         this.odoConfiguration = odoConfiguration;
     }
 
-    void execute(Path binary, Command command) {
-        this.execute(binary, binary.getParent(), command);
+    List<String> execute(Path binary, Command command) {
+        return this.execute(binary, binary.getParent(), command);
     }
 
-    void execute(Path binary, Path directory, Command command) {
+    List<String> execute(Path binary, Path directory, Command command) {
 
-        if (!Files.isRegularFile(binary)) {
-            throw new IllegalArgumentException(String.format("%s binary path should point to odo executable.", binary));
-        }
-
-        if (!Files.isDirectory(directory)) {
-            throw new IllegalArgumentException(String.format("%s should be a directory where running odo (typically the cloned project)", directory));
-        }
+        validateInput(binary, directory);
 
         final List<String> executionCommand = new ArrayList<>();
         executionCommand.add(binary.toString());
         executionCommand.addAll(command.getCliCommand());
 
-        logger.info(String.format("Executing binary: %s at %s", executionCommand.stream().collect(Collectors.joining(" ")), directory));
+        logger.info(
+            String.format("Executing binary: %s at %s", executionCommand.stream().collect(Collectors.joining(" ")),
+                directory));
+
+        final CaptureOutput captureOutput = new CaptureOutput();
+
+        final StreamDispatcher stdStreamDispatcher =
+            new StreamDispatcher(captureOutput::capture);
+
+        if (odoConfiguration.isPrintStandardStreamToConsole()) {
+            stdStreamDispatcher.addConsumer(ConsoleOutput.forStandardConsoleOutput()::print);
+        }
+
+        final StreamDispatcher errStreamDispatcher = new StreamDispatcher();
+        if (odoConfiguration.isPrintErrorStreamToConsole()) {
+            errStreamDispatcher.addConsumer(ConsoleOutput.forErrorConsoleOutput()::print);
+        }
 
         try {
-            startedProcess = new ProcessBuilder(executionCommand)
+
+            new ProcessExecutor()
                 .directory(directory.toFile())
-                .start();
-            final int exitCode = startedProcess.waitFor();
+                .command(executionCommand)
+                .destroyOnExit()
+                .exitValueNormal()
+                .readOutput(true)
+                .redirectOutput(stdStreamDispatcher)
+                .redirectErrorStream(false)
+                .redirectError(errStreamDispatcher)
+                .execute();
 
-            String failure = checkForFailure(exitCode);
+        } catch (InvalidExitValueException e) {
+            throw new IllegalStateException(
+                String.format("Error code %d. Result: %s", e.getExitValue(), e.getResult().outputUTF8()));
+        } catch (InterruptedException | IOException | TimeoutException e) {
+            throw new IllegalArgumentException(e);
+        }
 
-            if (!failure.isEmpty()) {
-                throw new IllegalStateException(failure);
-            }
+        return captureOutput.getOutput();
+    }
 
-        } catch (IOException |InterruptedException e) {
-            throw new IllegalStateException("Could not start Odo process", e);
+    private void validateInput(Path binary, Path directory) {
+        if (!Files.isRegularFile(binary)) {
+            throw new IllegalArgumentException(String.format("%s binary path should point to odo executable.", binary));
+        }
+
+        if (!Files.isDirectory(directory)) {
+            throw new IllegalArgumentException(
+                String.format("%s should be a directory where running odo (typically the cloned project)", directory));
         }
     }
 
     // TODO wait until machine output to create an event based system
-
-    String checkForFailure(int exitCode) {
-        if (exitCode > 0) {
-            final InputStream errorStream = this.startedProcess.getErrorStream();
-            String errorContent = new BufferedReader(new InputStreamReader(errorStream)).lines().collect(Collectors.joining(System.lineSeparator()));
-            return  errorContent;
-        }
-
-        return "";
-    }
-
 }

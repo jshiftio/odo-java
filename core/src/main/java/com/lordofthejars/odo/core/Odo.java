@@ -4,6 +4,7 @@ import com.lordofthejars.odo.api.Command;
 import com.lordofthejars.odo.api.OdoConfiguration;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Odo {
@@ -34,12 +35,14 @@ public class Odo {
         }
     }
 
-    public void execute(final Path projectDirectory, final Command command) {
-        odoExecutor.execute(odoHome, projectDirectory, command);
+    // TODO when OdoClient change this class to package scope
+    public List<String> execute(final Path projectDirectory, final Command command) {
+        return odoExecutor.execute(odoHome, projectDirectory, command);
     }
 
-    public void execute(final Command command) {
-        odoExecutor.execute(odoHome, command);
+    // TODO when OdoClient change this class to package scope
+    public List<String> execute(final Command command) {
+        return odoExecutor.execute(odoHome, command);
     }
 
 }

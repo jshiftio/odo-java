@@ -13,7 +13,7 @@ public class OpenShiftInjector implements ParameterResolver {
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
         throws ParameterResolutionException {
-        return OpenShiftClient.class.isAssignableFrom(parameterContext.getParameter().getType());
+        return OpenShiftOperation.class.isAssignableFrom(parameterContext.getParameter().getType());
     }
 
     @Override
