@@ -18,8 +18,6 @@ public class AppDeleteCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private AppDeleteCommand(String appName){
         this.appName = appName;
     }
@@ -43,10 +41,6 @@ public class AppDeleteCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -65,11 +59,6 @@ public class AppDeleteCommand implements Command {
 
         public AppDeleteCommand.Builder withForce(boolean force) {
             this.appDeleteCommand.force = force;
-            return this;
-        }
-
-        public AppDeleteCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.appDeleteCommand.extraCommands = extraArguments;
             return this;
         }
 

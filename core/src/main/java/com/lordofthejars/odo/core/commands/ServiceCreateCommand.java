@@ -24,7 +24,6 @@ public class ServiceCreateCommand implements Command {
     private List<String> parameters;
 
     private GlobalParametersSupport globalParametersSupport;
-    private List<String> extraCommands;
 
     private ServiceCreateCommand(String serviceType, String plan) {
         this.serviceType= serviceType;
@@ -66,10 +65,6 @@ public class ServiceCreateCommand implements Command {
             arguments.addAll(this.globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -102,11 +97,6 @@ public class ServiceCreateCommand implements Command {
 
         public ServiceCreateCommand.Builder withParameters(String... parameters) {
             this.serviceCreateCommand.parameters = Arrays.asList(parameters);
-            return this;
-        }
-
-        public ServiceCreateCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.serviceCreateCommand.extraCommands = extraArguments;
             return this;
         }
 

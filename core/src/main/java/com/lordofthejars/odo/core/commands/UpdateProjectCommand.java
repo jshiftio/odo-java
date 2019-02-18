@@ -13,8 +13,6 @@ public class UpdateProjectCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private UpdateProjectCommand(){
     }
 
@@ -36,10 +34,6 @@ public class UpdateProjectCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -57,11 +51,6 @@ public class UpdateProjectCommand implements Command {
 
         public UpdateProjectCommand.Builder project(String projectName) {
             this.updateProjectCommand.projectName = projectName;
-            return this;
-        }
-
-        public UpdateProjectCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.updateProjectCommand.extraCommands = extraArguments;
             return this;
         }
 

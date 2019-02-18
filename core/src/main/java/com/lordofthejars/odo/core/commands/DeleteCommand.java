@@ -19,7 +19,6 @@ public class DeleteCommand implements Command {
     private Boolean force = Boolean.TRUE;
 
     private GlobalParametersSupport globalParametersSupport;
-    private List<String> extraCommands;
 
     private DeleteCommand(String componentName){
         this.componentName = componentName;
@@ -49,10 +48,6 @@ public class DeleteCommand implements Command {
             arguments.addAll(this.globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -75,11 +70,6 @@ public class DeleteCommand implements Command {
 
         public DeleteCommand.Builder withForce(boolean force) {
             this.urDeleteCommand.force = force;
-            return this;
-        }
-
-        public DeleteCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.urDeleteCommand.extraCommands = extraArguments;
             return this;
         }
 

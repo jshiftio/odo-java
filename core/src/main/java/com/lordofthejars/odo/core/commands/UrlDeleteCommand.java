@@ -22,8 +22,6 @@ public class UrlDeleteCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private UrlDeleteCommand(String urlName){
         this.urlName = urlName;
     }
@@ -58,10 +56,6 @@ public class UrlDeleteCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -89,11 +83,6 @@ public class UrlDeleteCommand implements Command {
 
         public UrlDeleteCommand.Builder withForce(boolean force) {
             this.urlDeleteCommand.force = force;
-            return this;
-        }
-
-        public UrlDeleteCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.urlDeleteCommand.extraCommands = extraArguments;
             return this;
         }
 

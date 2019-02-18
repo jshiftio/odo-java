@@ -24,8 +24,6 @@ public class UrlCreateCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private UrlCreateCommand(){
 
     }
@@ -68,10 +66,6 @@ public class UrlCreateCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -109,11 +103,6 @@ public class UrlCreateCommand implements Command {
 
         public UrlCreateCommand.Builder withOpen() {
             this.urlCreateCommand.open = Boolean.TRUE;
-            return this;
-        }
-
-        public UrlCreateCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.urlCreateCommand.extraCommands = extraArguments;
             return this;
         }
 

@@ -42,8 +42,6 @@ public class CreateCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private CreateCommand(String componentType) {
         this.componentType = componentType;
     }
@@ -125,10 +123,6 @@ public class CreateCommand implements Command {
 
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
-        }
-
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
         }
 
         return arguments;
@@ -213,11 +207,6 @@ public class CreateCommand implements Command {
 
         public Builder withProject(String project) {
             this.createCommand.project = project;
-            return this;
-        }
-
-        public Builder withExtraArguments(List<String> extraArguments) {
-            this.createCommand.extraCommands = extraArguments;
             return this;
         }
 

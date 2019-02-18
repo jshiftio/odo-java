@@ -21,8 +21,6 @@ public class ServiceDeleteCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private ServiceDeleteCommand(String serviceNme){
         this.serviceNme = serviceNme;
     }
@@ -51,10 +49,6 @@ public class ServiceDeleteCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -77,11 +71,6 @@ public class ServiceDeleteCommand implements Command {
 
         public ServiceDeleteCommand.Builder withForce(boolean force) {
             this.serviceDeleteCommand.force = force;
-            return this;
-        }
-
-        public ServiceDeleteCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.serviceDeleteCommand.extraCommands = extraArguments;
             return this;
         }
 

@@ -21,7 +21,6 @@ public class StorageMountCommand implements Command {
     private String path;
 
     private GlobalParametersSupport globalParametersSupport;
-    private List<String> extraCommands;
 
     private StorageMountCommand(String storageName) {
         this.storageName = storageName;
@@ -58,10 +57,6 @@ public class StorageMountCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -89,11 +84,6 @@ public class StorageMountCommand implements Command {
 
         public StorageMountCommand.Builder withPath(String path) {
             this.storageMountCommand.path = path;
-            return this;
-        }
-
-        public StorageMountCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.storageMountCommand.extraCommands = extraArguments;
             return this;
         }
 

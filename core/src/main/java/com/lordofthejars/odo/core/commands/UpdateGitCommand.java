@@ -13,8 +13,6 @@ public class UpdateGitCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private UpdateGitCommand(){
     }
 
@@ -31,10 +29,6 @@ public class UpdateGitCommand implements Command {
 
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
-        }
-
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
         }
 
         return arguments;
@@ -54,11 +48,6 @@ public class UpdateGitCommand implements Command {
 
         public UpdateGitCommand.Builder git(String git) {
             this.updateGitCommand.git = git;
-            return this;
-        }
-
-        public UpdateGitCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.updateGitCommand.extraCommands = extraArguments;
             return this;
         }
 

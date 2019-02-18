@@ -10,7 +10,6 @@ public class ProjectCreateCommand implements Command {
 
     private String projectName;
     private GlobalParametersSupport globalParametersSupport;
-    private List<String> extraCommands;
 
     private ProjectCreateCommand(){
     }
@@ -26,10 +25,6 @@ public class ProjectCreateCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -42,11 +37,6 @@ public class ProjectCreateCommand implements Command {
 
         public ProjectCreateCommand.Builder withName(String projectName) {
             this.projectCreateCommand.projectName = projectName;
-            return this;
-        }
-
-        public ProjectCreateCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.projectCreateCommand.extraCommands = extraArguments;
             return this;
         }
 

@@ -11,7 +11,6 @@ public class ProjectSetCommand implements Command {
     private String projectName;
 
     private GlobalParametersSupport globalParametersSupport;
-    private List<String> extraCommands;
 
     @Override
     public List<String> getCliCommand() {
@@ -22,10 +21,6 @@ public class ProjectSetCommand implements Command {
 
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
-        }
-
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
         }
 
         return arguments;
@@ -40,11 +35,6 @@ public class ProjectSetCommand implements Command {
 
         public ProjectSetCommand.Builder name(String projectName) {
             this.projectSetCommand.projectName = projectName;
-            return this;
-        }
-
-        public ProjectSetCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.projectSetCommand.extraCommands = extraArguments;
             return this;
         }
 

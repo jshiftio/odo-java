@@ -13,8 +13,6 @@ public class UpdateAppCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private UpdateAppCommand(){
     }
 
@@ -36,10 +34,6 @@ public class UpdateAppCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -57,11 +51,6 @@ public class UpdateAppCommand implements Command {
 
         public UpdateAppCommand.Builder app(String appName) {
             this.updateAppCommand.appName = appName;
-            return this;
-        }
-
-        public UpdateAppCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.updateAppCommand.extraCommands = extraArguments;
             return this;
         }
 

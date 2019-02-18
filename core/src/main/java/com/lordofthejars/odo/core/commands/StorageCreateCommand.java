@@ -23,7 +23,6 @@ public class StorageCreateCommand implements Command {
     private String size;
 
     private GlobalParametersSupport globalParametersSupport;
-    private List<String> extraCommands;
 
     private StorageCreateCommand(String storageName){
         this.storageName = storageName;
@@ -65,10 +64,6 @@ public class StorageCreateCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -101,11 +96,6 @@ public class StorageCreateCommand implements Command {
 
         public StorageCreateCommand.Builder withSize(String size) {
             this.storageCreateCommand.size = size;
-            return this;
-        }
-
-        public StorageCreateCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.storageCreateCommand.extraCommands = extraArguments;
             return this;
         }
 

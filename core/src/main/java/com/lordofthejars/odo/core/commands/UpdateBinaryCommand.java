@@ -13,8 +13,6 @@ public class UpdateBinaryCommand implements Command {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private List<String> extraCommands;
-
     private UpdateBinaryCommand(){
     }
 
@@ -31,10 +29,6 @@ public class UpdateBinaryCommand implements Command {
 
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
-        }
-
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
         }
 
         return arguments;
@@ -54,11 +48,6 @@ public class UpdateBinaryCommand implements Command {
 
         public UpdateBinaryCommand.Builder binary(String binary) {
             this.updateBinaryCommand.binary = binary;
-            return this;
-        }
-
-        public UpdateBinaryCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.updateBinaryCommand.extraCommands = extraArguments;
             return this;
         }
 

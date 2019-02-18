@@ -10,7 +10,6 @@ public class ProjectDeleteCommand implements Command {
     private static final String FORCE = "--force";
 
     private String projectName;
-    private List<String> extraCommands;
     private Boolean force = Boolean.TRUE;
 
     private GlobalParametersSupport globalParametersSupport;
@@ -30,10 +29,6 @@ public class ProjectDeleteCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -51,11 +46,6 @@ public class ProjectDeleteCommand implements Command {
 
         public ProjectDeleteCommand.Builder withForce(boolean force) {
             this.projectDeleteCommand.force = force;
-            return this;
-        }
-
-        public ProjectDeleteCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.projectDeleteCommand.extraCommands = extraArguments;
             return this;
         }
 

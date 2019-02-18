@@ -21,7 +21,6 @@ public class StorageDeleteCommand implements Command {
     private Boolean force = Boolean.TRUE;
 
     private GlobalParametersSupport globalParametersSupport;
-    private List<String> extraCommands;
 
     private StorageDeleteCommand(String storageName) {
         this.storageName = storageName;
@@ -57,10 +56,6 @@ public class StorageDeleteCommand implements Command {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
 
-        if (extraCommands != null) {
-            arguments.addAll(extraCommands);
-        }
-
         return arguments;
     }
 
@@ -88,11 +83,6 @@ public class StorageDeleteCommand implements Command {
 
         public StorageDeleteCommand.Builder withForce(boolean force) {
             this.storageDeleteCommand.force = force;
-            return this;
-        }
-
-        public StorageDeleteCommand.Builder withExtraArguments(List<String> extraArguments) {
-            this.storageDeleteCommand.extraCommands = extraArguments;
             return this;
         }
 

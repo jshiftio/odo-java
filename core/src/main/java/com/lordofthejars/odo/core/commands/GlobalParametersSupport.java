@@ -26,6 +26,8 @@ public class GlobalParametersSupport {
     private Integer v;
     private List<String> vmodule;
 
+    private List<String> extraCommands;
+
     public List<String> getCliCommand() {
 
         final List<String> arguments = new ArrayList<>();
@@ -65,6 +67,10 @@ public class GlobalParametersSupport {
         if (vmodule != null && vmodule.size() > 0) {
             arguments.add(VMODULE);
             arguments.add(toCsv(vmodule));
+        }
+
+        if (extraCommands != null) {
+            arguments.addAll(extraCommands);
         }
 
         return arguments;
@@ -129,6 +135,11 @@ public class GlobalParametersSupport {
 
         public T withVModule(List<String> vmodule) {
             this.globalParametersSupport.vmodule = vmodule;
+            return typeOfT.cast(this);
+        }
+
+        public T withExtraArguments(List<String> extraArguments) {
+            this.globalParametersSupport.extraCommands = extraArguments;
             return typeOfT.cast(this);
         }
 
