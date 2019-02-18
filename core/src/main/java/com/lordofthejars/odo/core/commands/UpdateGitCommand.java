@@ -10,6 +10,9 @@ public class UpdateGitCommand implements Command {
 
     private String component;
     private String git;
+
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private UpdateGitCommand(){
@@ -26,6 +29,10 @@ public class UpdateGitCommand implements Command {
         arguments.add(COMMAND_FLAG);
         arguments.add(git);
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -33,7 +40,7 @@ public class UpdateGitCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<UpdateGitCommand.Builder> {
         private UpdateGitCommand updateGitCommand;
 
         public Builder() {
@@ -56,6 +63,7 @@ public class UpdateGitCommand implements Command {
         }
 
         public UpdateGitCommand build() {
+            updateGitCommand.globalParametersSupport = buildGlobalParameters();
             return updateGitCommand;
         }
     }

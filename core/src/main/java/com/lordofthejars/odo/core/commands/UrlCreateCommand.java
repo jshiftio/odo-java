@@ -22,6 +22,8 @@ public class UrlCreateCommand implements Command {
     private Boolean open;
     private Integer port;
 
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private UrlCreateCommand(){
@@ -62,6 +64,10 @@ public class UrlCreateCommand implements Command {
             arguments.add(Integer.toString(port));
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -69,7 +75,7 @@ public class UrlCreateCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<UrlCreateCommand.Builder> {
         private UrlCreateCommand urlCreateCommand;
 
         public Builder() {
@@ -112,6 +118,7 @@ public class UrlCreateCommand implements Command {
         }
 
         public UrlCreateCommand build() {
+            urlCreateCommand.globalParametersSupport = buildGlobalParameters();
             return urlCreateCommand;
         }
 

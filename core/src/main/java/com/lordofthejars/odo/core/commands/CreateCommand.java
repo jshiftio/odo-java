@@ -40,6 +40,8 @@ public class CreateCommand implements Command {
     private List<String> port;
     private String project;
 
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private CreateCommand(String componentType) {
@@ -121,6 +123,10 @@ public class CreateCommand implements Command {
             arguments.add(project);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -133,8 +139,7 @@ public class CreateCommand implements Command {
             .collect(Collectors.joining(", "));
     }
 
-
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<CreateCommand.Builder> {
         private CreateCommand createCommand;
 
         public Builder(String componentType) {
@@ -217,6 +222,7 @@ public class CreateCommand implements Command {
         }
 
         public CreateCommand build() {
+            createCommand.globalParametersSupport = buildGlobalParameters();
             return createCommand;
         }
 

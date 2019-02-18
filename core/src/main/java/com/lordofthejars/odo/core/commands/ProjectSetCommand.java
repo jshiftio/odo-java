@@ -10,6 +10,7 @@ public class ProjectSetCommand implements Command {
 
     private String projectName;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     @Override
@@ -19,6 +20,10 @@ public class ProjectSetCommand implements Command {
         arguments.add(COMMAND_NAME);
         arguments.add(projectName);
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -26,7 +31,7 @@ public class ProjectSetCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<ProjectSetCommand.Builder> {
         private ProjectSetCommand projectSetCommand;
 
         public Builder() {
@@ -44,6 +49,7 @@ public class ProjectSetCommand implements Command {
         }
 
         public ProjectSetCommand build() {
+            projectSetCommand.globalParametersSupport = buildGlobalParameters();
             return projectSetCommand;
         }
     }

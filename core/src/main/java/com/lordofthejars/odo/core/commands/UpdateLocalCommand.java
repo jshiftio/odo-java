@@ -10,6 +10,9 @@ public class UpdateLocalCommand implements Command {
 
     private String component;
     private String localDir;
+
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private UpdateLocalCommand(){
@@ -29,6 +32,11 @@ public class UpdateLocalCommand implements Command {
             arguments.add(localDir);
         }
 
+
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -36,7 +44,7 @@ public class UpdateLocalCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<UpdateLocalCommand.Builder> {
         private UpdateLocalCommand updateLocalCommand;
 
         public Builder() {
@@ -59,6 +67,7 @@ public class UpdateLocalCommand implements Command {
         }
 
         public UpdateLocalCommand build() {
+            updateLocalCommand.globalParametersSupport = buildGlobalParameters();
             return updateLocalCommand;
         }
     }

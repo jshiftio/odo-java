@@ -20,6 +20,7 @@ public class StorageDeleteCommand implements Command {
     private String project;
     private Boolean force = Boolean.TRUE;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     private StorageDeleteCommand(String storageName) {
@@ -52,6 +53,10 @@ public class StorageDeleteCommand implements Command {
             arguments.add(FORCE);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -59,7 +64,7 @@ public class StorageDeleteCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<StorageDeleteCommand.Builder> {
         private StorageDeleteCommand storageDeleteCommand;
 
         public Builder(String storageName) {
@@ -92,6 +97,7 @@ public class StorageDeleteCommand implements Command {
         }
 
         public StorageDeleteCommand build() {
+            storageDeleteCommand.globalParametersSupport = buildGlobalParameters();
             return storageDeleteCommand;
         }
 

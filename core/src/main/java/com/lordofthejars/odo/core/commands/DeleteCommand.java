@@ -18,6 +18,7 @@ public class DeleteCommand implements Command {
     private String project;
     private Boolean force = Boolean.TRUE;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     private DeleteCommand(String componentName){
@@ -44,6 +45,10 @@ public class DeleteCommand implements Command {
             arguments.add(FORCE);
         }
 
+        if (this.globalParametersSupport != null) {
+            arguments.addAll(this.globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -51,7 +56,7 @@ public class DeleteCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<DeleteCommand.Builder> {
         private DeleteCommand urDeleteCommand;
 
         public Builder(String componentName) {
@@ -79,6 +84,7 @@ public class DeleteCommand implements Command {
         }
 
         public DeleteCommand build() {
+            urDeleteCommand.globalParametersSupport = buildGlobalParameters();
             return urDeleteCommand;
         }
 

@@ -13,6 +13,8 @@ public class ProjectDeleteCommand implements Command {
     private List<String> extraCommands;
     private Boolean force = Boolean.TRUE;
 
+    private GlobalParametersSupport globalParametersSupport;
+
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
@@ -24,6 +26,10 @@ public class ProjectDeleteCommand implements Command {
             arguments.add(FORCE);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -31,7 +37,7 @@ public class ProjectDeleteCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<ProjectDeleteCommand.Builder> {
         private ProjectDeleteCommand projectDeleteCommand;
 
         public Builder() {
@@ -54,6 +60,7 @@ public class ProjectDeleteCommand implements Command {
         }
 
         public ProjectDeleteCommand build() {
+            this.projectDeleteCommand.globalParametersSupport = buildGlobalParameters();
             return projectDeleteCommand;
         }
     }

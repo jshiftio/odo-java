@@ -18,6 +18,7 @@ public class PushCommand implements Command {
     private String local;
     private String project;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     private PushCommand(){
@@ -48,6 +49,10 @@ public class PushCommand implements Command {
             arguments.add(project);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -55,7 +60,7 @@ public class PushCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<PushCommand.Builder> {
         private PushCommand pushCommand;
 
         public Builder() {
@@ -88,6 +93,7 @@ public class PushCommand implements Command {
         }
 
         public PushCommand build() {
+            this.pushCommand.globalParametersSupport = buildGlobalParameters();
             return pushCommand;
         }
     }

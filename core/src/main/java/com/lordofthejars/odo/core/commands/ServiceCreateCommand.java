@@ -23,6 +23,7 @@ public class ServiceCreateCommand implements Command {
     private String project;
     private List<String> parameters;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     private ServiceCreateCommand(String serviceType, String plan) {
@@ -61,6 +62,10 @@ public class ServiceCreateCommand implements Command {
             }
         }
 
+        if (this.globalParametersSupport != null) {
+            arguments.addAll(this.globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -68,7 +73,7 @@ public class ServiceCreateCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<ServiceCreateCommand.Builder> {
         private ServiceCreateCommand serviceCreateCommand;
 
         public Builder(String serviceType, String plan) {
@@ -106,6 +111,7 @@ public class ServiceCreateCommand implements Command {
         }
 
         public ServiceCreateCommand build() {
+            this.serviceCreateCommand.globalParametersSupport = buildGlobalParameters();
             return serviceCreateCommand;
         }
     }

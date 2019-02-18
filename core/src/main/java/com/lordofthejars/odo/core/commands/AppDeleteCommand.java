@@ -16,6 +16,8 @@ public class AppDeleteCommand implements Command {
     private String project;
     private Boolean force = Boolean.TRUE;
 
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private AppDeleteCommand(String appName){
@@ -37,6 +39,10 @@ public class AppDeleteCommand implements Command {
             arguments.add(FORCE);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -44,7 +50,7 @@ public class AppDeleteCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<AppDeleteCommand.Builder> {
         private AppDeleteCommand appDeleteCommand;
 
         public Builder(String appName) {
@@ -68,6 +74,7 @@ public class AppDeleteCommand implements Command {
         }
 
         public AppDeleteCommand build() {
+            appDeleteCommand.globalParametersSupport = buildGlobalParameters();
             return appDeleteCommand;
         }
     }

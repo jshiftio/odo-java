@@ -10,6 +10,9 @@ public class UpdateAppCommand implements Command {
 
     private String component;
     private String appName;
+
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private UpdateAppCommand(){
@@ -29,6 +32,10 @@ public class UpdateAppCommand implements Command {
             arguments.add(appName);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -36,7 +43,7 @@ public class UpdateAppCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<UpdateAppCommand.Builder> {
         private UpdateAppCommand updateAppCommand;
 
         public Builder() {
@@ -59,6 +66,7 @@ public class UpdateAppCommand implements Command {
         }
 
         public UpdateAppCommand build() {
+            updateAppCommand.globalParametersSupport = buildGlobalParameters();
             return updateAppCommand;
         }
     }

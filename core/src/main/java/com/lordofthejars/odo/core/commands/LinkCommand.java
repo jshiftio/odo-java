@@ -22,6 +22,8 @@ public class LinkCommand implements Command {
     private String project;
     private Boolean wait;
 
+    private GlobalParametersSupport globalParametersSupport;
+
     private LinkCommand(String name) {
         this.name =name;
     }
@@ -57,10 +59,14 @@ public class LinkCommand implements Command {
             arguments.add(WAIT);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<LinkCommand.Builder> {
 
         private LinkCommand linkCommand;
 
@@ -94,6 +100,7 @@ public class LinkCommand implements Command {
         }
 
         public LinkCommand build() {
+            this.linkCommand.globalParametersSupport = buildGlobalParameters();
             return linkCommand;
         }
 

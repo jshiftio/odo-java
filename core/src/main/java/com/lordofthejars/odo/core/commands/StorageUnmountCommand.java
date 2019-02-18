@@ -18,6 +18,8 @@ public class StorageUnmountCommand implements Command {
     private String component;
     private String project;
 
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private StorageUnmountCommand() {
@@ -47,6 +49,10 @@ public class StorageUnmountCommand implements Command {
             arguments.add(project);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -54,7 +60,7 @@ public class StorageUnmountCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<StorageUnmountCommand.Builder> {
         private StorageUnmountCommand storageUnmountCommand;
 
         public Builder() {
@@ -92,6 +98,7 @@ public class StorageUnmountCommand implements Command {
         }
 
         public StorageUnmountCommand build() {
+            storageUnmountCommand.globalParametersSupport = buildGlobalParameters();
             return storageUnmountCommand;
         }
 

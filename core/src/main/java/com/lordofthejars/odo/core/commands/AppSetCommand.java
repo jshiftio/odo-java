@@ -13,6 +13,7 @@ public class AppSetCommand implements Command {
 
     private String project;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     private AppSetCommand(String appName){
@@ -31,6 +32,10 @@ public class AppSetCommand implements Command {
             arguments.add(project);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -38,7 +43,7 @@ public class AppSetCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<AppSetCommand.Builder> {
         private AppSetCommand appSetCommand;
 
         public Builder(String appName) {
@@ -56,6 +61,7 @@ public class AppSetCommand implements Command {
         }
 
         public AppSetCommand build() {
+            appSetCommand.globalParametersSupport = buildGlobalParameters();
             return appSetCommand;
         }
     }

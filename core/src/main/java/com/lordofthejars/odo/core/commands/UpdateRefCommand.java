@@ -10,6 +10,9 @@ public class UpdateRefCommand implements Command {
 
     private String component;
     private String refName;
+
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private UpdateRefCommand(){
@@ -26,6 +29,10 @@ public class UpdateRefCommand implements Command {
         arguments.add(COMMAND_FLAG);
         arguments.add(refName);
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -33,7 +40,7 @@ public class UpdateRefCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<UpdateRefCommand.Builder> {
         private UpdateRefCommand updateRefCommand;
 
         public Builder() {
@@ -55,6 +62,7 @@ public class UpdateRefCommand implements Command {
         }
 
         public UpdateRefCommand build() {
+            updateRefCommand.globalParametersSupport = buildGlobalParameters();
             return updateRefCommand;
         }
     }

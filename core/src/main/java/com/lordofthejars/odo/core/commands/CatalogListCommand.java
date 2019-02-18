@@ -10,6 +10,7 @@ public class CatalogListCommand implements Command<List<String>> {
     private static final String COMMAND_NAME = "list";
 
     private String command;
+    private GlobalParametersSupport globalParametersSupport;
 
     private CatalogListCommand(String command) {
         this.command = command;
@@ -21,6 +22,10 @@ public class CatalogListCommand implements Command<List<String>> {
         final List<String> arguments = new ArrayList<>();
         arguments.add(COMMAND_NAME);
         arguments.add(this.command);
+
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
 
         return arguments;
     }
@@ -49,7 +54,7 @@ public class CatalogListCommand implements Command<List<String>> {
         return catalogElements;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<CatalogListCommand.Builder> {
 
         private CatalogListCommand catalogListCommand;
 
@@ -58,6 +63,8 @@ public class CatalogListCommand implements Command<List<String>> {
         }
 
         public CatalogListCommand build(){
+
+            this.catalogListCommand.globalParametersSupport = buildGlobalParameters();
             return this.catalogListCommand;
         }
 

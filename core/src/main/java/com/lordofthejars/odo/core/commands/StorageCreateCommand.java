@@ -22,6 +22,7 @@ public class StorageCreateCommand implements Command {
     private String path;
     private String size;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     private StorageCreateCommand(String storageName){
@@ -60,6 +61,10 @@ public class StorageCreateCommand implements Command {
             arguments.add(size);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -67,7 +72,7 @@ public class StorageCreateCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<StorageCreateCommand.Builder> {
         private StorageCreateCommand storageCreateCommand;
 
         public Builder(String storageName) {
@@ -105,6 +110,7 @@ public class StorageCreateCommand implements Command {
         }
 
         public StorageCreateCommand build() {
+            storageCreateCommand.globalParametersSupport = buildGlobalParameters();
             return storageCreateCommand;
         }
 

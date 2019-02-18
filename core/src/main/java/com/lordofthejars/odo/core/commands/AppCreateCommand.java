@@ -14,6 +14,8 @@ public class AppCreateCommand implements Command {
 
     private String project;
 
+    private GlobalParametersSupport globalParametersSupport;
+
     private List<String> extraCommands;
 
     private AppCreateCommand(){
@@ -33,6 +35,10 @@ public class AppCreateCommand implements Command {
             arguments.add(project);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -40,7 +46,7 @@ public class AppCreateCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<AppCreateCommand.Builder> {
         private AppCreateCommand appCreateCommand;
 
         public Builder() {
@@ -63,6 +69,7 @@ public class AppCreateCommand implements Command {
         }
 
         public AppCreateCommand build() {
+            appCreateCommand.globalParametersSupport = buildGlobalParameters();
             return appCreateCommand;
         }
     }

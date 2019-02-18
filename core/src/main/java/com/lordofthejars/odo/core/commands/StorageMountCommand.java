@@ -20,6 +20,7 @@ public class StorageMountCommand implements Command {
     private String project;
     private String path;
 
+    private GlobalParametersSupport globalParametersSupport;
     private List<String> extraCommands;
 
     private StorageMountCommand(String storageName) {
@@ -53,6 +54,10 @@ public class StorageMountCommand implements Command {
             arguments.add(path);
         }
 
+        if (globalParametersSupport != null) {
+            arguments.addAll(globalParametersSupport.getCliCommand());
+        }
+
         if (extraCommands != null) {
             arguments.addAll(extraCommands);
         }
@@ -60,7 +65,7 @@ public class StorageMountCommand implements Command {
         return arguments;
     }
 
-    public static class Builder {
+    public static class Builder extends GlobalParametersSupport.Builder<StorageMountCommand.Builder> {
         private StorageMountCommand storageMountCommand;
 
         public Builder(String storageName) {
@@ -93,6 +98,7 @@ public class StorageMountCommand implements Command {
         }
 
         public StorageMountCommand build() {
+            storageMountCommand.globalParametersSupport = buildGlobalParameters();
             return storageMountCommand;
         }
 

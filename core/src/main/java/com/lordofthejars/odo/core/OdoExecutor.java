@@ -90,5 +90,4 @@ class OdoExecutor {
         }
     }
 
-    // TODO wait until machine output to create an event based system
 }
