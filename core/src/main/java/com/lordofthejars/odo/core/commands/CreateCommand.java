@@ -1,11 +1,11 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CreateCommand implements Command {
+public class CreateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "create";
 
@@ -22,6 +22,8 @@ public class CreateCommand implements Command {
     private static final String MIN_MEMORY = "--min-memory";
     private static final String PORT = "--port";
     private static final String PROJECT = "--project";
+    private static final String REF = "--ref";
+    private static final String WAIT = "--wait";
 
     private String componentType;
     private String componentName;
@@ -39,10 +41,13 @@ public class CreateCommand implements Command {
     private String minMemory;
     private List<String> port;
     private String project;
+    private String ref;
+    private Boolean wait;
 
     private GlobalParametersSupport globalParametersSupport;
 
-    private CreateCommand(String componentType) {
+    private CreateCommand(String componentType, OdoExecutor odoExecutor) {
+        super(odoExecutor);
         this.componentType = componentType;
     }
 
@@ -121,6 +126,15 @@ public class CreateCommand implements Command {
             arguments.add(project);
         }
 
+        if (ref != null) {
+            arguments.add(REF);
+            arguments.add(ref);
+        }
+
+        if (wait != null && wait.booleanValue()) {
+            arguments.add(WAIT);
+        }
+
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
@@ -136,8 +150,8 @@ public class CreateCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<CreateCommand.Builder> {
         private CreateCommand createCommand;
 
-        public Builder(String componentType) {
-            this.createCommand = new CreateCommand(componentType);
+        public Builder(String componentType, OdoExecutor odoExecutor) {
+            this.createCommand = new CreateCommand(componentType, odoExecutor);
         }
 
         public Builder withComponentName(String componentName) {
@@ -207,6 +221,16 @@ public class CreateCommand implements Command {
 
         public Builder withProject(String project) {
             this.createCommand.project = project;
+            return this;
+        }
+
+        public Builder withRef(String ref) {
+            this.createCommand.ref = ref;
+            return this;
+        }
+
+        public Builder withWait() {
+            this.createCommand.wait = true;
             return this;
         }
 

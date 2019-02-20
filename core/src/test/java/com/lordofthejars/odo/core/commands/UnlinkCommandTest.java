@@ -7,31 +7,30 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.lordofthejars.odo.core.commands.CommandTransformer.transform;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class CatalogCommandTest {
+public class UnlinkCommandTest {
 
     @Mock
-    private OdoExecutor odoExecutor;
-
-    private CatalogCommand catalogCommand = new CatalogCommand.Builder().build();
+    OdoExecutor odoExecutor;
 
     @Test
-    public void should_list_catalog() {
+    public void should_create_unlink_command() {
 
         // Given
 
-        final CatalogListCommand catalogListCommand = new CatalogListCommand.Builder(catalogCommand, "components", odoExecutor).build();
+        final UnlinkCommand unlinkCommand = new UnlinkCommand.Builder("backend", odoExecutor).build();
 
         // When
 
-        final List<String> cliCommand = catalogListCommand.getCliCommand();
+        final List<String> cliCommand = unlinkCommand.getCliCommand();
 
         // Then
 
         assertThat(cliCommand)
-            .containsExactlyInAnyOrder("catalog", "list", "components");
+            .containsExactlyInAnyOrder(transform("unlink backend"));
     }
 
 }

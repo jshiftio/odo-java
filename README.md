@@ -12,30 +12,16 @@ to them: code.
 
 * Create application, add a component of type nodejs to your application :
 ```
-        final CreateCommand createCommand = new CreateCommand
-            .Builder("nodejs")
-            .withComponentName("nodejs")
-            .build();
-
-        odo.execute(cloneRepo, createCommand); 
+        odo.create("nodejs").build().execute(cloneRepo);
 ```
 
 * Deploy your application :
 ```
-        final PushCommand pushCommand = new PushCommand
-            .Builder()
-            .build();
-
-        odo.execute(cloneRepo, pushCommand);
+        odo.push().build().execute(cloneRepo);
 ```
 
 * Expose your application endpoint :
 ```
-        final UrlCreateCommand urlCreateCommand = new UrlCreateCommand
-            .Builder()
-            .withComponentName("route")
-            .build();
-
-         odo.execute(cloneRepo, urlCommand);
+        odo.link("provider").withComponent("consumer").withPort("8080").build().execute(cloneRepo);
 
 ```

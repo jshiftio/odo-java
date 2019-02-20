@@ -1,10 +1,10 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UrlCreateCommand implements Command {
+public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "create";
 
@@ -22,16 +22,21 @@ public class UrlCreateCommand implements Command {
     private Boolean open;
     private Integer port;
 
+    private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private UrlCreateCommand(){
-
+    private UrlCreateCommand(UrlCommand urlCommand, OdoExecutor odoExecutor){
+        super(odoExecutor);
+        this.urlCommand = urlCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
 
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(urlCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
 
         if (componentName != null) {
@@ -72,8 +77,8 @@ public class UrlCreateCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<UrlCreateCommand.Builder> {
         private UrlCreateCommand urlCreateCommand;
 
-        public Builder() {
-            this.urlCreateCommand = new UrlCreateCommand();
+        public Builder(UrlCommand urlCommand, OdoExecutor odoExecutor) {
+            this.urlCreateCommand = new UrlCreateCommand(urlCommand, odoExecutor);
         }
 
         public UrlCreateCommand.Builder withComponentName(String componentName) {

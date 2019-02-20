@@ -1,10 +1,10 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageCreateCommand implements Command {
+public class StorageCreateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "create";
 
@@ -22,15 +22,21 @@ public class StorageCreateCommand implements Command {
     private String path;
     private String size;
 
+    private StorageCommand storageCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private StorageCreateCommand(String storageName){
+    private StorageCreateCommand(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+        super(odoExecutor);
         this.storageName = storageName;
+        this.storageCommand = storageCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(storageCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
 
         arguments.add(storageName);
@@ -70,8 +76,8 @@ public class StorageCreateCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<StorageCreateCommand.Builder> {
         private StorageCreateCommand storageCreateCommand;
 
-        public Builder(String storageName) {
-            this.storageCreateCommand = new StorageCreateCommand(storageName);
+        public Builder(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+            this.storageCreateCommand = new StorageCreateCommand(storageCommand, storageName, odoExecutor);
         }
 
         public StorageCreateCommand.Builder withApp(String app) {

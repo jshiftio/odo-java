@@ -1,5 +1,6 @@
 package com.lordofthejars.odo.terminal;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -10,7 +11,10 @@ public class StreamDispatcher extends LogOutputStream {
     private List<Consumer<String>> consumers;
 
     public StreamDispatcher(Consumer<String>... consumers) {
-        this.consumers = Arrays.asList(consumers);
+        this.consumers = new ArrayList<>();
+        for (Consumer<String> consumer : consumers) {
+            this.consumers.add(consumer);
+        }
     }
 
     public void addConsumer(Consumer<String> consumer) {

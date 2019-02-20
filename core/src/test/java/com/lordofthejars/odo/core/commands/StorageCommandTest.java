@@ -1,28 +1,36 @@
 package com.lordofthejars.odo.core.commands;
 
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.lordofthejars.odo.core.commands.CommandTransformer.transform;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 public class StorageCommandTest {
+
+    @Mock
+    private OdoExecutor odoExecutor;
+
+    private StorageCommand storageCommand = new StorageCommand.Builder().build();
 
     @Test
     public void should_execute_create_storage_command() {
 
         // Given
 
-        final StorageCreateCommand storageCreateCommand = new StorageCreateCommand.Builder("mystorage")
+        final StorageCreateCommand storageCreateCommand = new StorageCreateCommand.Builder(storageCommand,"mystorage", odoExecutor)
             .withPath("/opt/app-root/src/storage/")
             .withSize("1Gi")
             .build();
 
-        final StorageCommand storageCommand = new StorageCommand.Builder(storageCreateCommand).build();
-
         // When
 
-        final List<String> cliCommand = storageCommand.getCliCommand();
+        final List<String> cliCommand = storageCreateCommand.getCliCommand();
 
         // Then
 
@@ -36,14 +44,12 @@ public class StorageCommandTest {
 
         // Given
 
-        final StorageDeleteCommand storageDeleteCommand = new StorageDeleteCommand.Builder("mystorage")
+        final StorageDeleteCommand storageDeleteCommand = new StorageDeleteCommand.Builder(storageCommand, "mystorage", odoExecutor)
             .build();
-
-        final StorageCommand storageCommand = new StorageCommand.Builder(storageDeleteCommand).build();
 
         // When
 
-        final List<String> cliCommand = storageCommand.getCliCommand();
+        final List<String> cliCommand = storageDeleteCommand.getCliCommand();
 
         // Then
 
@@ -56,15 +62,13 @@ public class StorageCommandTest {
 
         // Given
 
-        final StorageDeleteCommand storageDeleteCommand = new StorageDeleteCommand.Builder("mystorage")
+        final StorageDeleteCommand storageDeleteCommand = new StorageDeleteCommand.Builder(storageCommand, "mystorage", odoExecutor)
             .withComponent("mongodb")
             .build();
 
-        final StorageCommand storageCommand = new StorageCommand.Builder(storageDeleteCommand).build();
-
         // When
 
-        final List<String> cliCommand = storageCommand.getCliCommand();
+        final List<String> cliCommand = storageDeleteCommand.getCliCommand();
 
         // Then
 
@@ -77,16 +81,14 @@ public class StorageCommandTest {
 
         // Given
 
-        final StorageMountCommand storageMountCommand = new StorageMountCommand.Builder("dbstorage")
+        final StorageMountCommand storageMountCommand = new StorageMountCommand.Builder(storageCommand, "dbstorage", odoExecutor)
             .withPath("/data")
             .withComponent("mongodb")
             .build();
 
-        StorageCommand storageCommand = new StorageCommand.Builder(storageMountCommand).build();
-
         // When
 
-        final List<String> cliCommand = storageCommand.getCliCommand();
+        final List<String> cliCommand = storageMountCommand.getCliCommand();
 
         // Then
 
@@ -100,16 +102,13 @@ public class StorageCommandTest {
 
         // Given
 
-        final StorageUnmountCommand storageUnmountCommand = new StorageUnmountCommand.Builder()
-            .withStorageName("database")
+        final StorageUnmountCommand storageUnmountCommand = new StorageUnmountCommand.Builder(storageCommand, "database", odoExecutor)
             .withComponent("mongodb")
             .build();
 
-        final StorageCommand storageCommand = new StorageCommand.Builder(storageUnmountCommand).build();
-
         // When
 
-        final List<String> cliCommand = storageCommand.getCliCommand();
+        final List<String> cliCommand = storageUnmountCommand.getCliCommand();
 
         // Then
 
@@ -122,15 +121,12 @@ public class StorageCommandTest {
 
         // Given
 
-        final StorageUnmountCommand storageUnmountCommand = new StorageUnmountCommand.Builder()
-            .withPath("/data")
+        final StorageUnmountCommand storageUnmountCommand = new StorageUnmountCommand.Builder(storageCommand, "/data", odoExecutor)
             .build();
-
-        final StorageCommand storageCommand = new StorageCommand.Builder(storageUnmountCommand).build();
 
         // When
 
-        final List<String> cliCommand = storageCommand.getCliCommand();
+        final List<String> cliCommand = storageUnmountCommand.getCliCommand();
 
         // Then
 

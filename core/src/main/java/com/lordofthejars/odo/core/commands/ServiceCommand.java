@@ -8,31 +8,13 @@ public class ServiceCommand implements Command {
 
     private static final String COMMAND_NAME = "service";
 
-    private ServiceCreateCommand serviceCreateCommand;
-    private ServiceDeleteCommand serviceDeleteCommand;
-
-    private ServiceCommand(ServiceCreateCommand serviceCreateCommand) {
-        this.serviceCreateCommand = serviceCreateCommand;
-    }
-
-    private ServiceCommand(ServiceDeleteCommand serviceDeleteCommand) {
-        this.serviceDeleteCommand = serviceDeleteCommand;
+    private ServiceCommand() {
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
         arguments.add(COMMAND_NAME);
-
-        if (serviceCreateCommand != null) {
-            arguments.addAll(serviceCreateCommand.getCliCommand());
-        } else {
-            if (serviceDeleteCommand != null) {
-                arguments.addAll(serviceDeleteCommand.getCliCommand());
-            } else {
-                throw new IllegalArgumentException("App command requires a subcommand.");
-            }
-        }
 
         return arguments;
     }
@@ -41,12 +23,8 @@ public class ServiceCommand implements Command {
 
         private ServiceCommand serviceCommand;
 
-        public Builder(ServiceDeleteCommand serviceDeleteCommand) {
-            serviceCommand = new ServiceCommand(serviceDeleteCommand);
-        }
-
-        public Builder(ServiceCreateCommand serviceCreateCommand) {
-            serviceCommand = new ServiceCommand(serviceCreateCommand);
+        public Builder() {
+            this.serviceCommand = new ServiceCommand();
         }
 
         public ServiceCommand build() {

@@ -1,10 +1,10 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PushCommand implements Command {
+public class PushCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "push";
 
@@ -21,8 +21,8 @@ public class PushCommand implements Command {
     private GlobalParametersSupport globalParametersSupport;
 
 
-    private PushCommand(){
-
+    private PushCommand(OdoExecutor odoExecutor){
+        super(odoExecutor);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class PushCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<PushCommand.Builder> {
         private PushCommand pushCommand;
 
-        public Builder() {
-            this.pushCommand = new PushCommand();
+        public Builder(OdoExecutor odoExecutor) {
+            this.pushCommand = new PushCommand(odoExecutor);
         }
 
         public PushCommand.Builder withComponentName(String componentName) {

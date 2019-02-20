@@ -1,10 +1,10 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppDeleteCommand implements Command {
+public class AppDeleteCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "delete";
 
@@ -16,15 +16,21 @@ public class AppDeleteCommand implements Command {
     private String project;
     private Boolean force = Boolean.TRUE;
 
+    private AppCommand appCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private AppDeleteCommand(String appName){
+    private AppDeleteCommand(AppCommand appCommand, String appName, OdoExecutor odoExecutor){
+        super(odoExecutor);
         this.appName = appName;
+        this.appCommand = appCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(appCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(appName);
 
@@ -47,10 +53,9 @@ public class AppDeleteCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<AppDeleteCommand.Builder> {
         private AppDeleteCommand appDeleteCommand;
 
-        public Builder(String appName) {
-            this.appDeleteCommand = new AppDeleteCommand(appName);
+        public Builder(AppCommand appCommand, String appName, OdoExecutor odoExecutor) {
+            this.appDeleteCommand = new AppDeleteCommand(appCommand, appName, odoExecutor);
         }
-
 
         public AppDeleteCommand.Builder withProject(String project) {
             this.appDeleteCommand.project = project;

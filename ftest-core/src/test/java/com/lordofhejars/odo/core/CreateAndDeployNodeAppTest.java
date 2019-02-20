@@ -34,46 +34,18 @@ public class CreateAndDeployNodeAppTest {
 
     @AfterEach
     public void removeComponentsAndRoutes(Path cloneRepo) { // Clean components created by odo
-
-        final UrlDeleteCommand urlDeleteCommand = new UrlDeleteCommand.Builder("route").build();
-        final UrlCommand urlCommand = new UrlCommand
-            .Builder(urlDeleteCommand)
-            .build();
-
-        odo.execute(cloneRepo, urlCommand);
-
-        final DeleteCommand deleteCommand = new DeleteCommand.Builder("nodejs").build();
-        odo.execute(cloneRepo, deleteCommand);
+        odo.deleteUrl("route").build().execute(cloneRepo);
+        odo.delete("nodejs").build().execute(cloneRepo);
     }
 
     @Test
     public void should_create_and_deploy_apps(Path cloneRepo, OpenShiftOperation openShiftOperation) {
 
-        // Given
-
-        final CreateCommand createCommand = new CreateCommand
-            .Builder("nodejs")
-            .withComponentName("nodejs")
-            .build();
-
-        final PushCommand pushCommand = new PushCommand
-            .Builder()
-            .build();
-
-        final UrlCreateCommand urlCreateCommand = new UrlCreateCommand
-            .Builder()
-            .withComponentName("route")
-            .build();
-
-        final UrlCommand urlCommand = new UrlCommand
-            .Builder(urlCreateCommand)
-            .build();
-
         // When
 
-        odo.execute(cloneRepo, createCommand);
-        odo.execute(cloneRepo, pushCommand);
-        odo.execute(cloneRepo, urlCommand);
+        odo.create("nodejs").withComponentName("nodejs").build().execute(cloneRepo);
+        odo.push().build().execute(cloneRepo);
+        odo.createUrl().withComponentName("route").build().execute(cloneRepo);
 
         // Then
 

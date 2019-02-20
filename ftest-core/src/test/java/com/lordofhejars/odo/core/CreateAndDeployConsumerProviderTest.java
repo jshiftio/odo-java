@@ -43,18 +43,9 @@ public class CreateAndDeployConsumerProviderTest {
     @AfterEach
     public void removeComponentsAndRoutes() { // Clean components created by odo
 
-        final UrlDeleteCommand urlDeleteCommand = new UrlDeleteCommand.Builder("route").build();
-        final UrlCommand urlCommand = new UrlCommand
-            .Builder(urlDeleteCommand)
-            .build();
-
-        odo.execute(urlCommand);
-
-        final DeleteCommand deleteProviderCommand = new DeleteCommand.Builder("provider").build();
-        odo.execute(deleteProviderCommand);
-
-        final DeleteCommand deleteConsumerCommand = new DeleteCommand.Builder("consumer").build();
-        odo.execute(deleteConsumerCommand);
+        odo.deleteUrl("route").build().execute();
+        odo.delete("provider").build().execute();
+        odo.delete("consumer").build().execute();
 
     }
 
@@ -62,57 +53,28 @@ public class CreateAndDeployConsumerProviderTest {
     public void should_create_deploy_and_link_components(OpenShiftOperation openShiftOperation)
         throws InterruptedException, IOException {
 
-        // Given
+        // Given // When
 
-        final CreateCommand createProviderCommand = new CreateCommand
-            .Builder("openjdk18")
-            .withComponentName("provider")
+        odo.create("openjdk18").withComponentName("provider")
             .withLocal(projectDir.resolve("provider").toAbsolutePath().toString())
-            .build();
+            .build()
+            .execute();
+        odo.push().withComponentName("provider").build().execute();
 
-        final PushCommand pushProviderCommand = new PushCommand
-            .Builder()
-            .withComponentName("provider")
-            .build();
-
-        final CreateCommand createConsumerCommand = new CreateCommand
-            .Builder("openjdk18")
-            .withComponentName("consumer")
+        odo.create("openjdk18").withComponentName("consumer")
             .withLocal(projectDir.resolve("consumer").toAbsolutePath().toString())
-            .build();
+            .build()
+            .execute();
+        odo.push().withComponentName("consumer").build().execute();
 
-        final PushCommand pushConsumerCommand = new PushCommand
-            .Builder()
-            .withComponentName("consumer")
-            .build();
+        odo.createUrl().withComponentName("route").withComponent("consumer").withPort(8080).build().execute();
 
-        final UrlCreateCommand urlCreateCommand = new UrlCreateCommand
-            .Builder()
-            .withComponentName("route")
-            .withComponent("consumer")
-            .withPort(8080)
-            .build();
-
-        final UrlCommand urlCommand = new UrlCommand
-            .Builder(urlCreateCommand)
-            .build();
-
-        final LinkCommand linkCommand = new LinkCommand.Builder("provider")
+        odo.link("provider")
             .withComponent("consumer")
             .withPort("8080")
             .withWait()
-            .build();
-
-        // When
-
-        odo.execute(createProviderCommand);
-        odo.execute(pushProviderCommand);
-
-        odo.execute(createConsumerCommand);
-        odo.execute(pushConsumerCommand);
-        odo.execute(urlCommand);
-
-        odo.execute(linkCommand);
+            .build()
+            .execute();
 
         // Then
 

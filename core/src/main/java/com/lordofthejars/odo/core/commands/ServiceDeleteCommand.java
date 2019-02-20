@@ -1,11 +1,10 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class ServiceDeleteCommand implements Command {
+public class ServiceDeleteCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "delete";
 
@@ -19,15 +18,21 @@ public class ServiceDeleteCommand implements Command {
     private String app;
     private Boolean force = Boolean.TRUE;
 
+    private ServiceCommand serviceCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ServiceDeleteCommand(String serviceNme){
-        this.serviceNme = serviceNme;
+    private ServiceDeleteCommand(ServiceCommand serviceCommand, String serviceName, OdoExecutor odoExecutor) {
+        super(odoExecutor);
+        this.serviceNme = serviceName;
+        this.serviceCommand = serviceCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(serviceCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(serviceNme);
 
@@ -55,8 +60,8 @@ public class ServiceDeleteCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<ServiceDeleteCommand.Builder> {
         private ServiceDeleteCommand serviceDeleteCommand;
 
-        public Builder(String serviceName) {
-            this.serviceDeleteCommand = new ServiceDeleteCommand(serviceName);
+        public Builder(ServiceCommand serviceCommand, String serviceName, OdoExecutor odoExecutor) {
+            this.serviceDeleteCommand = new ServiceDeleteCommand(serviceCommand, serviceName, odoExecutor);
         }
 
         public ServiceDeleteCommand.Builder withApp(String app) {

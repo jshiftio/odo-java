@@ -1,12 +1,22 @@
 package com.lordofthejars.odo.core.commands;
 
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.lordofthejars.odo.core.commands.CommandTransformer.transform;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 public class ServiceCommandTest {
+
+    @Mock
+    private OdoExecutor odoExecutor;
+
+    private ServiceCommand serviceCommand = new ServiceCommand.Builder().build();
 
     @Test
     public void should_execute_service_create_command() {
@@ -14,16 +24,15 @@ public class ServiceCommandTest {
         // Given
 
         final ServiceCreateCommand serviceCreateCommand = new ServiceCreateCommand
-            .Builder("dh-postgresql-apb", "dev")
+            .Builder(serviceCommand, "dh-postgresql-apb", "dev", odoExecutor)
             .withServiceName("my-postgresql-db")
             .withParameters("postgresql_user=luke", "postgresql_password=secret")
             .build();
 
-        final ServiceCommand serviceCommand = new ServiceCommand.Builder(serviceCreateCommand).build();
 
         // When
 
-        final List<String> cliCommand = serviceCommand.getCliCommand();
+        final List<String> cliCommand = serviceCreateCommand.getCliCommand();
 
         // Then
 
@@ -37,12 +46,11 @@ public class ServiceCommandTest {
 
         // Given
 
-        final ServiceDeleteCommand serviceDeleteCommand = new ServiceDeleteCommand.Builder("my-postgresql-db").build();
-        final ServiceCommand serviceCommand = new ServiceCommand.Builder(serviceDeleteCommand).build();
+        final ServiceDeleteCommand serviceDeleteCommand = new ServiceDeleteCommand.Builder(serviceCommand,"my-postgresql-db", odoExecutor).build();
 
         // When
 
-        final List<String> cliCommand = serviceCommand.getCliCommand();
+        final List<String> cliCommand = serviceDeleteCommand.getCliCommand();
 
         // Then
 

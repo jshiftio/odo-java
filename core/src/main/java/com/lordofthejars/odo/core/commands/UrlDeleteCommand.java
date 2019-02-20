@@ -1,10 +1,11 @@
 package com.lordofthejars.odo.core.commands;
 
 import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UrlDeleteCommand implements Command {
+public class UrlDeleteCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "delete";
 
@@ -20,15 +21,21 @@ public class UrlDeleteCommand implements Command {
     private String project;
     private Boolean force = Boolean.TRUE;
 
+    private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private UrlDeleteCommand(String urlName){
+    private UrlDeleteCommand(UrlCommand urlCommand, String urlName, OdoExecutor odoExecutor) {
+        super(odoExecutor);
         this.urlName = urlName;
+        this.urlCommand = urlCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(this.urlCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
 
         arguments.add(urlName);
@@ -62,8 +69,8 @@ public class UrlDeleteCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<UrlDeleteCommand.Builder> {
         private UrlDeleteCommand urlDeleteCommand;
 
-        public Builder(String urlName) {
-            this.urlDeleteCommand = new UrlDeleteCommand(urlName);
+        public Builder(UrlCommand urlCommand, String urlName, OdoExecutor odoExecutor) {
+            this.urlDeleteCommand = new UrlDeleteCommand(urlCommand, urlName, odoExecutor);
         }
 
         public UrlDeleteCommand.Builder withApp(String app) {

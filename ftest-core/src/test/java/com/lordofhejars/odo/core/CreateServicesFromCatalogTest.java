@@ -30,13 +30,7 @@ public class CreateServicesFromCatalogTest {
 
     @AfterEach
     public void removeService() { // Clean components created by odo
-
-        final ServiceDeleteCommand serviceDeleteCommand = new ServiceDeleteCommand
-            .Builder("postgresql-persistent").build();
-
-        final ServiceCommand serviceCommand = new ServiceCommand.Builder(serviceDeleteCommand).build();
-        odo.execute(serviceCommand);
-
+        odo.deleteService("postgresql-persistent").build().execute();
     }
 
     @Test
@@ -44,26 +38,17 @@ public class CreateServicesFromCatalogTest {
 
         // Given
 
-        // should be able to create postgresql
-
-        final ServiceCreateCommand serviceCreateCommand = new ServiceCreateCommand
-            .Builder("postgresql-persistent", "default")
+        odo.createService("postgresql-persistent", "default")
             .withParameters("postgresql_user=luke",
                 "postgresql_password=secret",
                 "postgresql_database=my_data", "postgresql_version=9.6")
-            .build();
-
-
-        final ServiceCommand serviceCommand = new ServiceCommand
-            .Builder(serviceCreateCommand)
-            .build();
-
-        odo.execute(serviceCommand);
-        openShiftOperation.awaitUntilServiceInstanceRegistered("postgresql-persistent");
-        openShiftOperation.awaitUntilServiceInstanceIsProvisioned("postgresql-persistent");
+            .build()
+            .execute();
 
         // When
 
+        openShiftOperation.awaitUntilServiceInstanceRegistered("postgresql-persistent");
+        openShiftOperation.awaitUntilServiceInstanceIsProvisioned("postgresql-persistent");
         final Optional<ServiceInstance> serviceInstance = openShiftOperation.getServiceInstance("postgresql-persistent");
 
         // Then

@@ -65,20 +65,10 @@ public class OpenShiftCatalogConditionExtension implements ExecutionCondition {
     }
 
     private List<String> getInstalledComponents(final Odo odo) {
-
-        final CatalogListCommand catalogListCommand = new CatalogListCommand.Builder("components").build();
-        final CatalogCommand catalogCommand = new CatalogCommand.Builder(catalogListCommand).build();
-
-        final List<String> terminalOutput = odo.execute(catalogCommand);
-        return catalogListCommand.parse(terminalOutput);
+        return odo.listCatalog("components").build().execute();
     }
 
     private List<String> getInstalledServices(final Odo odo) {
-
-        final CatalogListCommand catalogListCommand = new CatalogListCommand.Builder("services").build();
-        final CatalogCommand catalogCommand = new CatalogCommand.Builder(catalogListCommand).build();
-
-        final List<String> terminalOutput = odo.execute(catalogCommand);
-        return catalogListCommand.parse(terminalOutput);
+        return odo.listCatalog("services").build().execute();
     }
 }

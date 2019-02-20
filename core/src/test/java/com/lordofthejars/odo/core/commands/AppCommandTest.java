@@ -1,27 +1,35 @@
 package com.lordofthejars.odo.core.commands;
 
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.lordofthejars.odo.core.commands.CommandTransformer.transform;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 public class AppCommandTest {
+
+    @Mock
+    private OdoExecutor odoExecutor;
+
+    private AppCommand appCommand = new AppCommand.Builder().build();
 
     @Test
     public void should_execute_create_app_command() {
 
         // Given
 
-        final AppCreateCommand appCreateCommand = new AppCreateCommand.Builder()
+        final AppCreateCommand appCreateCommand = new AppCreateCommand.Builder(appCommand, odoExecutor)
             .withAppName("myapp")
             .build();
 
-        final AppCommand appCommand = new AppCommand.Builder(appCreateCommand).build();
-
         // When
 
-        final List<String> cliCommand = appCommand.getCliCommand();
+        final List<String> cliCommand = appCreateCommand.getCliCommand();
 
         // Then
 
@@ -35,13 +43,11 @@ public class AppCommandTest {
 
         // Given
 
-        final AppDeleteCommand appDeleteCommand = new AppDeleteCommand.Builder("myapp").build();
-
-        final AppCommand appCommand = new AppCommand.Builder(appDeleteCommand).build();
+        final AppDeleteCommand appDeleteCommand = new AppDeleteCommand.Builder(appCommand, "myapp", odoExecutor).build();
 
         // When
 
-        final List<String> cliCommand = appCommand.getCliCommand();
+        final List<String> cliCommand = appDeleteCommand.getCliCommand();
 
         // Then
 
@@ -55,15 +61,13 @@ public class AppCommandTest {
 
         // Given
 
-        final AppSetCommand appSetCommand = new AppSetCommand.Builder("myapp")
+        final AppSetCommand appSetCommand = new AppSetCommand.Builder(appCommand, "myapp", odoExecutor)
             .withProject("prj")
             .build();
 
-        final AppCommand appCommand = new AppCommand.Builder(appSetCommand).build();
-
         // When
 
-        final List<String> cliCommand = appCommand.getCliCommand();
+        final List<String> cliCommand = appSetCommand.getCliCommand();
 
         // Then
 

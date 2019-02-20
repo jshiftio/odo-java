@@ -1,11 +1,11 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ServiceCreateCommand implements Command {
+public class ServiceCreateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "create";
 
@@ -23,16 +23,22 @@ public class ServiceCreateCommand implements Command {
     private String project;
     private List<String> parameters;
 
+    private ServiceCommand serviceCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ServiceCreateCommand(String serviceType, String plan) {
+    private ServiceCreateCommand(ServiceCommand serviceCommand, String serviceType, String plan, OdoExecutor odoExecutor) {
+        super(odoExecutor);
         this.serviceType= serviceType;
         this.planName = plan;
+        this.serviceCommand = serviceCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(serviceCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(serviceType);
 
@@ -71,8 +77,8 @@ public class ServiceCreateCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<ServiceCreateCommand.Builder> {
         private ServiceCreateCommand serviceCreateCommand;
 
-        public Builder(String serviceType, String plan) {
-            this.serviceCreateCommand = new ServiceCreateCommand(serviceType, plan);
+        public Builder(ServiceCommand serviceCommand, String serviceType, String plan, OdoExecutor odoExecutor) {
+            this.serviceCreateCommand = new ServiceCreateCommand(serviceCommand, serviceType, plan, odoExecutor);
         }
 
         public ServiceCreateCommand.Builder withServiceName(String serviceName) {

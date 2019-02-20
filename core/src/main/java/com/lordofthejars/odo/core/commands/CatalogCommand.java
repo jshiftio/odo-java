@@ -8,10 +8,7 @@ public class CatalogCommand implements Command {
 
     private static final String COMMAND_NAME = "catalog";
 
-    private CatalogListCommand catalogListCommand;
-
-    private CatalogCommand(CatalogListCommand catalogListCommand) {
-        this.catalogListCommand = catalogListCommand;
+    private CatalogCommand() {
     }
 
     @Override
@@ -19,8 +16,6 @@ public class CatalogCommand implements Command {
 
         final List<String> arguments = new ArrayList<>();
         arguments.add(COMMAND_NAME);
-        arguments.addAll(this.catalogListCommand.getCliCommand());
-
         return arguments;
     }
 
@@ -28,8 +23,8 @@ public class CatalogCommand implements Command {
 
         private CatalogCommand catalogCommand;
 
-        public Builder(CatalogListCommand catalogListCommand) {
-            this.catalogCommand = new CatalogCommand(catalogListCommand);
+        public Builder() {
+            this.catalogCommand = new CatalogCommand();
         }
 
         public CatalogCommand build() {

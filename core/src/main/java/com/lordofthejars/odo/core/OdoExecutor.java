@@ -16,26 +16,29 @@ import java.util.stream.Collectors;
 import org.zeroturnaround.exec.InvalidExitValueException;
 import org.zeroturnaround.exec.ProcessExecutor;
 
-class OdoExecutor {
+public class OdoExecutor {
 
     private static final Logger logger = Logger.getLogger(OdoExecutor.class.getName());
 
     private OdoConfiguration odoConfiguration;
 
-    OdoExecutor(OdoConfiguration odoConfiguration) {
+    private Path odoHome;
+
+    OdoExecutor(Path odoHome, OdoConfiguration odoConfiguration) {
+        this.odoHome = odoHome;
         this.odoConfiguration = odoConfiguration;
     }
 
-    List<String> execute(Path binary, Command command) {
-        return this.execute(binary, binary.getParent(), command);
+    public List<String> execute(Command command) {
+        return this.execute(odoHome.getParent(), command);
     }
 
-    List<String> execute(Path binary, Path directory, Command command) {
+    public List<String> execute(Path directory, Command command) {
 
-        validateInput(binary, directory);
+        validateInput(this.odoHome, directory);
 
         final List<String> executionCommand = new ArrayList<>();
-        executionCommand.add(binary.toString());
+        executionCommand.add(this.odoHome.toString());
         executionCommand.addAll(command.getCliCommand());
 
         logger.info(

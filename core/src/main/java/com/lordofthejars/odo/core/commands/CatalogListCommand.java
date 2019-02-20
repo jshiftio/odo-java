@@ -1,25 +1,32 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CatalogListCommand implements Command<List<String>> {
+public class CatalogListCommand extends AbstractRunnableCommand<List<String>> {
 
     private static final String COMMAND_NAME = "list";
 
     private String command;
+
+    private CatalogCommand catalogCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private CatalogListCommand(String command) {
+    private CatalogListCommand(CatalogCommand catalogCommand, String command, OdoExecutor odoExecutor) {
+        super(odoExecutor, CatalogListCommand::parse);
         this.command = command;
+        this.catalogCommand = catalogCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
 
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(catalogCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(this.command);
 
@@ -30,8 +37,7 @@ public class CatalogListCommand implements Command<List<String>> {
         return arguments;
     }
 
-    @Override
-    public List<String> parse(List<String> consoleOutput) {
+    protected static List<String> parse(List<String> consoleOutput) {
 
         final List<String> catalogElements = new ArrayList<>();
 
@@ -58,8 +64,8 @@ public class CatalogListCommand implements Command<List<String>> {
 
         private CatalogListCommand catalogListCommand;
 
-        public Builder(String command) {
-            this.catalogListCommand = new CatalogListCommand(command);
+        public Builder(CatalogCommand  catalogCommand, String command, OdoExecutor odoExecutor) {
+            this.catalogListCommand = new CatalogListCommand(catalogCommand, command, odoExecutor);
         }
 
         public CatalogListCommand build(){

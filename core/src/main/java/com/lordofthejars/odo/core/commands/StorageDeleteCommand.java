@@ -1,10 +1,10 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
+import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageDeleteCommand implements Command {
+public class StorageDeleteCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "delete";
 
@@ -20,15 +20,22 @@ public class StorageDeleteCommand implements Command {
     private String project;
     private Boolean force = Boolean.TRUE;
 
+
+    private StorageCommand storageCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private StorageDeleteCommand(String storageName) {
+    private StorageDeleteCommand(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+        super(odoExecutor);
         this.storageName = storageName;
+        this.storageCommand = storageCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(storageCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
 
         arguments.add(storageName);
@@ -62,8 +69,8 @@ public class StorageDeleteCommand implements Command {
     public static class Builder extends GlobalParametersSupport.Builder<StorageDeleteCommand.Builder> {
         private StorageDeleteCommand storageDeleteCommand;
 
-        public Builder(String storageName) {
-            this.storageDeleteCommand = new StorageDeleteCommand(storageName);
+        public Builder(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+            this.storageDeleteCommand = new StorageDeleteCommand(storageCommand, storageName, odoExecutor);
         }
 
         public StorageDeleteCommand.Builder withApp(String app) {
