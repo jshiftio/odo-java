@@ -4,7 +4,7 @@ import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PushCommand extends AbstractRunnableCommand<Void> {
+public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "push";
 
@@ -18,16 +18,20 @@ public class PushCommand extends AbstractRunnableCommand<Void> {
     private String local;
     private String project;
 
+    private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-
-    private PushCommand(OdoExecutor odoExecutor){
+    private ComponentPushCommand(ComponentCommand componentCommand, OdoExecutor odoExecutor){
         super(odoExecutor);
+        this.componentCommand = componentCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(componentCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
 
         if (componentName != null) {
@@ -56,36 +60,36 @@ public class PushCommand extends AbstractRunnableCommand<Void> {
         return arguments;
     }
 
-    public static class Builder extends GlobalParametersSupport.Builder<PushCommand.Builder> {
-        private PushCommand pushCommand;
+    public static class Builder extends GlobalParametersSupport.Builder<ComponentPushCommand.Builder> {
+        private ComponentPushCommand componentPushCommand;
 
-        public Builder(OdoExecutor odoExecutor) {
-            this.pushCommand = new PushCommand(odoExecutor);
+        public Builder(ComponentCommand componentCommand, OdoExecutor odoExecutor) {
+            this.componentPushCommand = new ComponentPushCommand(componentCommand, odoExecutor);
         }
 
-        public PushCommand.Builder withComponentName(String componentName) {
-            this.pushCommand.componentName = componentName;
+        public ComponentPushCommand.Builder withComponentName(String componentName) {
+            this.componentPushCommand.componentName = componentName;
             return this;
         }
 
-        public PushCommand.Builder withApp(String app) {
-            this.pushCommand.app = app;
+        public ComponentPushCommand.Builder withApp(String app) {
+            this.componentPushCommand.app = app;
             return this;
         }
 
-        public PushCommand.Builder withLocal(String local) {
-            this.pushCommand.local = local;
+        public ComponentPushCommand.Builder withLocal(String local) {
+            this.componentPushCommand.local = local;
             return this;
         }
 
-        public PushCommand.Builder withProject(String project) {
-            this.pushCommand.project = project;
+        public ComponentPushCommand.Builder withProject(String project) {
+            this.componentPushCommand.project = project;
             return this;
         }
 
-        public PushCommand build() {
-            this.pushCommand.globalParametersSupport = buildGlobalParameters();
-            return pushCommand;
+        public ComponentPushCommand build() {
+            this.componentPushCommand.globalParametersSupport = buildGlobalParameters();
+            return componentPushCommand;
         }
     }
 }

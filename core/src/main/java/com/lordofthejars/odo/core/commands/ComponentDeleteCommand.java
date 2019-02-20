@@ -1,11 +1,10 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
 import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteCommand extends AbstractRunnableCommand<Void> {
+public class ComponentDeleteCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "delete";
 
@@ -19,16 +18,21 @@ public class DeleteCommand extends AbstractRunnableCommand<Void> {
     private String project;
     private Boolean force = Boolean.TRUE;
 
+    private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private DeleteCommand(String componentName, OdoExecutor odoExecutor){
+    private ComponentDeleteCommand(ComponentCommand componentCommand, String componentName, OdoExecutor odoExecutor){
         super(odoExecutor);
         this.componentName = componentName;
+        this.componentCommand = componentCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(componentCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(componentName);
 
@@ -53,31 +57,31 @@ public class DeleteCommand extends AbstractRunnableCommand<Void> {
         return arguments;
     }
 
-    public static class Builder extends GlobalParametersSupport.Builder<DeleteCommand.Builder> {
-        private DeleteCommand urDeleteCommand;
+    public static class Builder extends GlobalParametersSupport.Builder<ComponentDeleteCommand.Builder> {
+        private ComponentDeleteCommand urComponentDeleteCommand;
 
-        public Builder(String componentName, OdoExecutor odoExecutor) {
-            this.urDeleteCommand = new DeleteCommand(componentName, odoExecutor);
+        public Builder(ComponentCommand componentCommand, String componentName, OdoExecutor odoExecutor) {
+            this.urComponentDeleteCommand = new ComponentDeleteCommand(componentCommand, componentName, odoExecutor);
         }
 
-        public DeleteCommand.Builder withApp(String app) {
-            this.urDeleteCommand.app = app;
+        public ComponentDeleteCommand.Builder withApp(String app) {
+            this.urComponentDeleteCommand.app = app;
             return this;
         }
 
-        public DeleteCommand.Builder withProject(String project) {
-            this.urDeleteCommand.project = project;
+        public ComponentDeleteCommand.Builder withProject(String project) {
+            this.urComponentDeleteCommand.project = project;
             return this;
         }
 
-        public DeleteCommand.Builder withForce(boolean force) {
-            this.urDeleteCommand.force = force;
+        public ComponentDeleteCommand.Builder withForce(boolean force) {
+            this.urComponentDeleteCommand.force = force;
             return this;
         }
 
-        public DeleteCommand build() {
-            urDeleteCommand.globalParametersSupport = buildGlobalParameters();
-            return urDeleteCommand;
+        public ComponentDeleteCommand build() {
+            urComponentDeleteCommand.globalParametersSupport = buildGlobalParameters();
+            return urComponentDeleteCommand;
         }
 
     }

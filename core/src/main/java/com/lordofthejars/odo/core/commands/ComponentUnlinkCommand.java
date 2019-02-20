@@ -4,7 +4,7 @@ import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnlinkCommand extends AbstractRunnableCommand<Void> {
+public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "unlink";
 
@@ -20,16 +20,21 @@ public class UnlinkCommand extends AbstractRunnableCommand<Void> {
     private String port;
     private String project;
 
+    private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    protected UnlinkCommand(String name, OdoExecutor odoExecutor) {
+    protected ComponentUnlinkCommand(ComponentCommand componentCommand, String name, OdoExecutor odoExecutor) {
         super(odoExecutor);
         this.name = name;
+        this.componentCommand = componentCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(componentCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(name);
 
@@ -60,37 +65,37 @@ public class UnlinkCommand extends AbstractRunnableCommand<Void> {
         return arguments;
     }
 
-    public static class Builder extends GlobalParametersSupport.Builder<UnlinkCommand.Builder> {
+    public static class Builder extends GlobalParametersSupport.Builder<ComponentUnlinkCommand.Builder> {
 
-        private UnlinkCommand unlinkCommand;
+        private ComponentUnlinkCommand componentUnlinkCommand;
 
-        public Builder(String name, OdoExecutor odoExecutor) {
-            unlinkCommand = new UnlinkCommand(name, odoExecutor);
+        public Builder(ComponentCommand componentCommand, String name, OdoExecutor odoExecutor) {
+            componentUnlinkCommand = new ComponentUnlinkCommand(componentCommand, name, odoExecutor);
         }
 
-        public UnlinkCommand.Builder withComponent(String component) {
-            unlinkCommand.component = component;
+        public ComponentUnlinkCommand.Builder withComponent(String component) {
+            componentUnlinkCommand.component = component;
             return this;
         }
 
-        public UnlinkCommand.Builder withApp(String app) {
-            unlinkCommand.app = app;
+        public ComponentUnlinkCommand.Builder withApp(String app) {
+            componentUnlinkCommand.app = app;
             return this;
         }
 
-        public UnlinkCommand.Builder withPort(String port) {
-            unlinkCommand.port = port;
+        public ComponentUnlinkCommand.Builder withPort(String port) {
+            componentUnlinkCommand.port = port;
             return this;
         }
 
-        public UnlinkCommand.Builder withProject(String project) {
-            unlinkCommand.project = project;
+        public ComponentUnlinkCommand.Builder withProject(String project) {
+            componentUnlinkCommand.project = project;
             return this;
         }
 
-        public UnlinkCommand build() {
-            this.unlinkCommand.globalParametersSupport = buildGlobalParameters();
-            return unlinkCommand;
+        public ComponentUnlinkCommand build() {
+            this.componentUnlinkCommand.globalParametersSupport = buildGlobalParameters();
+            return componentUnlinkCommand;
         }
 
     }

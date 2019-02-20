@@ -4,7 +4,7 @@ import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateCommand extends AbstractRunnableCommand<Void> {
+public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "update";
     private static final String APP = "--app";
@@ -23,16 +23,21 @@ public class UpdateCommand extends AbstractRunnableCommand<Void> {
     private String binary;
     private String ref;
 
+    private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private UpdateCommand(OdoExecutor odoExecutor) {
+    private ComponentUpdateCommand(ComponentCommand componentCommand, OdoExecutor odoExecutor) {
         super(odoExecutor);
+        this.componentCommand = componentCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
 
         final List<String> argumentList = new ArrayList<>();
+
+        argumentList.addAll(componentCommand.getCliCommand());
+
         argumentList.add(COMMAND_NAME);
 
         if (componentName != null) {
@@ -73,52 +78,52 @@ public class UpdateCommand extends AbstractRunnableCommand<Void> {
         return argumentList;
     }
 
-    public static class Builder extends GlobalParametersSupport.Builder<UpdateCommand.Builder> {
+    public static class Builder extends GlobalParametersSupport.Builder<ComponentUpdateCommand.Builder> {
 
-        private UpdateCommand updateCommand;
+        private ComponentUpdateCommand componentUpdateCommand;
 
-        public Builder(OdoExecutor odoExecutor) {
-            updateCommand = new UpdateCommand(odoExecutor);
+        public Builder(ComponentCommand componentCommand, OdoExecutor odoExecutor) {
+            componentUpdateCommand = new ComponentUpdateCommand(componentCommand, odoExecutor);
         }
 
         public Builder withComponentName(String componentName) {
-            this.updateCommand.componentName = componentName;
+            this.componentUpdateCommand.componentName = componentName;
             return this;
         }
 
         public Builder withApp(String app) {
-            this.updateCommand.app = app;
+            this.componentUpdateCommand.app = app;
             return this;
         }
 
         public Builder withProject(String project) {
-            this.updateCommand.project = project;
+            this.componentUpdateCommand.project = project;
             return this;
         }
 
         public Builder withLocal(String local) {
-            this.updateCommand.local = local;
+            this.componentUpdateCommand.local = local;
             return this;
         }
 
         public Builder withGit(String git) {
-            this.updateCommand.git = git;
+            this.componentUpdateCommand.git = git;
             return this;
         }
 
         public Builder withBinary(String binary) {
-            this.updateCommand.binary = binary;
+            this.componentUpdateCommand.binary = binary;
             return this;
         }
 
         public Builder withRef(String ref) {
-            this.updateCommand.ref = ref;
+            this.componentUpdateCommand.ref = ref;
             return this;
         }
 
-        public UpdateCommand build() {
-            updateCommand.globalParametersSupport = buildGlobalParameters();
-            return this.updateCommand;
+        public ComponentUpdateCommand build() {
+            componentUpdateCommand.globalParametersSupport = buildGlobalParameters();
+            return this.componentUpdateCommand;
         }
     }
 }

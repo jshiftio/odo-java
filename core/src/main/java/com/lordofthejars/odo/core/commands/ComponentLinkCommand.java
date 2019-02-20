@@ -4,7 +4,7 @@ import com.lordofthejars.odo.core.OdoExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinkCommand extends AbstractRunnableCommand<Void> {
+public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "link";
 
@@ -22,17 +22,22 @@ public class LinkCommand extends AbstractRunnableCommand<Void> {
     private String project;
     private Boolean wait;
 
+    private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private LinkCommand(String name, OdoExecutor odoExecutor) {
+    private ComponentLinkCommand(ComponentCommand componentCommand, String name, OdoExecutor odoExecutor) {
         super(odoExecutor);
         this.name =name;
+        this.componentCommand = componentCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
 
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(componentCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(name);
 
@@ -67,42 +72,42 @@ public class LinkCommand extends AbstractRunnableCommand<Void> {
         return arguments;
     }
 
-    public static class Builder extends GlobalParametersSupport.Builder<LinkCommand.Builder> {
+    public static class Builder extends GlobalParametersSupport.Builder<ComponentLinkCommand.Builder> {
 
-        private LinkCommand linkCommand;
+        private ComponentLinkCommand componentLinkCommand;
 
-        public Builder(String name, OdoExecutor odoExecutor) {
-            linkCommand = new LinkCommand(name, odoExecutor);
+        public Builder(ComponentCommand componentCommand, String name, OdoExecutor odoExecutor) {
+            componentLinkCommand = new ComponentLinkCommand(componentCommand, name, odoExecutor);
         }
 
-        public LinkCommand.Builder withComponent(String component) {
-            linkCommand.component = component;
+        public ComponentLinkCommand.Builder withComponent(String component) {
+            componentLinkCommand.component = component;
             return this;
         }
 
-        public LinkCommand.Builder withApp(String app) {
-            linkCommand.app = app;
+        public ComponentLinkCommand.Builder withApp(String app) {
+            componentLinkCommand.app = app;
             return this;
         }
 
-        public LinkCommand.Builder withPort(String port) {
-            linkCommand.port = port;
+        public ComponentLinkCommand.Builder withPort(String port) {
+            componentLinkCommand.port = port;
             return this;
         }
 
-        public LinkCommand.Builder withProject(String project) {
-            linkCommand.project = project;
+        public ComponentLinkCommand.Builder withProject(String project) {
+            componentLinkCommand.project = project;
             return this;
         }
 
-        public LinkCommand.Builder withWait() {
-            linkCommand.wait = Boolean.TRUE;
+        public ComponentLinkCommand.Builder withWait() {
+            componentLinkCommand.wait = Boolean.TRUE;
             return this;
         }
 
-        public LinkCommand build() {
-            this.linkCommand.globalParametersSupport = buildGlobalParameters();
-            return linkCommand;
+        public ComponentLinkCommand build() {
+            this.componentLinkCommand.globalParametersSupport = buildGlobalParameters();
+            return componentLinkCommand;
         }
 
     }

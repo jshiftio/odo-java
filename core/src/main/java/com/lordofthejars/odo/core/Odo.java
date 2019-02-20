@@ -7,14 +7,16 @@ import com.lordofthejars.odo.core.commands.AppDeleteCommand;
 import com.lordofthejars.odo.core.commands.AppSetCommand;
 import com.lordofthejars.odo.core.commands.CatalogCommand;
 import com.lordofthejars.odo.core.commands.CatalogListCommand;
-import com.lordofthejars.odo.core.commands.CreateCommand;
-import com.lordofthejars.odo.core.commands.DeleteCommand;
-import com.lordofthejars.odo.core.commands.LinkCommand;
+import com.lordofthejars.odo.core.commands.ComponentCommand;
+import com.lordofthejars.odo.core.commands.ComponentCreateCommand;
+import com.lordofthejars.odo.core.commands.ComponentDeleteCommand;
+import com.lordofthejars.odo.core.commands.ComponentLinkCommand;
+import com.lordofthejars.odo.core.commands.ComponentUpdateCommand;
 import com.lordofthejars.odo.core.commands.ProjectCommand;
 import com.lordofthejars.odo.core.commands.ProjectCreateCommand;
 import com.lordofthejars.odo.core.commands.ProjectDeleteCommand;
 import com.lordofthejars.odo.core.commands.ProjectSetCommand;
-import com.lordofthejars.odo.core.commands.PushCommand;
+import com.lordofthejars.odo.core.commands.ComponentPushCommand;
 import com.lordofthejars.odo.core.commands.ServiceCommand;
 import com.lordofthejars.odo.core.commands.ServiceCreateCommand;
 import com.lordofthejars.odo.core.commands.ServiceDeleteCommand;
@@ -23,7 +25,7 @@ import com.lordofthejars.odo.core.commands.StorageCreateCommand;
 import com.lordofthejars.odo.core.commands.StorageDeleteCommand;
 import com.lordofthejars.odo.core.commands.StorageMountCommand;
 import com.lordofthejars.odo.core.commands.StorageUnmountCommand;
-import com.lordofthejars.odo.core.commands.UnlinkCommand;
+import com.lordofthejars.odo.core.commands.ComponentUnlinkCommand;
 import com.lordofthejars.odo.core.commands.UrlCommand;
 import com.lordofthejars.odo.core.commands.UrlCreateCommand;
 import com.lordofthejars.odo.core.commands.UrlDeleteCommand;
@@ -64,24 +66,34 @@ public class Odo {
         }
     }
 
-    public CreateCommand.Builder create(String componentType) {
-        return new CreateCommand.Builder(componentType, this.odoExecutor);
+    public ComponentCreateCommand.Builder createComponent(String componentType) {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentCreateCommand.Builder(componentCommand, componentType, this.odoExecutor);
     }
 
-    public DeleteCommand.Builder delete(String componentName) {
-        return new DeleteCommand.Builder(componentName, this.odoExecutor);
+    public ComponentDeleteCommand.Builder deleteComponent(String componentName) {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentDeleteCommand.Builder(componentCommand, componentName, this.odoExecutor);
     }
 
-    public PushCommand.Builder push() {
-        return new PushCommand.Builder(this.odoExecutor);
+    public ComponentUpdateCommand.Builder updateComponent() {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentUpdateCommand.Builder(componentCommand, odoExecutor);
     }
 
-    public LinkCommand.Builder link(String name) {
-        return new LinkCommand.Builder(name, this.odoExecutor);
+    public ComponentPushCommand.Builder pushComponent() {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentPushCommand.Builder(componentCommand, this.odoExecutor);
     }
 
-    public UnlinkCommand.Builder unlink(String name) {
-        return new UnlinkCommand.Builder(name, this.odoExecutor);
+    public ComponentLinkCommand.Builder linkComponent(String name) {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentLinkCommand.Builder(componentCommand, name, this.odoExecutor);
+    }
+
+    public ComponentUnlinkCommand.Builder unlinkComponent(String name) {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentUnlinkCommand.Builder(componentCommand, name, this.odoExecutor);
     }
 
     public CatalogListCommand.Builder listCatalog(String component) {

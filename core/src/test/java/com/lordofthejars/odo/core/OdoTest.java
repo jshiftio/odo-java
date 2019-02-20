@@ -1,8 +1,8 @@
 package com.lordofthejars.odo.core;
 
-import com.lordofthejars.odo.core.commands.CreateCommand;
-import com.lordofthejars.odo.core.commands.LinkCommand;
-import com.lordofthejars.odo.core.commands.PushCommand;
+import com.lordofthejars.odo.core.commands.ComponentCreateCommand;
+import com.lordofthejars.odo.core.commands.ComponentLinkCommand;
+import com.lordofthejars.odo.core.commands.ComponentPushCommand;
 import com.lordofthejars.odo.core.commands.UrlCreateCommand;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ public class OdoTest {
 
         // Given
         final Odo odo = new Odo(odoExecutor);
-        final CreateCommand nodejs = odo.create("nodejs").build();
+        final ComponentCreateCommand nodejs = odo.createComponent("nodejs").build();
 
         // When
 
@@ -39,15 +39,15 @@ public class OdoTest {
 
         // Given
         final Odo odo = new Odo(odoExecutor);
-        final PushCommand pushCommand = odo.push().build();
+        final ComponentPushCommand componentPushCommand = odo.pushComponent().build();
 
         // When
 
-        pushCommand.execute();
+        componentPushCommand.execute();
 
         // Then
 
-        verify(odoExecutor).execute(pushCommand);
+        verify(odoExecutor).execute(componentPushCommand);
 
     }
 
@@ -75,15 +75,15 @@ public class OdoTest {
         // Given
 
         final Odo odo = new Odo(odoExecutor);
-        final LinkCommand linkCommand = odo.link("provider").withComponent("consumer").withPort("8080").build();
+        final ComponentLinkCommand componentLinkCommand = odo.linkComponent("provider").withComponent("consumer").withPort("8080").build();
 
         // When
 
-        linkCommand.execute();
+        componentLinkCommand.execute();
 
         // Then
 
-        verify(odoExecutor).execute(linkCommand);
+        verify(odoExecutor).execute(componentLinkCommand);
 
     }
 

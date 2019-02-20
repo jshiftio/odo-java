@@ -1,13 +1,6 @@
 package com.lordofhejars.odo.core;
 
 import com.lordofthejars.odo.core.Odo;
-import com.lordofthejars.odo.core.commands.CreateCommand;
-import com.lordofthejars.odo.core.commands.DeleteCommand;
-import com.lordofthejars.odo.core.commands.LinkCommand;
-import com.lordofthejars.odo.core.commands.PushCommand;
-import com.lordofthejars.odo.core.commands.UrlCommand;
-import com.lordofthejars.odo.core.commands.UrlCreateCommand;
-import com.lordofthejars.odo.core.commands.UrlDeleteCommand;
 import com.lordofthejars.odo.testbed.api.Catalog;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftCatalogConditionExtension;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftConditionExtension;
@@ -44,8 +37,8 @@ public class CreateAndDeployConsumerProviderTest {
     public void removeComponentsAndRoutes() { // Clean components created by odo
 
         odo.deleteUrl("route").build().execute();
-        odo.delete("provider").build().execute();
-        odo.delete("consumer").build().execute();
+        odo.deleteComponent("provider").build().execute();
+        odo.deleteComponent("consumer").build().execute();
 
     }
 
@@ -55,21 +48,21 @@ public class CreateAndDeployConsumerProviderTest {
 
         // Given // When
 
-        odo.create("openjdk18").withComponentName("provider")
+        odo.createComponent("openjdk18").withComponentName("provider")
             .withLocal(projectDir.resolve("provider").toAbsolutePath().toString())
             .build()
             .execute();
-        odo.push().withComponentName("provider").build().execute();
+        odo.pushComponent().withComponentName("provider").build().execute();
 
-        odo.create("openjdk18").withComponentName("consumer")
+        odo.createComponent("openjdk18").withComponentName("consumer")
             .withLocal(projectDir.resolve("consumer").toAbsolutePath().toString())
             .build()
             .execute();
-        odo.push().withComponentName("consumer").build().execute();
+        odo.pushComponent().withComponentName("consumer").build().execute();
 
         odo.createUrl().withComponentName("route").withComponent("consumer").withPort(8080).build().execute();
 
-        odo.link("provider")
+        odo.linkComponent("provider")
             .withComponent("consumer")
             .withPort("8080")
             .withWait()

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CreateCommand extends AbstractRunnableCommand<Void> {
+public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "create";
 
@@ -44,16 +44,21 @@ public class CreateCommand extends AbstractRunnableCommand<Void> {
     private String ref;
     private Boolean wait;
 
+    private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private CreateCommand(String componentType, OdoExecutor odoExecutor) {
+    private ComponentCreateCommand(ComponentCommand componentCommand, String componentType, OdoExecutor odoExecutor) {
         super(odoExecutor);
         this.componentType = componentType;
+        this.componentCommand = componentCommand;
     }
 
     @Override
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
+
+        arguments.addAll(this.componentCommand.getCliCommand());
+
         arguments.add(COMMAND_NAME);
         arguments.add(componentType);
 
@@ -147,96 +152,96 @@ public class CreateCommand extends AbstractRunnableCommand<Void> {
             .collect(Collectors.joining(", "));
     }
 
-    public static class Builder extends GlobalParametersSupport.Builder<CreateCommand.Builder> {
-        private CreateCommand createCommand;
+    public static class Builder extends GlobalParametersSupport.Builder<ComponentCreateCommand.Builder> {
+        private ComponentCreateCommand componentCreateCommand;
 
-        public Builder(String componentType, OdoExecutor odoExecutor) {
-            this.createCommand = new CreateCommand(componentType, odoExecutor);
+        public Builder(ComponentCommand componentCommand, String componentType, OdoExecutor odoExecutor) {
+            this.componentCreateCommand = new ComponentCreateCommand(componentCommand, componentType, odoExecutor);
         }
 
         public Builder withComponentName(String componentName) {
-            this.createCommand.componentName = componentName;
+            this.componentCreateCommand.componentName = componentName;
             return this;
         }
 
         public Builder withApp(String app) {
-            this.createCommand.app = app;
+            this.componentCreateCommand.app = app;
             return this;
         }
 
         public Builder withBinary(String binary) {
-            this.createCommand.binary = binary;
+            this.componentCreateCommand.binary = binary;
             return this;
         }
 
         public Builder withCpu(String cpu) {
-            this.createCommand.cpu = cpu;
+            this.componentCreateCommand.cpu = cpu;
             return this;
         }
 
         public Builder withEnv(List<String> env) {
-            this.createCommand.env = env;
+            this.componentCreateCommand.env = env;
             return this;
         }
 
         public Builder withGit(String git) {
-            this.createCommand.git = git;
+            this.componentCreateCommand.git = git;
             return this;
         }
 
         public Builder withLocal(String local) {
-            this.createCommand.local = local;
+            this.componentCreateCommand.local = local;
             return this;
         }
 
         public Builder withMaxCpu(String maxCpu) {
-            this.createCommand.maxCpu = maxCpu;
+            this.componentCreateCommand.maxCpu = maxCpu;
             return this;
         }
 
         public Builder withMaxMemory(String maxMemory) {
-            this.createCommand.maxMemory = maxMemory;
+            this.componentCreateCommand.maxMemory = maxMemory;
             return this;
         }
 
         public Builder withMemory(String memory) {
-            this.createCommand.memory = memory;
+            this.componentCreateCommand.memory = memory;
             return this;
         }
 
         public Builder withMinCpu(String minCpu) {
-            this.createCommand.minCpu = minCpu;
+            this.componentCreateCommand.minCpu = minCpu;
             return this;
         }
 
         public Builder withMinMemory(String minMemory) {
-            this.createCommand.minMemory = minMemory;
+            this.componentCreateCommand.minMemory = minMemory;
             return this;
         }
 
         public Builder withPorts(List<String> ports) {
-            this.createCommand.port = ports;
+            this.componentCreateCommand.port = ports;
             return this;
         }
 
         public Builder withProject(String project) {
-            this.createCommand.project = project;
+            this.componentCreateCommand.project = project;
             return this;
         }
 
         public Builder withRef(String ref) {
-            this.createCommand.ref = ref;
+            this.componentCreateCommand.ref = ref;
             return this;
         }
 
         public Builder withWait() {
-            this.createCommand.wait = true;
+            this.componentCreateCommand.wait = true;
             return this;
         }
 
-        public CreateCommand build() {
-            createCommand.globalParametersSupport = buildGlobalParameters();
-            return createCommand;
+        public ComponentCreateCommand build() {
+            componentCreateCommand.globalParametersSupport = buildGlobalParameters();
+            return componentCreateCommand;
         }
 
     }

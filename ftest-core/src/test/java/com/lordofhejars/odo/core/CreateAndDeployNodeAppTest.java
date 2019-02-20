@@ -1,12 +1,6 @@
 package com.lordofhejars.odo.core;
 
 import com.lordofthejars.odo.core.Odo;
-import com.lordofthejars.odo.core.commands.CreateCommand;
-import com.lordofthejars.odo.core.commands.DeleteCommand;
-import com.lordofthejars.odo.core.commands.PushCommand;
-import com.lordofthejars.odo.core.commands.UrlCommand;
-import com.lordofthejars.odo.core.commands.UrlCreateCommand;
-import com.lordofthejars.odo.core.commands.UrlDeleteCommand;
 import com.lordofthejars.odo.testbed.assertj.UrlAssertion;
 import com.lordofthejars.odo.testbed.api.GitClone;
 import com.lordofthejars.odo.testbed.junit5.GitExtension;
@@ -35,7 +29,7 @@ public class CreateAndDeployNodeAppTest {
     @AfterEach
     public void removeComponentsAndRoutes(Path cloneRepo) { // Clean components created by odo
         odo.deleteUrl("route").build().execute(cloneRepo);
-        odo.delete("nodejs").build().execute(cloneRepo);
+        odo.deleteComponent("nodejs").build().execute(cloneRepo);
     }
 
     @Test
@@ -43,8 +37,8 @@ public class CreateAndDeployNodeAppTest {
 
         // When
 
-        odo.create("nodejs").withComponentName("nodejs").build().execute(cloneRepo);
-        odo.push().build().execute(cloneRepo);
+        odo.createComponent("nodejs").withComponentName("nodejs").build().execute(cloneRepo);
+        odo.pushComponent().build().execute(cloneRepo);
         odo.createUrl().withComponentName("route").build().execute(cloneRepo);
 
         // Then
