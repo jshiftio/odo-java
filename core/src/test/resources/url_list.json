@@ -1,0 +1,21 @@
+{
+  "kind":"List",
+  "apiVersion":"odo.openshift.io/v1alpha1",
+  "metadata":{
+
+  },
+  "items":[
+    {
+      "kind":"url",
+      "apiVersion":"odo.openshift.io/v1alpha1",
+      "metadata":{
+        "name":"route",
+        "creationTimestamp":null
+      },
+      "spec":{
+        "path":"route-nodejs-ex-lgpu-myproject.192.168.64.97.nip.io",
+        "port":8080
+      }
+    }
+  ]
+}

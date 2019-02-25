@@ -1,0 +1,18 @@
+{
+  "kind":"Component",
+  "apiVersion":"odo.openshift.io/v1alpha1",
+  "metadata":{
+    "name":"nodejs",
+    "creationTimestamp":null
+  },
+  "spec":{
+    "type":"nodejs",
+    "source":"file:///private/var/folders/xd/_pglfgy97snfpv5pfd74qjtr0000gn/T/odo-test4230570567731660381/nodejs-ex",
+    "url":[
+      "route"
+    ]
+  },
+  "status":{
+    "active":true
+  }
+}

@@ -1,14 +1,22 @@
 package com.lordofthejars.odo.core.commands;
 
 import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.commands.output.Component;
+import com.lordofthejars.odo.core.commands.output.ComponentList;
+import com.lordofthejars.odo.core.commands.output.TerminalOutput;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.lordofthejars.odo.core.commands.CommandTransformer.transform;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ComponentCommandTest {
@@ -223,5 +231,119 @@ public class ComponentCommandTest {
 
         assertThat(cliCommand).containsExactlyInAnyOrder(transform("component update mycomponent --local ./target/dir"));
     }
+
+    @Test
+    public void should_execute_describe_component_command() {
+
+        // Given
+
+        final ComponentDescribeCommand componentDescribeCommand = new ComponentDescribeCommand.Builder(componentCommand, odoExecutor).build();
+
+        // When
+
+        final List<String> cliCommand = componentDescribeCommand.getCliCommand();
+
+        // Then
+
+        assertThat(cliCommand)
+            .containsExactly("component", "describe", "--output", "json");
+
+    }
+
+    @Test
+    public void should_describe_simple_component() throws IOException {
+
+        // Given
+        final List<String> simpleDescribe = Files.readAllLines(Paths.get("src/test/resources", "component_describe.json"));
+        final ComponentDescribeCommand componentDescribeCommand = new ComponentDescribeCommand.Builder(componentCommand, odoExecutor).build();
+
+        when(odoExecutor.execute(componentDescribeCommand)).thenReturn(simpleDescribe);
+
+        // When
+
+        final TerminalOutput terminalOutput = componentDescribeCommand.execute();
+
+        // Then
+
+        assertThat(terminalOutput.isSimple()).isTrue();
+
+        final Component component = terminalOutput.as(Component.class);
+
+        assertThat(component.getTypeMeta().getKind()).isEqualToIgnoringCase("Component");
+        assertThat(component.getMetadata().getName()).isEqualToIgnoringCase("nodejs");
+
+        assertThat(component.getStatus().isActive()).isTrue();
+        assertThat(component.getSpec().getType()).isEqualTo("nodejs");
+        assertThat(component.getSpec().getUrl()).containsExactlyInAnyOrder("route");
+        assertThat(component.getSpec().getSource()).isEqualTo("file:///private/var/folders/xd/_pglfgy97snfpv5pfd74qjtr0000gn/T/odo-test4230570567731660381/nodejs-ex");
+    }
+
+    @Test
+    public void should_describe_multiple_component() throws IOException {
+
+        // Given
+        final List<String> listDescribe = Files.readAllLines(Paths.get("src/test/resources", "component_list.json"));
+        final ComponentDescribeCommand componentDescribeCommand = new ComponentDescribeCommand.Builder(componentCommand, odoExecutor).build();
+
+        when(odoExecutor.execute(componentDescribeCommand)).thenReturn(listDescribe);
+
+        // When
+
+        final TerminalOutput terminalOutput = componentDescribeCommand.execute();
+
+        // Then
+
+        assertThat(terminalOutput.isList()).isTrue();
+
+        final ComponentList componentList = terminalOutput.as(ComponentList.class);
+        assertThat(componentList.getItems()).hasSize(1);
+
+        final Component component = componentList.getItems().get(0);
+
+        assertThat(component.getStatus().isActive()).isTrue();
+        assertThat(component.getSpec().getType()).isEqualTo("nodejs");
+        assertThat(component.getSpec().getUrl()).containsExactlyInAnyOrder("route");
+        assertThat(component.getSpec().getSource()).isEqualTo("file:///private/var/folders/xd/_pglfgy97snfpv5pfd74qjtr0000gn/T/odo-test4230570567731660381/nodejs-ex");
+    }
+
+    @Test
+    public void should_execute_component_list_command() {
+
+        // Given
+
+        final ComponentListCommand componentListCommand = new ComponentListCommand.Builder(componentCommand, odoExecutor).build();
+
+        // When
+
+        final List<String> cliCommand = componentListCommand.getCliCommand();
+
+        // Then
+
+        assertThat(cliCommand)
+            .containsExactly("component", "list", "--output", "json");
+
+    }
+
+    @Test
+    public void should_list_components() throws IOException {
+
+        // Given
+
+        final List<String> listDescribe = Files.readAllLines(Paths.get("src/test/resources", "component_multiple_list.json"));
+        final ComponentListCommand componentListCommand = new ComponentListCommand.Builder(componentCommand, odoExecutor).build();
+
+        when(odoExecutor.execute(componentListCommand)).thenReturn(listDescribe);
+
+        // When
+
+        final ComponentList componentList = componentListCommand.execute();
+
+        // Then
+
+        assertThat(componentList.getTypeMeta().getKind()).isEqualToIgnoringCase("List");
+        assertThat(componentList.getMetadata().getName()).isNullOrEmpty();
+        assertThat(componentList.getItems()).hasSize(2);
+    }
+
 
 }

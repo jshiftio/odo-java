@@ -1,0 +1,42 @@
+{
+  "kind":"List",
+  "apiVersion":"odo.openshift.io/v1alpha1",
+  "metadata":{
+
+  },
+  "items":[
+    {
+      "kind":"Component",
+      "apiVersion":"odo.openshift.io/v1alpha1",
+      "metadata":{
+        "name":"consumer",
+        "creationTimestamp":null
+      },
+      "spec":{
+        "type":"openjdk18",
+        "source":"file:///Users/alex/git/java-odo/e2e/link/consumer",
+        "url":[
+          "route"
+        ]
+      },
+      "status":{
+        "active":true
+      }
+    },
+    {
+      "kind":"Component",
+      "apiVersion":"odo.openshift.io/v1alpha1",
+      "metadata":{
+        "name":"provider",
+        "creationTimestamp":null
+      },
+      "spec":{
+        "type":"openjdk18",
+        "source":"file:///Users/alex/git/java-odo/e2e/link/provider"
+      },
+      "status":{
+        "active":false
+      }
+    }
+  ]
+}

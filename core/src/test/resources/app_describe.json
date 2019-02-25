@@ -1,0 +1,15 @@
+{
+  "kind":"app",
+  "apiVersion":"odo.openshift.io/v1alpha1",
+  "metadata":{
+    "name":"myapp",
+    "namespace":"myproject",
+    "creationTimestamp":null
+  },
+  "spec":{
+    "components": ["a", "b"]
+  },
+  "status":{
+    "active":true
+  }
+}

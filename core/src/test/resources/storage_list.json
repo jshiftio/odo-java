@@ -1,0 +1,24 @@
+{
+  "kind":"List",
+  "apiVersion":"odo.openshift.io/v1aplha1",
+  "metadata":{
+
+  },
+  "items":[
+    {
+      "kind":"Storage",
+      "apiVersion":"odo.openshift.io/v1alpha1",
+      "metadata":{
+        "name":"nodestorage",
+        "creationTimestamp":null
+      },
+      "spec":{
+        "size":"1Gi",
+        "path":"/opt/app-root/src/storage/"
+      },
+      "status":{
+        "mounted":true
+      }
+    }
+  ]
+}

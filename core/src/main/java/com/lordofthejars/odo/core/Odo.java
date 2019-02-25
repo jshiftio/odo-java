@@ -4,31 +4,37 @@ import com.lordofthejars.odo.api.OdoConfiguration;
 import com.lordofthejars.odo.core.commands.AppCommand;
 import com.lordofthejars.odo.core.commands.AppCreateCommand;
 import com.lordofthejars.odo.core.commands.AppDeleteCommand;
+import com.lordofthejars.odo.core.commands.AppDescribeCommand;
+import com.lordofthejars.odo.core.commands.AppListCommand;
 import com.lordofthejars.odo.core.commands.AppSetCommand;
 import com.lordofthejars.odo.core.commands.CatalogCommand;
 import com.lordofthejars.odo.core.commands.CatalogListCommand;
 import com.lordofthejars.odo.core.commands.ComponentCommand;
 import com.lordofthejars.odo.core.commands.ComponentCreateCommand;
 import com.lordofthejars.odo.core.commands.ComponentDeleteCommand;
+import com.lordofthejars.odo.core.commands.ComponentDescribeCommand;
 import com.lordofthejars.odo.core.commands.ComponentLinkCommand;
+import com.lordofthejars.odo.core.commands.ComponentListCommand;
+import com.lordofthejars.odo.core.commands.ComponentPushCommand;
+import com.lordofthejars.odo.core.commands.ComponentUnlinkCommand;
 import com.lordofthejars.odo.core.commands.ComponentUpdateCommand;
 import com.lordofthejars.odo.core.commands.ProjectCommand;
 import com.lordofthejars.odo.core.commands.ProjectCreateCommand;
 import com.lordofthejars.odo.core.commands.ProjectDeleteCommand;
 import com.lordofthejars.odo.core.commands.ProjectSetCommand;
-import com.lordofthejars.odo.core.commands.ComponentPushCommand;
 import com.lordofthejars.odo.core.commands.ServiceCommand;
 import com.lordofthejars.odo.core.commands.ServiceCreateCommand;
 import com.lordofthejars.odo.core.commands.ServiceDeleteCommand;
 import com.lordofthejars.odo.core.commands.StorageCommand;
 import com.lordofthejars.odo.core.commands.StorageCreateCommand;
 import com.lordofthejars.odo.core.commands.StorageDeleteCommand;
+import com.lordofthejars.odo.core.commands.StorageListCommand;
 import com.lordofthejars.odo.core.commands.StorageMountCommand;
 import com.lordofthejars.odo.core.commands.StorageUnmountCommand;
-import com.lordofthejars.odo.core.commands.ComponentUnlinkCommand;
 import com.lordofthejars.odo.core.commands.UrlCommand;
 import com.lordofthejars.odo.core.commands.UrlCreateCommand;
 import com.lordofthejars.odo.core.commands.UrlDeleteCommand;
+import com.lordofthejars.odo.core.commands.UrlListCommand;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -96,6 +102,16 @@ public class Odo {
         return new ComponentUnlinkCommand.Builder(componentCommand, name, this.odoExecutor);
     }
 
+    public ComponentDescribeCommand.Builder describeComponent() {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentDescribeCommand.Builder(componentCommand, odoExecutor);
+    }
+
+    public ComponentListCommand.Builder listComponents() {
+        final ComponentCommand componentCommand = new ComponentCommand.Builder().build();
+        return new ComponentListCommand.Builder(componentCommand, odoExecutor);
+    }
+
     public CatalogListCommand.Builder listCatalog(String component) {
         final CatalogCommand catalogcommand = new CatalogCommand.Builder().build();
         return new CatalogListCommand.Builder(catalogcommand, component, this.odoExecutor);
@@ -109,6 +125,16 @@ public class Odo {
     public AppDeleteCommand.Builder deleteApp(String appName) {
         final AppCommand appCommand = new AppCommand.Builder().build();
         return new AppDeleteCommand.Builder(appCommand, appName, this.odoExecutor);
+    }
+
+    public AppListCommand.Builder listApps() {
+        final AppCommand appCommand = new AppCommand.Builder().build();
+        return new AppListCommand.Builder(appCommand, this.odoExecutor);
+    }
+
+    public AppDescribeCommand.Builder describeApp() {
+        final AppCommand appCommand = new AppCommand.Builder().build();
+        return new AppDescribeCommand.Builder(appCommand, this.odoExecutor);
     }
 
     public AppSetCommand.Builder setApp(String appName) {
@@ -161,6 +187,11 @@ public class Odo {
         return new StorageUnmountCommand.Builder(storageCommand, storageName, this.odoExecutor);
     }
 
+    public StorageListCommand.Builder listStorage() {
+        final StorageCommand storageCommand = new StorageCommand.Builder().build();
+        return new StorageListCommand.Builder(storageCommand, odoExecutor);
+    }
+
     public UrlCreateCommand.Builder createUrl() {
         final UrlCommand urlCommand = new UrlCommand.Builder().build();
         return new UrlCreateCommand.Builder(urlCommand, this.odoExecutor);
@@ -169,6 +200,11 @@ public class Odo {
     public UrlDeleteCommand.Builder deleteUrl(String urlName) {
         final UrlCommand urlCommand = new UrlCommand.Builder().build();
         return new UrlDeleteCommand.Builder(urlCommand, urlName, this.odoExecutor);
+    }
+
+    public UrlListCommand.Builder listUrls() {
+        final UrlCommand urlCommand = new UrlCommand.Builder().build();
+        return new UrlListCommand.Builder(urlCommand, odoExecutor);
     }
 
 }
