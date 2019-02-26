@@ -25,7 +25,7 @@
     <assertj.version>3.10.0</assertj.version>
     <mockito.version>2.23.4</mockito.version>
     <minimaljson.version>0.9.5</minimaljson.version>
-    <junit.version>5.4.0-RC1</junit.version>
+    <junit.version>5.4.0</junit.version>
     <jgit.version>5.2.1.201812262042-r</jgit.version>
     <openshift.client.version>4.1.1</openshift.client.version>
     <servicecatalog.version>1.0.3</servicecatalog.version>
