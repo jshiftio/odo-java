@@ -35,6 +35,7 @@ import com.lordofthejars.odo.core.commands.UrlCommand;
 import com.lordofthejars.odo.core.commands.UrlCreateCommand;
 import com.lordofthejars.odo.core.commands.UrlDeleteCommand;
 import com.lordofthejars.odo.core.commands.UrlListCommand;
+import com.lordofthejars.odo.core.commands.WatchCommand;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -205,6 +206,10 @@ public class Odo {
     public UrlListCommand.Builder listUrls() {
         final UrlCommand urlCommand = new UrlCommand.Builder().build();
         return new UrlListCommand.Builder(urlCommand, odoExecutor);
+    }
+
+    public WatchCommand.Builder watch() {
+        return new WatchCommand.Builder(odoExecutor);
     }
 
 }
