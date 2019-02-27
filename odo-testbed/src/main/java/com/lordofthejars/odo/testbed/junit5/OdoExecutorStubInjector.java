@@ -1,12 +1,18 @@
 package com.lordofthejars.odo.testbed.junit5;
 
+import com.lordofthejars.odo.testbed.api.RecordOutput;
 import com.lordofthejars.odo.testbed.odo.OdoExecutorStub;
+import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-public class OdoExecutorStubInjector implements ParameterResolver {
+import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
+
+public class OdoExecutorStubInjector implements ParameterResolver, BeforeEachCallback {
 
     private OdoExecutorStub odoExecutorStub = new OdoExecutorStub();
 
@@ -20,5 +26,21 @@ public class OdoExecutorStubInjector implements ParameterResolver {
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
         throws ParameterResolutionException {
         return odoExecutorStub;
+    }
+
+    @Override
+    public void beforeEach(ExtensionContext context) throws Exception {
+
+        final Optional<AnnotatedElement> element = context.getElement();
+
+        element.ifPresent(annotatedElement -> {
+
+            if (isAnnotated(annotatedElement, RecordOutput.class)) {
+                final RecordOutput annotation = annotatedElement.getAnnotation(RecordOutput.class);
+                odoExecutorStub.recordOutput(annotation.values());
+            }
+
+        });
+
     }
 }
