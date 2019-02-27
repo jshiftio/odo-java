@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +47,7 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ComponentCreateCommand(ComponentCommand componentCommand, String componentType, OdoExecutor odoExecutor) {
+    private ComponentCreateCommand(ComponentCommand componentCommand, String componentType, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.componentType = componentType;
         this.componentCommand = componentCommand;
@@ -155,7 +155,7 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ComponentCreateCommand.Builder> {
         private ComponentCreateCommand componentCreateCommand;
 
-        public Builder(ComponentCommand componentCommand, String componentType, OdoExecutor odoExecutor) {
+        public Builder(ComponentCommand componentCommand, String componentType, CliExecutor odoExecutor) {
             this.componentCreateCommand = new ComponentCreateCommand(componentCommand, componentType, odoExecutor);
         }
 

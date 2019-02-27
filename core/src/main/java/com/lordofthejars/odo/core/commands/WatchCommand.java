@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ public class WatchCommand extends AbstractRunnableCommand<Void> {
 
     private GlobalParametersSupport globalParametersSupport;
 
-    protected WatchCommand(OdoExecutor odoExecutor) {
+    protected WatchCommand(CliExecutor odoExecutor) {
         super(odoExecutor);
     }
 
@@ -73,7 +73,7 @@ public class WatchCommand extends AbstractRunnableCommand<Void> {
 
         private WatchCommand watchCommand;
 
-        public Builder(OdoExecutor odoExecutor) {
+        public Builder(CliExecutor odoExecutor) {
             this.watchCommand = new WatchCommand(odoExecutor);
         }
 

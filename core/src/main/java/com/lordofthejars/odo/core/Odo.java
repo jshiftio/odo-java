@@ -46,7 +46,7 @@ public class Odo {
     private final OdoConfiguration odoConfiguration;
 
     private InstallManager installManager = new InstallManager();
-    private OdoExecutor odoExecutor;
+    private CliExecutor odoExecutor;
 
     protected Path odoHome;
 
@@ -60,7 +60,7 @@ public class Odo {
         odoExecutor = new OdoExecutor(this.odoHome, this.odoConfiguration);
     }
 
-    Odo(OdoExecutor odoExecutor) {
+    public Odo(CliExecutor odoExecutor) {
         this.odoConfiguration = new OdoConfiguration();
         this.odoExecutor = odoExecutor;
     }

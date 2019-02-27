@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.App;
 import com.lordofthejars.odo.core.commands.output.AppList;
 import com.lordofthejars.odo.core.commands.output.TerminalOutput;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 public class AppCommandTest {
 
     @Mock
-    private OdoExecutor odoExecutor;
+    private CliExecutor odoExecutor;
 
     private AppCommand appCommand = new AppCommand.Builder().build();
 

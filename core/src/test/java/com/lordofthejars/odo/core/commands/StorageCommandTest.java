@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.Storage;
 import com.lordofthejars.odo.core.commands.output.StorageList;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class StorageCommandTest {
 
     @Mock
-    private OdoExecutor odoExecutor;
+    private CliExecutor odoExecutor;
 
     private StorageCommand storageCommand = new StorageCommand.Builder().build();
 

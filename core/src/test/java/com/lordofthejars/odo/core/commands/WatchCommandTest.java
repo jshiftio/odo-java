@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class WatchCommandTest {
 
     @Mock
-    private OdoExecutor odoExecutor;
+    private CliExecutor odoExecutor;
 
     @Test
     public void should_exeucte_watch_command() {

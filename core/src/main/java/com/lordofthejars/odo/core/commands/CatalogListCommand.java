@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ public class CatalogListCommand extends AbstractRunnableCommand<List<String>> {
     private CatalogCommand catalogCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private CatalogListCommand(CatalogCommand catalogCommand, String command, OdoExecutor odoExecutor) {
+    private CatalogListCommand(CatalogCommand catalogCommand, String command, CliExecutor odoExecutor) {
         super(odoExecutor, CatalogListCommand::parse);
         this.command = command;
         this.catalogCommand = catalogCommand;
@@ -64,7 +64,7 @@ public class CatalogListCommand extends AbstractRunnableCommand<List<String>> {
 
         private CatalogListCommand catalogListCommand;
 
-        public Builder(CatalogCommand  catalogCommand, String command, OdoExecutor odoExecutor) {
+        public Builder(CatalogCommand  catalogCommand, String command, CliExecutor odoExecutor) {
             this.catalogListCommand = new CatalogListCommand(catalogCommand, command, odoExecutor);
         }
 

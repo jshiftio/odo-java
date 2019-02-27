@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProjectCommandTest {
 
     @Mock
-    private OdoExecutor odoExecutor;
+    private CliExecutor odoExecutor;
 
     private ProjectCommand projectCommand = new ProjectCommand.Builder().build();
 

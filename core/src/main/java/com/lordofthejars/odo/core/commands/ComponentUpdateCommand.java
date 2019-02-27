@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ComponentUpdateCommand(ComponentCommand componentCommand, OdoExecutor odoExecutor) {
+    private ComponentUpdateCommand(ComponentCommand componentCommand, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.componentCommand = componentCommand;
     }
@@ -82,7 +82,7 @@ public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
 
         private ComponentUpdateCommand componentUpdateCommand;
 
-        public Builder(ComponentCommand componentCommand, OdoExecutor odoExecutor) {
+        public Builder(ComponentCommand componentCommand, CliExecutor odoExecutor) {
             componentUpdateCommand = new ComponentUpdateCommand(componentCommand, odoExecutor);
         }
 

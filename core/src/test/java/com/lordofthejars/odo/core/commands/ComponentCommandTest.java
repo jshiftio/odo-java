@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.Component;
 import com.lordofthejars.odo.core.commands.output.ComponentList;
 import com.lordofthejars.odo.core.commands.output.TerminalOutput;
@@ -11,7 +11,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.lordofthejars.odo.core.commands.CommandTransformer.transform;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.when;
 public class ComponentCommandTest {
 
     @Mock
-    private OdoExecutor odoExecutor;
+    private CliExecutor odoExecutor;
 
     private ComponentCommand componentCommand = new ComponentCommand.Builder().build();
 

@@ -3,7 +3,7 @@ package com.lordofthejars.odo.core.commands;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.AppList;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class AppListCommand extends AbstractRunnableCommand<AppList> {
     private AppCommand appCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private AppListCommand(AppCommand appCommand, OdoExecutor odoExecutor) {
+    private AppListCommand(AppCommand appCommand, CliExecutor odoExecutor) {
         super(odoExecutor, AppListCommand::parse);
         this.appCommand = appCommand;
     }
@@ -60,7 +60,7 @@ public class AppListCommand extends AbstractRunnableCommand<AppList> {
     public static class Builder extends GlobalParametersSupport.Builder<AppListCommand.Builder> {
         private AppListCommand appListCommand;
 
-        public Builder(AppCommand componentCommand, OdoExecutor odoExecutor) {
+        public Builder(AppCommand componentCommand, CliExecutor odoExecutor) {
             this.appListCommand = new AppListCommand(componentCommand, odoExecutor);
         }
 

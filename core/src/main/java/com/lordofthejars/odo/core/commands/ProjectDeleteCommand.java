@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class ProjectDeleteCommand extends AbstractRunnableCommand<Void> {
 
     private ProjectCommand projectCommand;
 
-    private ProjectDeleteCommand(ProjectCommand projectCommand, String projectName, OdoExecutor odoExecutor) {
+    private ProjectDeleteCommand(ProjectCommand projectCommand, String projectName, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.projectName = projectName;
         this.projectCommand = projectCommand;
@@ -44,7 +44,7 @@ public class ProjectDeleteCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ProjectDeleteCommand.Builder> {
         private ProjectDeleteCommand projectDeleteCommand;
 
-        public Builder(ProjectCommand projectCommand, String projectName, OdoExecutor odoExeuctor) {
+        public Builder(ProjectCommand projectCommand, String projectName, CliExecutor odoExeuctor) {
             this.projectDeleteCommand = new ProjectDeleteCommand(projectCommand, projectName, odoExeuctor);
         }
 

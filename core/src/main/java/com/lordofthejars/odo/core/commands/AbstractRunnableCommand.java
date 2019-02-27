@@ -2,21 +2,21 @@ package com.lordofthejars.odo.core.commands;
 
 import com.lordofthejars.odo.api.Command;
 import com.lordofthejars.odo.api.RunnableCommand;
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Function;
 
 public abstract class AbstractRunnableCommand<RETURNTYPE> implements RunnableCommand<RETURNTYPE>, Command {
 
-    protected OdoExecutor odoExecutor;
+    protected CliExecutor odoExecutor;
     protected Function<List<String>, RETURNTYPE> parse;
 
-    protected AbstractRunnableCommand(final OdoExecutor odoExecutor) {
+    protected AbstractRunnableCommand(final CliExecutor odoExecutor) {
         this.odoExecutor = odoExecutor;
     }
 
-    protected AbstractRunnableCommand(final OdoExecutor odoExecutor, Function<List<String>, RETURNTYPE> parse) {
+    protected AbstractRunnableCommand(final CliExecutor odoExecutor, Function<List<String>, RETURNTYPE> parse) {
         this.odoExecutor = odoExecutor;
         this.parse = parse;
     }

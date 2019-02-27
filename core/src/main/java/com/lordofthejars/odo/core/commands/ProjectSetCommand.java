@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class ProjectSetCommand extends AbstractRunnableCommand<Void> {
     private ProjectCommand projectCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ProjectSetCommand(ProjectCommand projectCommand, String projectName, OdoExecutor odoExecutor) {
+    private ProjectSetCommand(ProjectCommand projectCommand, String projectName, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.projectCommand = projectCommand;
         this.projectName = projectName;
@@ -45,7 +45,7 @@ public class ProjectSetCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ProjectSetCommand.Builder> {
         private ProjectSetCommand projectSetCommand;
 
-        public Builder(ProjectCommand projectCommand, String projectName, OdoExecutor odoExecutor) {
+        public Builder(ProjectCommand projectCommand, String projectName, CliExecutor odoExecutor) {
             projectSetCommand = new ProjectSetCommand(projectCommand, projectName, odoExecutor);
         }
 

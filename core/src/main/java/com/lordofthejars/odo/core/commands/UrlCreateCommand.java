@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
     private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private UrlCreateCommand(UrlCommand urlCommand, OdoExecutor odoExecutor){
+    private UrlCreateCommand(UrlCommand urlCommand, CliExecutor odoExecutor){
         super(odoExecutor);
         this.urlCommand = urlCommand;
     }
@@ -77,7 +77,7 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<UrlCreateCommand.Builder> {
         private UrlCreateCommand urlCreateCommand;
 
-        public Builder(UrlCommand urlCommand, OdoExecutor odoExecutor) {
+        public Builder(UrlCommand urlCommand, CliExecutor odoExecutor) {
             this.urlCreateCommand = new UrlCreateCommand(urlCommand, odoExecutor);
         }
 

@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class AppCreateCommand extends AbstractRunnableCommand<Void> {
     private AppCommand appCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private AppCreateCommand(AppCommand appCommand, OdoExecutor odoExecutor){
+    private AppCreateCommand(AppCommand appCommand, CliExecutor odoExecutor){
         super(odoExecutor);
         this.appCommand = appCommand;
     }
@@ -48,7 +48,7 @@ public class AppCreateCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<AppCreateCommand.Builder> {
         private AppCreateCommand appCreateCommand;
 
-        public Builder(AppCommand appCommand, OdoExecutor odoExecutor) {
+        public Builder(AppCommand appCommand, CliExecutor odoExecutor) {
             this.appCreateCommand = new AppCreateCommand(appCommand, odoExecutor);
         }
 

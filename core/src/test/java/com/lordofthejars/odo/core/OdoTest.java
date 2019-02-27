@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 public class OdoTest {
 
     @Mock
-    OdoExecutor odoExecutor;
+    CliExecutor odoExecutor;
 
     @Test
     public void should_create_deployment() {

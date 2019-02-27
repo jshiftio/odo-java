@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class StorageDeleteCommand extends AbstractRunnableCommand<Void> {
     private StorageCommand storageCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private StorageDeleteCommand(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+    private StorageDeleteCommand(StorageCommand storageCommand, String storageName, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.storageName = storageName;
         this.storageCommand = storageCommand;
@@ -69,7 +69,7 @@ public class StorageDeleteCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<StorageDeleteCommand.Builder> {
         private StorageDeleteCommand storageDeleteCommand;
 
-        public Builder(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+        public Builder(StorageCommand storageCommand, String storageName, CliExecutor odoExecutor) {
             this.storageDeleteCommand = new StorageDeleteCommand(storageCommand, storageName, odoExecutor);
         }
 

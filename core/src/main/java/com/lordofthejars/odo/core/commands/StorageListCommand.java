@@ -3,7 +3,7 @@ package com.lordofthejars.odo.core.commands;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.StorageList;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class StorageListCommand extends AbstractRunnableCommand<StorageList> {
     private StorageCommand storageCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private StorageListCommand(StorageCommand storageCommand, OdoExecutor odoExecutor) {
+    private StorageListCommand(StorageCommand storageCommand, CliExecutor odoExecutor) {
         super(odoExecutor, StorageListCommand::parse);
         this.storageCommand = storageCommand;
     }
@@ -81,7 +81,7 @@ public class StorageListCommand extends AbstractRunnableCommand<StorageList> {
     public static class Builder extends GlobalParametersSupport.Builder<StorageListCommand.Builder> {
         private StorageListCommand storageListCommand;
 
-        public Builder(StorageCommand storageCommand, OdoExecutor odoExecutor) {
+        public Builder(StorageCommand storageCommand, CliExecutor odoExecutor) {
             this.storageListCommand = new StorageListCommand(storageCommand, odoExecutor);
         }
 

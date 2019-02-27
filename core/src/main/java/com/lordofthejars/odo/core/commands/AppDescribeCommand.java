@@ -3,7 +3,7 @@ package com.lordofthejars.odo.core.commands;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.App;
 import com.lordofthejars.odo.core.commands.output.AppList;
 import com.lordofthejars.odo.core.commands.output.TerminalOutput;
@@ -25,7 +25,7 @@ public class AppDescribeCommand extends AbstractRunnableCommand<TerminalOutput> 
     private AppCommand appCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private AppDescribeCommand(AppCommand appCommand, OdoExecutor odoExecutor) {
+    private AppDescribeCommand(AppCommand appCommand, CliExecutor odoExecutor) {
         super(odoExecutor, AppDescribeCommand::parse);
         this.appCommand = appCommand;
     }
@@ -75,7 +75,7 @@ public class AppDescribeCommand extends AbstractRunnableCommand<TerminalOutput> 
     public static class Builder extends GlobalParametersSupport.Builder<AppDescribeCommand.Builder> {
         private AppDescribeCommand appDescribeCommand;
 
-        public Builder(AppCommand appCommand, OdoExecutor odoExecutor) {
+        public Builder(AppCommand appCommand, CliExecutor odoExecutor) {
             this.appDescribeCommand = new AppDescribeCommand(appCommand, odoExecutor);
         }
 

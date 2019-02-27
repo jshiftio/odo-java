@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    protected ComponentUnlinkCommand(ComponentCommand componentCommand, String name, OdoExecutor odoExecutor) {
+    protected ComponentUnlinkCommand(ComponentCommand componentCommand, String name, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.name = name;
         this.componentCommand = componentCommand;
@@ -69,7 +69,7 @@ public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
 
         private ComponentUnlinkCommand componentUnlinkCommand;
 
-        public Builder(ComponentCommand componentCommand, String name, OdoExecutor odoExecutor) {
+        public Builder(ComponentCommand componentCommand, String name, CliExecutor odoExecutor) {
             componentUnlinkCommand = new ComponentUnlinkCommand(componentCommand, name, odoExecutor);
         }
 

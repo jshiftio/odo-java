@@ -3,7 +3,7 @@ package com.lordofthejars.odo.core.commands;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.UrlList;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
     private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private UrlListCommand(UrlCommand urlCommand, OdoExecutor odoExecutor) {
+    private UrlListCommand(UrlCommand urlCommand, CliExecutor odoExecutor) {
         super(odoExecutor, UrlListCommand::parse);
         this.urlCommand = urlCommand;
     }
@@ -74,7 +74,7 @@ public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
     public static class Builder extends GlobalParametersSupport.Builder<UrlListCommand.Builder> {
         private UrlListCommand urlListCommand;
 
-        public Builder(UrlCommand urlCommand, OdoExecutor odoExecutor) {
+        public Builder(UrlCommand urlCommand, CliExecutor odoExecutor) {
             this.urlListCommand = new UrlListCommand(urlCommand, odoExecutor);
         }
 

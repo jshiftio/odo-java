@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class AppDeleteCommand extends AbstractRunnableCommand<Void> {
     private AppCommand appCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private AppDeleteCommand(AppCommand appCommand, String appName, OdoExecutor odoExecutor){
+    private AppDeleteCommand(AppCommand appCommand, String appName, CliExecutor odoExecutor){
         super(odoExecutor);
         this.appName = appName;
         this.appCommand = appCommand;
@@ -53,7 +53,7 @@ public class AppDeleteCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<AppDeleteCommand.Builder> {
         private AppDeleteCommand appDeleteCommand;
 
-        public Builder(AppCommand appCommand, String appName, OdoExecutor odoExecutor) {
+        public Builder(AppCommand appCommand, String appName, CliExecutor odoExecutor) {
             this.appDeleteCommand = new AppDeleteCommand(appCommand, appName, odoExecutor);
         }
 

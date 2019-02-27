@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ public class ServiceCreateCommand extends AbstractRunnableCommand<Void> {
     private ServiceCommand serviceCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ServiceCreateCommand(ServiceCommand serviceCommand, String serviceType, String plan, OdoExecutor odoExecutor) {
+    private ServiceCreateCommand(ServiceCommand serviceCommand, String serviceType, String plan, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.serviceType= serviceType;
         this.planName = plan;
@@ -77,7 +77,7 @@ public class ServiceCreateCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ServiceCreateCommand.Builder> {
         private ServiceCreateCommand serviceCreateCommand;
 
-        public Builder(ServiceCommand serviceCommand, String serviceType, String plan, OdoExecutor odoExecutor) {
+        public Builder(ServiceCommand serviceCommand, String serviceType, String plan, CliExecutor odoExecutor) {
             this.serviceCreateCommand = new ServiceCreateCommand(serviceCommand, serviceType, plan, odoExecutor);
         }
 

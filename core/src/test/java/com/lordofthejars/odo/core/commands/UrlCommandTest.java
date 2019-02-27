@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.Url;
 import com.lordofthejars.odo.core.commands.output.UrlList;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class UrlCommandTest {
 
     @Mock
-    OdoExecutor odoExecutor;
+    CliExecutor odoExecutor;
 
     private UrlCommand urlCommand = new UrlCommand.Builder().build();
 

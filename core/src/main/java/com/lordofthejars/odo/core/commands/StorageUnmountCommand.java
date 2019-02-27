@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class StorageUnmountCommand extends AbstractRunnableCommand<Void> {
     private StorageCommand storageCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private StorageUnmountCommand(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+    private StorageUnmountCommand(StorageCommand storageCommand, String storageName, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.storageCommand = storageCommand;
         this.storageName = storageName;
@@ -62,7 +62,7 @@ public class StorageUnmountCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<StorageUnmountCommand.Builder> {
         private StorageUnmountCommand storageUnmountCommand;
 
-        public Builder(StorageCommand storageCommand, String storageName, OdoExecutor odoExecutor) {
+        public Builder(StorageCommand storageCommand, String storageName, CliExecutor odoExecutor) {
             storageUnmountCommand = new StorageUnmountCommand(storageCommand, storageName, odoExecutor);
         }
 

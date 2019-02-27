@@ -1,7 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.api.Command;
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class UrlDeleteCommand extends AbstractRunnableCommand<Void> {
     private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private UrlDeleteCommand(UrlCommand urlCommand, String urlName, OdoExecutor odoExecutor) {
+    private UrlDeleteCommand(UrlCommand urlCommand, String urlName, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.urlName = urlName;
         this.urlCommand = urlCommand;
@@ -69,7 +68,7 @@ public class UrlDeleteCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<UrlDeleteCommand.Builder> {
         private UrlDeleteCommand urlDeleteCommand;
 
-        public Builder(UrlCommand urlCommand, String urlName, OdoExecutor odoExecutor) {
+        public Builder(UrlCommand urlCommand, String urlName, CliExecutor odoExecutor) {
             this.urlDeleteCommand = new UrlDeleteCommand(urlCommand, urlName, odoExecutor);
         }
 

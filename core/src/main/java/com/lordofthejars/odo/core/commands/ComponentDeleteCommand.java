@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ComponentDeleteCommand extends AbstractRunnableCommand<Void> {
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ComponentDeleteCommand(ComponentCommand componentCommand, String componentName, OdoExecutor odoExecutor){
+    private ComponentDeleteCommand(ComponentCommand componentCommand, String componentName, CliExecutor odoExecutor){
         super(odoExecutor);
         this.componentName = componentName;
         this.componentCommand = componentCommand;
@@ -60,7 +60,7 @@ public class ComponentDeleteCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ComponentDeleteCommand.Builder> {
         private ComponentDeleteCommand urComponentDeleteCommand;
 
-        public Builder(ComponentCommand componentCommand, String componentName, OdoExecutor odoExecutor) {
+        public Builder(ComponentCommand componentCommand, String componentName, CliExecutor odoExecutor) {
             this.urComponentDeleteCommand = new ComponentDeleteCommand(componentCommand, componentName, odoExecutor);
         }
 

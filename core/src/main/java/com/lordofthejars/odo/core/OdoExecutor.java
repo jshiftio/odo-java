@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import org.zeroturnaround.exec.InvalidExitValueException;
 import org.zeroturnaround.exec.ProcessExecutor;
 
-public class OdoExecutor {
+public class OdoExecutor implements CliExecutor {
 
     private static final Logger logger = Logger.getLogger(OdoExecutor.class.getName());
 
@@ -29,10 +29,12 @@ public class OdoExecutor {
         this.odoConfiguration = odoConfiguration;
     }
 
+    @Override
     public List<String> execute(Command command) {
         return this.execute(odoHome.getParent(), command);
     }
 
+    @Override
     public List<String> execute(Path directory, Command command) {
 
         validateInput(this.odoHome, directory);

@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ComponentPushCommand(ComponentCommand componentCommand, OdoExecutor odoExecutor){
+    private ComponentPushCommand(ComponentCommand componentCommand, CliExecutor odoExecutor){
         super(odoExecutor);
         this.componentCommand = componentCommand;
     }
@@ -63,7 +63,7 @@ public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ComponentPushCommand.Builder> {
         private ComponentPushCommand componentPushCommand;
 
-        public Builder(ComponentCommand componentCommand, OdoExecutor odoExecutor) {
+        public Builder(ComponentCommand componentCommand, CliExecutor odoExecutor) {
             this.componentPushCommand = new ComponentPushCommand(componentCommand, odoExecutor);
         }
 

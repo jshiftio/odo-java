@@ -1,6 +1,6 @@
 package com.lordofthejars.odo.core.commands;
 
-import com.lordofthejars.odo.core.OdoExecutor;
+import com.lordofthejars.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ServiceDeleteCommand extends AbstractRunnableCommand<Void> {
     private ServiceCommand serviceCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private ServiceDeleteCommand(ServiceCommand serviceCommand, String serviceName, OdoExecutor odoExecutor) {
+    private ServiceDeleteCommand(ServiceCommand serviceCommand, String serviceName, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.serviceNme = serviceName;
         this.serviceCommand = serviceCommand;
@@ -60,7 +60,7 @@ public class ServiceDeleteCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ServiceDeleteCommand.Builder> {
         private ServiceDeleteCommand serviceDeleteCommand;
 
-        public Builder(ServiceCommand serviceCommand, String serviceName, OdoExecutor odoExecutor) {
+        public Builder(ServiceCommand serviceCommand, String serviceName, CliExecutor odoExecutor) {
             this.serviceDeleteCommand = new ServiceDeleteCommand(serviceCommand, serviceName, odoExecutor);
         }
 
