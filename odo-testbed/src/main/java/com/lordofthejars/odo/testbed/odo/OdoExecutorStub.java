@@ -40,6 +40,10 @@ public class OdoExecutorStub implements CliExecutor {
         return command + " " + String.join(" ", commands);
     }
 
+    public void cleanOutput() {
+        executedCommands.clear();
+    }
+
     @Override
     public List<String> execute(Path directory, Command command) {
         return execute(command);

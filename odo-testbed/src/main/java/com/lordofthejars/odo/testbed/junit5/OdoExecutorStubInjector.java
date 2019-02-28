@@ -4,6 +4,7 @@ import com.lordofthejars.odo.testbed.api.RecordOutput;
 import com.lordofthejars.odo.testbed.odo.OdoExecutorStub;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Optional;
+import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 
 import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
 
-public class OdoExecutorStubInjector implements ParameterResolver, BeforeEachCallback {
+public class OdoExecutorStubInjector implements ParameterResolver, BeforeEachCallback, AfterEachCallback {
 
     private OdoExecutorStub odoExecutorStub = new OdoExecutorStub();
 
@@ -42,5 +43,10 @@ public class OdoExecutorStubInjector implements ParameterResolver, BeforeEachCal
 
         });
 
+    }
+
+    @Override
+    public void afterEach(ExtensionContext context) {
+        odoExecutorStub.cleanOutput();
     }
 }
