@@ -15,12 +15,14 @@ public class ServiceCreateCommand extends AbstractRunnableCommand<Void> {
     private static final String PLAN = "--plan";
     private static final String PROJECT = "--project";
     private static final String APP = "--app";
+    private static final String WAIT = "--wait";
     private static final String PARAMETERS = "-p";
 
 
     private String serviceName;
     private String app;
     private String project;
+    private Boolean wait;
     private List<String> parameters;
 
     private ServiceCommand serviceCommand;
@@ -59,6 +61,10 @@ public class ServiceCreateCommand extends AbstractRunnableCommand<Void> {
             arguments.add(project);
         }
 
+        if (wait != null && wait.booleanValue()) {
+            arguments.add(WAIT);
+        }
+
         if (parameters != null && !parameters.isEmpty()) {
 
             for (String param : parameters) {
@@ -93,6 +99,11 @@ public class ServiceCreateCommand extends AbstractRunnableCommand<Void> {
 
         public ServiceCreateCommand.Builder withProject(String project) {
             this.serviceCreateCommand.project = project;
+            return this;
+        }
+
+        public ServiceCreateCommand.Builder withWait() {
+            this.serviceCreateCommand.wait = Boolean.TRUE;
             return this;
         }
 

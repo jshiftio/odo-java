@@ -42,6 +42,7 @@ public class CreateServicesFromCatalogTest {
             .withParameters("postgresql_user=luke",
                 "postgresql_password=secret",
                 "postgresql_database=my_data", "postgresql_version=9.6")
+            .withWait()
             .build()
             .execute();
 

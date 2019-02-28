@@ -44,7 +44,7 @@ public class CreateAndDeployConsumerProviderTest {
 
     @Test
     public void should_create_deploy_and_link_components(OpenShiftOperation openShiftOperation)
-        throws InterruptedException, IOException {
+        throws IOException {
 
         // Given // When
 
@@ -77,7 +77,7 @@ public class CreateAndDeployConsumerProviderTest {
         // TODO wait flag has a bug and currently does not work, to not complicate anything now I just put an sleep
         // When bug fixed then we could remove this sleep.
 
-        TimeUnit.SECONDS.sleep(25);
+        //TimeUnit.SECONDS.sleep(25);
 
         final SimpleHttpClient simpleHttpClient = new SimpleHttpClient(exposedRoute.get());
         final String read = simpleHttpClient.read();

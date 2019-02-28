@@ -15,12 +15,14 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
     private static final String PORT = "--port";
     private static final String PROJECT = "--project";
     private static final String WAIT = "--wait";
+    private static final String WAIT_FOR_TARGET = "--wait-for-target";
 
     private String app;
     private String component;
     private String port;
     private String project;
     private Boolean wait;
+    private Boolean waitForTarget;
 
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
@@ -65,6 +67,10 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
             arguments.add(WAIT);
         }
 
+        if (waitForTarget != null && waitForTarget.booleanValue()) {
+            arguments.add(WAIT_FOR_TARGET);
+        }
+
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
@@ -102,6 +108,11 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
 
         public ComponentLinkCommand.Builder withWait() {
             componentLinkCommand.wait = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentLinkCommand.Builder withWaitForTarget() {
+            componentLinkCommand.waitForTarget = Boolean.TRUE;
             return this;
         }
 
