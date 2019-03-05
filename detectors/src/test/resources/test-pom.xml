@@ -1,0 +1,33 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fabric8-maven-sample-spring-boot</artifactId>
+    <groupId>io.fabric8</groupId>
+    <version>4.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Fabric8 Maven :: Sample :: Spring Boot Web</name>
+    <description>Minimal Example with Spring Boot</description>
+
+    <dependencies>
+
+        <!-- Boot generator  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jolokia</groupId>
+            <artifactId>jolokia-core</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>
