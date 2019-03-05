@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
 @Mojo(name = "create-service")
-public class OdoCreateServiceMojo extends AbstractMojo {
+public class OdoServiceCreateMojo extends AbstractMojo {
 
     private static final String PREFIX = "s";
 
@@ -49,6 +49,6 @@ public class OdoCreateServiceMojo extends AbstractMojo {
                 .build();
 
         injectFields(serviceCreateCommand, createService, logger);
-        serviceCreateCommand.execute();
+        serviceCreateCommand.execute(project.getBasedir().toPath());
     }
 }
