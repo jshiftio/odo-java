@@ -1,6 +1,0 @@
-language: java
-os:
-  - linux
-install: ./scripts/prepare_test_environment.sh
-script:
-- mvn clean install 

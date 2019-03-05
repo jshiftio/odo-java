@@ -37,7 +37,6 @@
     <module>core</module>
     <module>odo-binary</module>
     <module>odo-testbed</module>
-    <module>ftest-core</module>
     <module>detectors</module>
     <module>odo-maven-plugin</module>
   </modules>
@@ -142,5 +141,13 @@
       </plugins>
     </pluginManagement>
   </build>
+  <profiles>
+    <profile>
+      <id>itest-openshift</id>
+      <modules>
+        <module>ftest-core</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
 
