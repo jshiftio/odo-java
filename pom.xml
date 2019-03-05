@@ -38,6 +38,7 @@
     <module>odo-binary</module>
     <module>odo-testbed</module>
     <module>ftest-core</module>
+      <module>odo-maven-plugin</module>
   </modules>
 
   <dependencyManagement>
