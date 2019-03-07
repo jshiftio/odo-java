@@ -1,11 +1,9 @@
 package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
-import com.lordofthejars.odo.core.commands.ComponentCreateCommand;
+import com.lordofthejars.odo.core.commands.ComponentDeleteCommand;
 import com.lordofthejars.odo.maven.util.MavenArtifactsUtil;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
@@ -15,9 +13,8 @@ import java.util.logging.Logger;
 
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
-@Mojo(name = "create-component")
-public class OdoComponentCreateMojo extends AbstractMojo {
-
+@Mojo(name = "delete-component")
+public class OdoComponentDeleteMojo extends AbstractMojo {
     private static final String PREFIX = "s";
 
     protected Odo odo = null;
@@ -32,23 +29,26 @@ public class OdoComponentCreateMojo extends AbstractMojo {
     protected String componentType;
 
     @Parameter
-    protected Map<String, String> createComponent;
+    protected Map<String, String> deleteComponent;
 
     @Parameter
-    protected String artifactId;
+    protected String app;
+
+    @Parameter(defaultValue = "false")
+    protected Boolean forceDeletion = false;
 
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() {
         if(odo == null) {
             odo = new Odo();
         }
-        ComponentCreateCommand componentCreateCommand = odo.createComponent(componentType)
-                .withComponentName(artifactId != null ? artifactId : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
-                .withLocal(project.getBasedir().getAbsolutePath())
+
+        ComponentDeleteCommand componentDeleteCommand = odo.deleteComponent(componentType)
+                .withApp(app != null ? app : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
+                .withForce(forceDeletion)
                 .build();
+        injectFields(componentDeleteCommand, deleteComponent, logger);
 
-        injectFields(componentCreateCommand, createComponent, logger);
-        componentCreateCommand.execute();
+        componentDeleteCommand.execute();
     }
-
 }

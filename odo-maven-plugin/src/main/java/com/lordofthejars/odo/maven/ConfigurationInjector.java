@@ -1,13 +1,16 @@
 package com.lordofthejars.odo.maven;
 
+import com.lordofthejars.odo.core.commands.AbstractRunnableCommand;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ConfigurationInjector {
-    public static void copy(Object command, Class<?> c, Map.Entry<String, String> entry) {
+    private static void copy(Object command, Class<?> c, Map.Entry<String, String> entry) {
         try {
             Field field = c.getDeclaredField(entry.getKey());
             field.setAccessible(true);
@@ -28,5 +31,18 @@ public class ConfigurationInjector {
             throw new IllegalStateException(String.format("Configuration parameter %s is invalid" +
                     " Configuration parameters %s are valid", entry.getKey(), Arrays.toString(c.getFields())));
         }
+    }
+
+    public static void injectFields(AbstractRunnableCommand<Void> command, Map<String, String> config, Logger logger) {
+        if (config != null) {
+            Class<?> c = command.getClass();
+            for (Map.Entry<String, String> entry : config.entrySet()) {
+                try {
+                    copy(command, c, entry);
+                } catch (IllegalStateException exception) {
+                    logger.warning(exception.getMessage());
+                }
+            }
+        };
     }
 }
