@@ -18,8 +18,10 @@ public class ConfigurationInjector {
                 field.setInt(command, Integer.parseInt(entry.getValue()));
             } else if (field.getType().equals(Integer.class)) {
                 field.set(command, Integer.valueOf(Integer.parseInt(entry.getValue())));
-            } else if (field.getType().equals(Boolean.class)) {
+            } else if (field.getType().equals(boolean.class)) {
                 field.setBoolean(command, Boolean.parseBoolean(entry.getValue()));
+            } else if (field.getType().equals(Boolean.class)) {
+                field.set(command, Boolean.valueOf(Boolean.parseBoolean(entry.getValue())));
             }
             else if (field.getType().equals(List.class)) {
                 field.set(command, Arrays.stream(entry.getValue()
