@@ -14,8 +14,10 @@ public class ConfigurationInjector {
         try {
             Field field = c.getDeclaredField(entry.getKey());
             field.setAccessible(true);
-            if (field.getType().equals(Integer.class)) {
-                field.setLong(command, Integer.parseInt(entry.getValue()));
+            if (field.getType().equals(int.class)) {
+                field.setInt(command, Integer.parseInt(entry.getValue()));
+            } else if (field.getType().equals(Integer.class)) {
+                field.set(command, Integer.valueOf(Integer.parseInt(entry.getValue())));
             } else if (field.getType().equals(Boolean.class)) {
                 field.setBoolean(command, Boolean.parseBoolean(entry.getValue()));
             }
