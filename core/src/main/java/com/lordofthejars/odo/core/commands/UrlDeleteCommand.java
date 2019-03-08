@@ -9,17 +9,6 @@ public class UrlDeleteCommand extends AbstractRunnableCommand<Void> {
     private static final String COMMAND_NAME = "delete";
 
     private String urlName;
-
-    private static final String APP = "--app";
-    private static final String COMPONENT = "--component";
-    private static final String PROJECT = "--project";
-    private static final String FORCE = "--force";
-
-    private String app;
-    private String component;
-    private String project;
-    private Boolean force = Boolean.TRUE;
-
     private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
@@ -39,25 +28,6 @@ public class UrlDeleteCommand extends AbstractRunnableCommand<Void> {
 
         arguments.add(urlName);
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
-
-        if (component != null) {
-            arguments.add(COMPONENT);
-            arguments.add(component);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
-        }
-
-        if (force != null && force.booleanValue()) {
-            arguments.add(FORCE);
-        }
-
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
@@ -72,30 +42,9 @@ public class UrlDeleteCommand extends AbstractRunnableCommand<Void> {
             this.urlDeleteCommand = new UrlDeleteCommand(urlCommand, urlName, odoExecutor);
         }
 
-        public UrlDeleteCommand.Builder withApp(String app) {
-            this.urlDeleteCommand.app = app;
-            return this;
-        }
-
-        public UrlDeleteCommand.Builder withProject(String project) {
-            this.urlDeleteCommand.project = project;
-            return this;
-        }
-
-        public UrlDeleteCommand.Builder withComponent(String component) {
-            this.urlDeleteCommand.component = component;
-            return this;
-        }
-
-        public UrlDeleteCommand.Builder withForce(boolean force) {
-            this.urlDeleteCommand.force = force;
-            return this;
-        }
-
         public UrlDeleteCommand build() {
             urlDeleteCommand.globalParametersSupport =  buildGlobalParameters();
             return urlDeleteCommand;
         }
-
     }
 }
