@@ -12,16 +12,6 @@ public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
 
     private static final String COMMAND_NAME = "list";
 
-    private static final String APP = "--app";
-    private static final String PROJECT = "--project";
-    private static final String OUTPUT = "--output";
-    private static final String COMPONENT = "--component";
-    private static final String DEFAULT_FORMAT = "json";
-
-    private String app;
-    private String project;
-    private String component;
-
     private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
@@ -37,25 +27,6 @@ public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
         arguments.addAll(urlCommand.getCliCommand());
 
         arguments.add(COMMAND_NAME);
-
-        if (component != null) {
-            arguments.add(COMPONENT);
-            arguments.add(component);
-        }
-
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
-        }
-
-        arguments.add(OUTPUT);
-        arguments.add(DEFAULT_FORMAT);
-
         if (this.globalParametersSupport != null) {
             arguments.addAll(this.globalParametersSupport.getCliCommand());
         }
@@ -65,6 +36,8 @@ public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
 
     protected static UrlList parse(List<String> consoleOutput) {
         final String output = String.join(" ", consoleOutput.toArray(new String[consoleOutput.size()]));
+
+        if (output.length() == 0) return null;
         final JsonValue outputJson = Json.parse(output);
 
         final JsonObject urlJson = outputJson.asObject();
@@ -76,21 +49,6 @@ public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
 
         public Builder(UrlCommand urlCommand, CliExecutor odoExecutor) {
             this.urlListCommand = new UrlListCommand(urlCommand, odoExecutor);
-        }
-
-        public UrlListCommand.Builder withApp(String app) {
-            this.urlListCommand.app = app;
-            return this;
-        }
-
-        public UrlListCommand.Builder withProject(String project) {
-            this.urlListCommand.project = project;
-            return this;
-        }
-
-        public UrlListCommand.Builder withComponent(String component) {
-            this.urlListCommand.component = component;
-            return this;
         }
 
         public UrlListCommand build() {
