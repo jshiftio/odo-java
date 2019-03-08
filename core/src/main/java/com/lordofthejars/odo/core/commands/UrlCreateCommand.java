@@ -8,18 +8,12 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "create";
 
-    private String componentName;
+    private String urlName;
 
-    private static final String APP = "--app";
     private static final String COMPONENT = "--component";
-    private static final String PROJECT = "--project";
-    private static final String OPEN = "--open";
     private static final String PORT = "--port";
 
-    private String app;
     private String component;
-    private String project;
-    private Boolean open;
     private Integer port;
 
     private UrlCommand urlCommand;
@@ -39,27 +33,13 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
 
         arguments.add(COMMAND_NAME);
 
-        if (componentName != null) {
-            arguments.add(componentName);
-        }
-
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
+        if (urlName != null) {
+            arguments.add(urlName);
         }
 
         if (component != null) {
             arguments.add(COMPONENT);
             arguments.add(component);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
-        }
-
-        if (open != null && open.booleanValue()) {
-            arguments.add(OPEN);
         }
 
         if (port != null) {
@@ -81,18 +61,8 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
             this.urlCreateCommand = new UrlCreateCommand(urlCommand, odoExecutor);
         }
 
-        public UrlCreateCommand.Builder withComponentName(String componentName) {
-            this.urlCreateCommand.componentName = componentName;
-            return this;
-        }
-
-        public UrlCreateCommand.Builder withApp(String app) {
-            this.urlCreateCommand.app = app;
-            return this;
-        }
-
-        public UrlCreateCommand.Builder withProject(String project) {
-            this.urlCreateCommand.project = project;
+        public UrlCreateCommand.Builder withName(String urlName) {
+            this.urlCreateCommand.urlName = urlName;
             return this;
         }
 
@@ -103,11 +73,6 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
 
         public UrlCreateCommand.Builder withPort(Integer port) {
             this.urlCreateCommand.port = port;
-            return this;
-        }
-
-        public UrlCreateCommand.Builder withOpen() {
-            this.urlCreateCommand.open = Boolean.TRUE;
             return this;
         }
 
