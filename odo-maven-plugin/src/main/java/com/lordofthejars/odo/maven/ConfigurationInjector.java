@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ConfigurationInjector {
-    private static void copy(Object command, Class<?> c, Map.Entry<String, String> entry) {
+    public static void copy(Object command, Class<?> c, Map.Entry<String, String> entry) {
         try {
             Field field = c.getDeclaredField(entry.getKey());
             field.setAccessible(true);
