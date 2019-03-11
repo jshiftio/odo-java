@@ -1,9 +1,12 @@
 package com.lordofthejars.odo.detectors.extractor;
 
-import java.util.List;
+import com.lordofthejars.odo.detectors.util.Packaging;
+import java.nio.file.Path;
+import java.util.Set;
 
 public interface Extractor {
-    String extractTypeOfProject();
+    Packaging extractTypeOfProject();
     String extractArtifactId();
-    List<Dependency> extractDependencies();
+    Set<Dependency> extractDependencies();
+    Path workingDirectory();
 }

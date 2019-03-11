@@ -10,7 +10,7 @@ public class WildflyDetector extends ComponentDetector {
 
     @Override
     public boolean detect() {
-        if (Packaging.valueOf(extractor.extractTypeOfProject()) == Packaging.WAR) {
+        if (extractor.extractTypeOfProject() == Packaging.WAR) {
             return true;
         }
 
@@ -18,8 +18,16 @@ public class WildflyDetector extends ComponentDetector {
     }
 
     @Override
-    public void apply() {
-        this.odo.createComponent("wildfly").withComponentName(getArtifactName()).withWait().build().execute();
-        odo.pushComponent().build().execute();
+    public String apply() {
+        final String componentName = getArtifactName();
+        this.odo.createComponent("wildfly")
+            .withComponentName(componentName)
+            .withWait().build()
+            .execute();
+
+        odo.pushComponent().build()
+            .execute(extractor.workingDirectory());
+
+        return componentName;
     }
 }

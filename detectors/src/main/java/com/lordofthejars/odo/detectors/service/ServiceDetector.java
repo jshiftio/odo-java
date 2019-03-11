@@ -11,16 +11,13 @@ public abstract class ServiceDetector extends BaseDetector {
         super();
     }
 
+    @Override
     public DetectorType getType() {
         return DetectorType.SERVICE;
     }
 
-    protected boolean findWordInDependencies(String s) {
-        List<Dependency> deps = extractor.extractDependencies();
-        for (Dependency dep : deps) {
-            if (dep.depName().toLowerCase().startsWith(s)) return true;
-        }
-        return false;
+    protected boolean isDependencyRegistered(Dependency dependency) {
+        return extractor.extractDependencies().contains(dependency);
     }
 
 }

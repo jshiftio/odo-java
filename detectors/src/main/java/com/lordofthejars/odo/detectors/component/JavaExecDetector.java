@@ -4,14 +4,14 @@ import com.lordofthejars.odo.detectors.util.Packaging;
 
 public class JavaExecDetector extends ComponentDetector {
 
-    JavaExecDetector() {
+    public JavaExecDetector() {
         super();
     }
 
     @Override
     public boolean detect() {
 
-        if (Packaging.valueOf(extractor.extractTypeOfProject()) != Packaging.JAR) {
+        if (extractor.extractTypeOfProject() != Packaging.JAR) {
             return false;
         }
 
@@ -19,8 +19,16 @@ public class JavaExecDetector extends ComponentDetector {
     }
 
     @Override
-    public void apply() {
-        odo.createComponent("java").withComponentName(getArtifactName()).withWait().build().execute();
-        odo.pushComponent().build().execute();
+    public String apply() {
+        final String componentName = getArtifactName();
+        odo.createComponent("openjdk18")
+            .withComponentName(componentName)
+            .withWait().build()
+            .execute(extractor.workingDirectory());
+
+        odo.pushComponent().build()
+            .execute(extractor.workingDirectory());
+
+        return componentName;
     }
 }
