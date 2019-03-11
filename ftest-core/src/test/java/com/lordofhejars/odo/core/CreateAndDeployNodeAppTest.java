@@ -1,17 +1,18 @@
 package com.lordofhejars.odo.core;
 
 import com.lordofthejars.odo.core.Odo;
-import com.lordofthejars.odo.testbed.assertj.UrlAssertion;
 import com.lordofthejars.odo.testbed.api.GitClone;
+import com.lordofthejars.odo.testbed.assertj.UrlAssertion;
 import com.lordofthejars.odo.testbed.junit5.GitExtension;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftConditionExtension;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftInjector;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftOperation;
-import java.nio.file.Path;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.nio.file.Path;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,8 +40,7 @@ public class CreateAndDeployNodeAppTest {
 
         odo.createComponent("nodejs").withComponentName("nodejs").build().execute(cloneRepo);
         odo.pushComponent().build().execute(cloneRepo);
-        odo.createUrl().withComponentName("route").build().execute(cloneRepo);
-
+        odo.createUrl().withComponent("route").build().execute(cloneRepo);
         // Then
 
         final Optional<String> exposedRoute = openShiftOperation.getHostOfRouteStartingWith("route");

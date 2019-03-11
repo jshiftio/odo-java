@@ -25,6 +25,6 @@ public class OdoUrlListMojoTest {
         odoUrlListMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo url list");
+        assertThat(odoExecutorStub).hasExecuted("odo url list --output json");
     }
 }

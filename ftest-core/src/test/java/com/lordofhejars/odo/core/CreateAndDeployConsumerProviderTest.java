@@ -7,14 +7,14 @@ import com.lordofthejars.odo.testbed.junit5.OpenShiftConditionExtension;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftInjector;
 import com.lordofthejars.odo.testbed.junit5.OpenShiftOperation;
 import com.lordofthejars.odo.testbed.net.SimpleHttpClient;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,7 +60,7 @@ public class CreateAndDeployConsumerProviderTest {
             .execute();
         odo.pushComponent().withComponentName("consumer").build().execute();
 
-        odo.createUrl().withComponentName("route").withComponent("consumer").withPort(8080).build().execute();
+        odo.createUrl().withComponent("route").withComponent("consumer").withPort(8080).build().execute();
 
         odo.linkComponent("provider")
             .withComponent("consumer")

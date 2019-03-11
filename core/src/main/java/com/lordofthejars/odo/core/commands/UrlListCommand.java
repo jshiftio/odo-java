@@ -11,6 +11,8 @@ import java.util.List;
 public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
 
     private static final String COMMAND_NAME = "list";
+    private static final String OUTPUT = "--output";
+    private static final String DEFAULT_FORMAT = "json";
 
     private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
@@ -27,6 +29,10 @@ public class UrlListCommand extends AbstractRunnableCommand<UrlList> {
         arguments.addAll(urlCommand.getCliCommand());
 
         arguments.add(COMMAND_NAME);
+
+        arguments.add(OUTPUT);
+        arguments.add(DEFAULT_FORMAT);
+
         if (this.globalParametersSupport != null) {
             arguments.addAll(this.globalParametersSupport.getCliCommand());
         }
