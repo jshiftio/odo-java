@@ -5,6 +5,7 @@ import com.lordofthejars.odo.core.commands.WatchCommand;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 import java.util.Map;
 import java.util.logging.Logger;
@@ -18,6 +19,11 @@ public class OdoWatchMojo extends AbstractMojo {
     protected Odo odo = null;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
+
+    // Current maven project
+    @Parameter(defaultValue= "${project}", readonly = true)
+    protected MavenProject project;
+
     @Parameter
     protected Map<String, String> watch;
 
@@ -46,6 +52,6 @@ public class OdoWatchMojo extends AbstractMojo {
         WatchCommand watchCommand = builder.build();
         injectFields(watchCommand, watch, logger);
 
-        watchCommand.execute();
+        watchCommand.execute(project.getBasedir().toPath());
     }
 }
