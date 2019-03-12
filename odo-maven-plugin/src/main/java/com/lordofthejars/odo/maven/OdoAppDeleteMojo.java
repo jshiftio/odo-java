@@ -26,7 +26,7 @@ public class OdoAppDeleteMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> deleteApp;
 
-    @Parameter
+    @Parameter(required = true)
     protected String appName;
 
     @Override
@@ -34,11 +34,9 @@ public class OdoAppDeleteMojo extends AbstractMojo {
         if (odo == null) {
             odo = new Odo();
         }
-        AppDeleteCommand appDeleteCommand = odo.deleteApp(appName)
-                .withProject(project.getBasedir().getAbsolutePath())
-                .build();
+        AppDeleteCommand appDeleteCommand = odo.deleteApp(appName).build();
 
         injectFields(appDeleteCommand, deleteApp, logger);
-        appDeleteCommand.execute();
+        appDeleteCommand.execute(project.getBasedir().toPath());
     }
 }

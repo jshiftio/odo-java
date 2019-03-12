@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.lordofthejars.odo.testbed.assertj.OdoExecutorAssertion.assertThat;
 import static org.mockito.Mockito.when;
@@ -22,21 +24,45 @@ public class OdoAppCreateMojoTest {
     MavenProject project;
 
     @Test
-    public void testMojoBehavior(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+    public void testMojoBehaviorWithName(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
         // Given
         OdoAppCreateMojo odoAppCreateMojo = new OdoAppCreateMojo();
         Odo odo = new Odo(odoExecutorStub);
 
         when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
 
+        Map<String, String> appCreateConfig = new HashMap<String, String>() {{ put("project", "xyz"); }};
+
         odoAppCreateMojo.project = project;
         odoAppCreateMojo.appName = "myapp";
         odoAppCreateMojo.odo = odo;
+        odoAppCreateMojo.createApp = appCreateConfig;
 
         // When:
         odoAppCreateMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo app create myapp --project /tmp/foodir");
+        assertThat(odoExecutorStub).hasExecuted("odo app create myapp --project xyz");
+    }
+
+    @Test
+    public void testMojoBehaviorWithoutName(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+        // Given
+        OdoAppCreateMojo odoAppCreateMojo = new OdoAppCreateMojo();
+        Odo odo = new Odo(odoExecutorStub);
+
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
+
+        Map<String, String> appCreateConfig = new HashMap<String, String>() {{ put("project", "xyz"); }};
+
+        odoAppCreateMojo.project = project;
+        odoAppCreateMojo.odo = odo;
+        odoAppCreateMojo.createApp = appCreateConfig;
+
+        // When:
+        odoAppCreateMojo.execute();
+
+        // Then:
+        assertThat(odoExecutorStub).hasExecuted("odo app create --project xyz");
     }
 }

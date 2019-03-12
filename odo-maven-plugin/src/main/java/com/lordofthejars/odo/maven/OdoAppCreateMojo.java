@@ -10,6 +10,8 @@ import org.apache.maven.project.MavenProject;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
+
 @Mojo(name = "create-app")
 public class OdoAppCreateMojo extends AbstractMojo {
 
@@ -24,7 +26,7 @@ public class OdoAppCreateMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> createApp;
 
-    @Parameter(required=true)
+    @Parameter
     protected String appName;
 
     @Override
@@ -32,21 +34,14 @@ public class OdoAppCreateMojo extends AbstractMojo {
         if(odo == null) {
             odo = new Odo();
         }
-        AppCreateCommand appCreateCommand = odo.createApp()
-                .withAppName(appName)
-                .withProject(project.getBasedir().getAbsolutePath())
-                .build();
 
-        if(createApp != null) {
-            Class<?> c = appCreateCommand.getClass();
-            for (Map.Entry<String, String> entry : createApp.entrySet()) {
-                try {
-                    ConfigurationInjector.copy(appCreateCommand, c, entry);
-                } catch (IllegalStateException exception) {
-                    logger.warning(exception.getMessage());
-                }
-            }
-        }
-        appCreateCommand.execute();
+        AppCreateCommand.Builder builder = odo.createApp();
+
+        if (appName != null && appName.length() > 0) builder.withAppName(appName);
+
+        AppCreateCommand appCreateCommand = builder.build();
+
+        injectFields(appCreateCommand, createApp, logger);
+        appCreateCommand.execute(project.getBasedir().toPath());
     }
 }

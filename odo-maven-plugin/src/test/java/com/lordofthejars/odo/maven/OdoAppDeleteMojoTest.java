@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
+import java.util.HashMap;
 
 import static com.lordofthejars.odo.testbed.assertj.OdoExecutorAssertion.assertThat;
 import static org.mockito.Mockito.when;
@@ -27,15 +28,17 @@ public class OdoAppDeleteMojoTest {
         OdoAppDeleteMojo odoAppDeleteMojo = new OdoAppDeleteMojo();
         Odo odo = new Odo(odoExecutorStub);
 
+
         when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         odoAppDeleteMojo.project = project;
         odoAppDeleteMojo.appName = "myapp";
         odoAppDeleteMojo.odo = odo;
+        odoAppDeleteMojo.deleteApp = new HashMap<String, String>() {{ put("project", "xyz"); }};
 
         // When:
         odoAppDeleteMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo app delete myapp --project /tmp/foodir --force");
+        assertThat(odoExecutorStub).hasExecuted("odo app delete myapp --project xyz --force");
     }
 }
