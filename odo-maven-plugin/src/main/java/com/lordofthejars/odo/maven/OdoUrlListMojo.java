@@ -6,6 +6,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 import java.util.logging.Logger;
 
@@ -16,12 +18,16 @@ public class OdoUrlListMojo extends AbstractMojo {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
+    // Current maven project
+    @Parameter(defaultValue= "${project}", readonly = true)
+    protected MavenProject project;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if(odo == null) {
             odo = new Odo();
         }
         UrlListCommand urlListCommand = odo.listUrls().build();
-        urlListCommand.execute();
+        urlListCommand.execute(project.getBasedir().toPath());
     }
 }

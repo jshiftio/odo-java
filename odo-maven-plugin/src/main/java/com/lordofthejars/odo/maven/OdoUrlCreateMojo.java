@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 import java.util.Map;
 import java.util.logging.Logger;
@@ -19,6 +20,10 @@ public class OdoUrlCreateMojo extends AbstractMojo {
     protected Odo odo = null;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
+
+    // Current maven project
+    @Parameter(defaultValue= "${project}", readonly = true)
+    protected MavenProject project;
 
     @Parameter
     protected Map<String, String> createUrl;
@@ -41,6 +46,6 @@ public class OdoUrlCreateMojo extends AbstractMojo {
         UrlCreateCommand urlCreateCommand = builder.build();
 
         injectFields(urlCreateCommand, createUrl, logger);
-        urlCreateCommand.execute();
+        urlCreateCommand.execute(project.getBasedir().toPath());
     }
 }

@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 import java.util.logging.Logger;
 
@@ -17,7 +18,11 @@ public class OdoUrlDeleteMojo extends AbstractMojo {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @Parameter
+    // Current maven project
+    @Parameter(defaultValue= "${project}", readonly = true)
+    protected MavenProject project;
+
+    @Parameter(required = true)
     protected String urlName;
 
     @Override
@@ -27,6 +32,6 @@ public class OdoUrlDeleteMojo extends AbstractMojo {
         }
 
         UrlDeleteCommand urlDeleteCommand = odo.deleteUrl(urlName).build();
-        urlDeleteCommand.execute();
+        urlDeleteCommand.execute(project.getBasedir().toPath());
     }
 }
