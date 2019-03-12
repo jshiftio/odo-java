@@ -12,7 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.File;
+
 import static com.lordofthejars.odo.testbed.assertj.OdoExecutorAssertion.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class, OdoExecutorStubInjector.class})
 public class OdoProjectCreateMojoTest {
@@ -26,9 +29,10 @@ public class OdoProjectCreateMojoTest {
         Odo odo = new Odo(odoExecutorStub);
 
         String projectName = "fooproject";
-
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         odoProjectCreateMojo.odo = odo;
         odoProjectCreateMojo.projectName = projectName;
+        odoProjectCreateMojo.project = project;
 
         // When:
         odoProjectCreateMojo.execute();
