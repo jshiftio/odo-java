@@ -17,14 +17,14 @@ import static com.lordofthejars.odo.testbed.assertj.OdoExecutorAssertion.assertT
 import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class, OdoExecutorStubInjector.class})
-public class OdoCreateServiceMojoTest {
+public class OdoServiceCreateMojoTest {
     @Mock
     MavenProject project;
 
     @Test
     public void testMojoBehavior(OdoExecutorStub odoExecutorStub) {
         // Given
-        OdoCreateServiceMojo odoServiceCreateMojo = new OdoCreateServiceMojo();
+        OdoServiceCreateMojo odoServiceCreateMojo = new OdoServiceCreateMojo();
         Odo odo = new Odo(odoExecutorStub);
 
         when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
