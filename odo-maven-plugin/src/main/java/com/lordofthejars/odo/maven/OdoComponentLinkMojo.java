@@ -2,7 +2,6 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.ComponentLinkCommand;
-import com.lordofthejars.odo.maven.util.MavenArtifactsUtil;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -28,8 +27,9 @@ public class OdoComponentLinkMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> linkComponent;
 
-    @Parameter
-    protected String component;
+    // The target component/service name to link to.
+    @Parameter(required = true)
+    protected String target;
 
     @Override
     public void execute() {
@@ -37,9 +37,9 @@ public class OdoComponentLinkMojo extends AbstractMojo {
             odo = new Odo();
         }
 
-        ComponentLinkCommand componentLinkCommand = odo.linkComponent(component != null ? component : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX)) .build();
+        ComponentLinkCommand componentLinkCommand = odo.linkComponent(target).build();
         injectFields(componentLinkCommand, linkComponent, logger);
-        componentLinkCommand.execute();
+        componentLinkCommand.execute(project.getBasedir().toPath());
     }
 
 }

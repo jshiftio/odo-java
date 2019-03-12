@@ -30,13 +30,7 @@ public class OdoComponentUpdateMojoTest {
         Odo odo = new Odo(odoExecutorStub);
 
         when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
-        Map<String, String> componentUpdateConfiguration = new HashMap<>();
-        componentUpdateConfiguration.put("project", "myproject");
-        componentUpdateConfiguration.put("app", "myapp");
-        String artifactId = "fooproject";
 
-        odoComponentUpdateMojo.updateComponent = componentUpdateConfiguration;
-        odoComponentUpdateMojo.artifactId = artifactId;
         odoComponentUpdateMojo.project = project;
         odoComponentUpdateMojo.odo = odo;
 
@@ -44,7 +38,7 @@ public class OdoComponentUpdateMojoTest {
         odoComponentUpdateMojo.execute();
 
         // Then:gi
-        assertThat(odoExecutorStub).hasExecuted("odo component update fooproject --project myproject --app myapp --local /tmp/foodir");
+        assertThat(odoExecutorStub).hasExecuted("odo component update --local /tmp/foodir");
     }
 
     @Test
@@ -57,11 +51,10 @@ public class OdoComponentUpdateMojoTest {
         Map<String, String> componentUpdateConfiguration = new HashMap<>();
         componentUpdateConfiguration.put("project", "myproject");
         componentUpdateConfiguration.put("app", "myapp");
-        String artifactId = "fooproject";
 
         String local = "/path/foobar";
         odoComponentUpdateMojo.updateComponent = componentUpdateConfiguration;
-        odoComponentUpdateMojo.artifactId = artifactId;
+        odoComponentUpdateMojo.componentName = "test-component";
         odoComponentUpdateMojo.local = local;
         odoComponentUpdateMojo.project = project;
 
@@ -71,7 +64,7 @@ public class OdoComponentUpdateMojoTest {
         odoComponentUpdateMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component update fooproject --project myproject --app myapp --local /tmp/foodir/path/foobar");
+        assertThat(odoExecutorStub).hasExecuted("odo component update test-component --project myproject --app myapp --local /tmp/foodir/path/foobar");
     }
 
     @Test
@@ -80,23 +73,22 @@ public class OdoComponentUpdateMojoTest {
         OdoComponentUpdateMojo odoComponentUpdateMojo = new OdoComponentUpdateMojo();
         Odo odo = new Odo(odoExecutorStub);
 
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         Map<String, String> componentUpdateConfiguration = new HashMap<>();
         componentUpdateConfiguration.put("app", "myapp");
         componentUpdateConfiguration.put("project", "myproject");
-        String artifactId = "fooproject";
 
         String git = "http://abc.xyz/repo.git";
         odoComponentUpdateMojo.updateComponent = componentUpdateConfiguration;
-        odoComponentUpdateMojo.artifactId = artifactId;
         odoComponentUpdateMojo.git = git;
-
+        odoComponentUpdateMojo.project = project;
         odoComponentUpdateMojo.odo = odo;
 
         // When:
         odoComponentUpdateMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component update fooproject --project myproject --app myapp --git http://abc.xyz/repo.git");
+        assertThat(odoExecutorStub).hasExecuted("odo component update --project myproject --app myapp --git http://abc.xyz/repo.git");
     }
 
 
@@ -106,23 +98,23 @@ public class OdoComponentUpdateMojoTest {
         OdoComponentUpdateMojo odoComponentUpdateMojo = new OdoComponentUpdateMojo();
         Odo odo = new Odo(odoExecutorStub);
 
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         Map<String, String> componentUpdateConfiguration = new HashMap<>();
         componentUpdateConfiguration.put("project", "myproject");
         componentUpdateConfiguration.put("app", "myapp");
         componentUpdateConfiguration.put("ref", "foo/bar");
-        String artifactId = "fooproject";
 
         String git = "http://abc.xyz/repo.git";
         odoComponentUpdateMojo.updateComponent = componentUpdateConfiguration;
-        odoComponentUpdateMojo.artifactId = artifactId;
         odoComponentUpdateMojo.git = git;
         odoComponentUpdateMojo.odo = odo;
+        odoComponentUpdateMojo.project = project;
 
         // When:
         odoComponentUpdateMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component update fooproject --project myproject --app myapp --git http://abc.xyz/repo.git --ref foo/bar");
+        assertThat(odoExecutorStub).hasExecuted("odo component update --project myproject --app myapp --git http://abc.xyz/repo.git --ref foo/bar");
     }
 
     @Test
@@ -135,11 +127,10 @@ public class OdoComponentUpdateMojoTest {
         Map<String, String> componentUpdateConfiguration = new HashMap<>();
         componentUpdateConfiguration.put("project", "myproject");
         componentUpdateConfiguration.put("app", "myapp");
-        String artifactId = "fooproject";
 
         String binary = "/path/foobar.tar.gz";
         odoComponentUpdateMojo.updateComponent = componentUpdateConfiguration;
-        odoComponentUpdateMojo.artifactId = artifactId;
+        odoComponentUpdateMojo.componentName = "test-component";
         odoComponentUpdateMojo.project = project;
         odoComponentUpdateMojo.odo = odo;
         odoComponentUpdateMojo.binary = binary;
@@ -148,6 +139,6 @@ public class OdoComponentUpdateMojoTest {
         odoComponentUpdateMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component update fooproject --project myproject --app myapp --binary /tmp/foodir/path/foobar.tar.gz");
+        assertThat(odoExecutorStub).hasExecuted("odo component update test-component --project myproject --app myapp --binary /tmp/foodir/path/foobar.tar.gz");
     }
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,14 +29,14 @@ public class OdoComponentUnlinkMojoTest {
         OdoComponentUnlinkMojo odoComponentUnlinkMojo = new OdoComponentUnlinkMojo();
         Odo odo = new Odo(odoExecutorStub);
 
-        when(project.getArtifactId()).thenReturn("myartifact");
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         Map<String, String> componentUnlinkConfiguration = new HashMap<>();
         componentUnlinkConfiguration.put("app", "myapp");
-        componentUnlinkConfiguration.put("component", "mycomponent");
         componentUnlinkConfiguration.put("port", "8080");
         componentUnlinkConfiguration.put("project", "myproject");
 
         odoComponentUnlinkMojo.unlinkComponent = componentUnlinkConfiguration;
+        odoComponentUnlinkMojo.target = "mysql-service";
         odoComponentUnlinkMojo.project = project;
 
         odoComponentUnlinkMojo.odo = odo;
@@ -44,28 +45,26 @@ public class OdoComponentUnlinkMojoTest {
         odoComponentUnlinkMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component unlink myartifact --component mycomponent --app myapp --port 8080 --project myproject");
+        assertThat(odoExecutorStub).hasExecuted("odo component unlink mysql-service --app myapp --port 8080 --project myproject");
     }
 
     @Test
-    public void testMojoBehaviorlinkComponentAToComponentB(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+    public void testMojoBehaviorUnlinkComponentAFromComponentB(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
         // Given
-        OdoComponentLinkMojo odoComponentLinkMojo = new OdoComponentLinkMojo();
+        OdoComponentUnlinkMojo odoComponentUnlinkMojo = new OdoComponentUnlinkMojo();
         Odo odo = new Odo(odoExecutorStub);
 
-        Map<String, String> componentLinkConfiguration = new HashMap<>();
-        componentLinkConfiguration.put("component", "component2");
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
 
-        odoComponentLinkMojo.linkComponent = componentLinkConfiguration;
-        odoComponentLinkMojo.project = project;
-        odoComponentLinkMojo.component = "component1";
-
-        odoComponentLinkMojo.odo = odo;
+        odoComponentUnlinkMojo.unlinkComponent = new HashMap<String, String>(){{ put("component", "componentA"); }};
+        odoComponentUnlinkMojo.project = project;
+        odoComponentUnlinkMojo.target = "componentB";
+        odoComponentUnlinkMojo.odo = odo;
 
         // When:
-        odoComponentLinkMojo.execute();
+        odoComponentUnlinkMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component link component1 --component component2");
+        assertThat(odoExecutorStub).hasExecuted("odo component unlink componentB --component componentA");
     }
 }

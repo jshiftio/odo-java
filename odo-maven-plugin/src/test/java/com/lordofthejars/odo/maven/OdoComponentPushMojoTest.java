@@ -3,8 +3,6 @@ package com.lordofthejars.odo.maven;
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.testbed.junit5.OdoExecutorStubInjector;
 import com.lordofthejars.odo.testbed.odo.OdoExecutorStub;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,16 +31,33 @@ public class OdoComponentPushMojoTest {
         Map<String, String> componentPushConfiguration = new HashMap<>();
         componentPushConfiguration.put("app", "myapp");
         componentPushConfiguration.put("local", "~/myCode");
+        componentPushConfiguration.put("project", "myproject");
 
-        odoComponentPushMojo.artifactId = "fooproject";
         odoComponentPushMojo.project = project;
         odoComponentPushMojo.odo = odo;
         odoComponentPushMojo.pushComponent = componentPushConfiguration;
-
+        odoComponentPushMojo.componentName = "fooproject";
         // When:
         odoComponentPushMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component push fooproject --app myapp --local ~/myCode --project /tmp/foodir");
+        assertThat(odoExecutorStub).hasExecuted("odo component push fooproject --app myapp --local ~/myCode --project myproject");
+    }
+
+    @Test
+    public void testMojoBehaviorWithCurrentComponent(OdoExecutorStub odoExecutorStub) {
+        // Given
+        OdoComponentPushMojo odoComponentPushMojo = new OdoComponentPushMojo();
+        Odo odo = new Odo(odoExecutorStub);
+
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
+
+        odoComponentPushMojo.project = project;
+        odoComponentPushMojo.odo = odo;
+        // When:
+        odoComponentPushMojo.execute();
+
+        // Then:
+        assertThat(odoExecutorStub).hasExecuted("odo component push");
     }
 }

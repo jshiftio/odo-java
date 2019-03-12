@@ -2,7 +2,6 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.ComponentPushCommand;
-import com.lordofthejars.odo.maven.util.MavenArtifactsUtil;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -30,7 +29,7 @@ public class OdoComponentPushMojo extends AbstractMojo {
     protected Map<String, String> pushComponent;
 
     @Parameter
-    protected String artifactId;
+    protected String componentName;
 
     @Override
     public void execute() {
@@ -38,11 +37,10 @@ public class OdoComponentPushMojo extends AbstractMojo {
             odo = new Odo();
         }
         ComponentPushCommand componentPushCommand = odo.pushComponent()
-                .withComponentName(artifactId != null ? artifactId : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
-                .withProject(project.getBasedir().getAbsolutePath())
+                .withComponentName(componentName != null ? componentName : null)
                 .build();
 
         injectFields(componentPushCommand, pushComponent, logger);
-        componentPushCommand.execute();
+        componentPushCommand.execute(project.getBasedir().toPath());
     }
 }

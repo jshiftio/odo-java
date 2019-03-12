@@ -28,27 +28,27 @@ public class OdoComponentCreateMojo extends AbstractMojo {
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
 
-    @Parameter(defaultValue = "openjdk18")
+    @Parameter(defaultValue = "openjdk18", required = true)
     protected String componentType;
 
     @Parameter
     protected Map<String, String> createComponent;
 
     @Parameter
-    protected String artifactId;
+    protected String componentName;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if(odo == null) {
             odo = new Odo();
         }
+
         ComponentCreateCommand componentCreateCommand = odo.createComponent(componentType)
-                .withComponentName(artifactId != null ? artifactId : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
+                .withComponentName(componentName != null ? componentName : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
                 .withLocal(project.getBasedir().getAbsolutePath())
                 .build();
 
         injectFields(componentCreateCommand, createComponent, logger);
-        componentCreateCommand.execute();
+        componentCreateCommand.execute(project.getBasedir().toPath());
     }
-
 }

@@ -2,7 +2,6 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.ComponentUpdateCommand;
-import com.lordofthejars.odo.maven.util.MavenArtifactsUtil;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -29,7 +28,7 @@ public class OdoComponentUpdateMojo extends AbstractMojo {
     protected Map<String, String> updateComponent;
 
     @Parameter
-    protected String artifactId;
+    protected String componentName;
 
     @Parameter
     protected String local;
@@ -48,7 +47,7 @@ public class OdoComponentUpdateMojo extends AbstractMojo {
             odo = new Odo();
         }
 
-        ComponentUpdateCommand.Builder builder = odo.updateComponent().withComponentName(artifactId != null ? artifactId : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX));
+        ComponentUpdateCommand.Builder builder = odo.updateComponent().withComponentName(componentName != null ? componentName : null);
 
         if (local != null && local.length() > 0) {
             builder.withLocal(project.getBasedir().getAbsolutePath().concat(local));
@@ -71,6 +70,6 @@ public class OdoComponentUpdateMojo extends AbstractMojo {
 
         ComponentUpdateCommand componentUpdateCommand = builder.build();
         injectFields(componentUpdateCommand, updateComponent, logger);
-        componentUpdateCommand.execute();
+        componentUpdateCommand.execute(project.getBasedir().toPath());
     }
 }

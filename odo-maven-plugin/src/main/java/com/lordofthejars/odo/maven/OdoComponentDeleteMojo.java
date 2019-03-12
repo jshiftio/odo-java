@@ -25,8 +25,8 @@ public class OdoComponentDeleteMojo extends AbstractMojo {
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
 
-    @Parameter(defaultValue = "openjdk18")
-    protected String componentType;
+    @Parameter
+    protected String componentName;
 
     @Parameter
     protected Map<String, String> deleteComponent;
@@ -43,12 +43,11 @@ public class OdoComponentDeleteMojo extends AbstractMojo {
             odo = new Odo();
         }
 
-        ComponentDeleteCommand componentDeleteCommand = odo.deleteComponent(componentType)
-                .withApp(app != null ? app : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
+        ComponentDeleteCommand componentDeleteCommand = odo
+                .deleteComponent(componentName != null ? componentName : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
                 .withForce(forceDeletion)
                 .build();
         injectFields(componentDeleteCommand, deleteComponent, logger);
-
-        componentDeleteCommand.execute();
+        componentDeleteCommand.execute(project.getBasedir().toPath());
     }
 }

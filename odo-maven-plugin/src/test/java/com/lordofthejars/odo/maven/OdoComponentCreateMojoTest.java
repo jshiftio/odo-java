@@ -34,10 +34,10 @@ public class OdoComponentCreateMojoTest {
         componentCreateConfiguration.put("maxMemory", "2");
         componentCreateConfiguration.put("maxCpu", "2");
         componentCreateConfiguration.put("port", "8080,8000,8001");
-        String artifactId = "fooproject";
+        String name = "fooproject";
 
         odoComponentCreateMojo.createComponent = componentCreateConfiguration;
-        odoComponentCreateMojo.artifactId = artifactId;
+        odoComponentCreateMojo.componentName = name;
         odoComponentCreateMojo.project = project;
         odoComponentCreateMojo.componentType = "openjdk18";
 

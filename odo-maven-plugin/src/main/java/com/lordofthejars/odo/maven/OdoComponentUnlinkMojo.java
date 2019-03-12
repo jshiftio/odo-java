@@ -2,7 +2,6 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.ComponentUnlinkCommand;
-import com.lordofthejars.odo.maven.util.MavenArtifactsUtil;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -28,8 +27,9 @@ public class OdoComponentUnlinkMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> unlinkComponent;
 
-    @Parameter
-    protected String component;
+    // The target component/service name to remove link with
+    @Parameter(required = true)
+    protected String target;
 
     @Override
     public void execute() {
@@ -37,9 +37,9 @@ public class OdoComponentUnlinkMojo extends AbstractMojo {
             odo = new Odo();
         }
 
-        ComponentUnlinkCommand componentUnlinkCommand = odo.unlinkComponent(component != null ? component : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX)) .build();
+        ComponentUnlinkCommand componentUnlinkCommand = odo.unlinkComponent(target).build();
         injectFields(componentUnlinkCommand, unlinkComponent, logger);
-        componentUnlinkCommand.execute();
+        componentUnlinkCommand.execute(project.getBasedir().toPath());
     }
 
 }

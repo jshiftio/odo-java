@@ -11,10 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.lordofthejars.odo.testbed.assertj.OdoExecutorAssertion.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class, OdoExecutorStubInjector.class})
 public class OdoComponentDeleteMojoTest {
@@ -27,12 +29,13 @@ public class OdoComponentDeleteMojoTest {
         OdoComponentDeleteMojo odoComponentDeleteMojo = new OdoComponentDeleteMojo();
         Odo odo = new Odo(odoExecutorStub);
 
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         Map<String, String> componentDeleteConfiguration = new HashMap<>();
-        componentDeleteConfiguration.put("app", "fooproject");
+        componentDeleteConfiguration.put("project", "fooproject");
 
         odoComponentDeleteMojo.deleteComponent = componentDeleteConfiguration;
         odoComponentDeleteMojo.project = project;
-        odoComponentDeleteMojo.componentType = "openjdk18";
+        odoComponentDeleteMojo.componentName = "mycomponent";
 
         odoComponentDeleteMojo.odo = odo;
 
@@ -40,6 +43,6 @@ public class OdoComponentDeleteMojoTest {
         odoComponentDeleteMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo component delete openjdk18 --app fooproject");
+        assertThat(odoExecutorStub).hasExecuted("odo component delete mycomponent --project fooproject");
     }
 }
