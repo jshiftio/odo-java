@@ -28,10 +28,10 @@ public class OdoStorageMountMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> mountStorage;
 
-    @Parameter
+    @Parameter(required = true)
     protected String storageName;
 
-    @Parameter
+    @Parameter(required = true)
     protected String path;
 
     @Override
@@ -43,7 +43,7 @@ public class OdoStorageMountMojo extends AbstractMojo {
                 .withPath(project.getBasedir().getAbsolutePath().concat(path)).build();
 
         injectFields(storageMountCommand, mountStorage, logger);
-        storageMountCommand.execute();
+        storageMountCommand.execute(project.getBasedir().toPath());
     }
 
 }

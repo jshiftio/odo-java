@@ -25,16 +25,16 @@ public class OdoStorageCreateMojo extends AbstractMojo {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @Parameter
+    @Parameter(required = true)
     protected String path;
 
-    @Parameter
+    @Parameter(required = true)
     protected String size;
 
     @Parameter
     protected Map<String, String> createStorage;
 
-    @Parameter
+    @Parameter(required = true)
     protected String storageName;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -46,6 +46,6 @@ public class OdoStorageCreateMojo extends AbstractMojo {
                 .withPath(project.getBasedir().getAbsolutePath().concat(path)).withSize(size).build();
 
         injectFields(storageCreateCommand, createStorage, logger);
-        storageCreateCommand.execute();
+        storageCreateCommand.execute(project.getBasedir().toPath());
     }
 }

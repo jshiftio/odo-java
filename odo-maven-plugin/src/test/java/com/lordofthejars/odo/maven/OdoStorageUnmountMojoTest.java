@@ -29,14 +29,15 @@ public class OdoStorageUnmountMojoTest {
         OdoStorageUnmoutMojo odoStorageUnmoutMojo = new OdoStorageUnmoutMojo();
         Odo odo = new Odo(odoExecutorStub);
 
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         Map<String, String> unmountStorageConfig = new HashMap<>();
         unmountStorageConfig.put("app", "myapp");
         unmountStorageConfig.put("component", "mycomponent");
         unmountStorageConfig.put("project", "myproject");
 
         odoStorageUnmoutMojo.unmountStorage = unmountStorageConfig;
-        odoStorageUnmoutMojo.storageName = "foostorage";
-
+        odoStorageUnmoutMojo.storageNameorPath = "foostorage";
+        odoStorageUnmoutMojo.project = project;
         odoStorageUnmoutMojo.odo = odo;
 
         // When:
@@ -45,31 +46,4 @@ public class OdoStorageUnmountMojoTest {
         // Then:
         assertThat(odoExecutorStub).hasExecuted("odo storage unmount foostorage --app myapp --component mycomponent --project myproject");
     }
-
-    @Test
-    public void testMojoBehaviorWithStoragePath(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
-        // Given
-        OdoStorageUnmoutMojo odoStorageUnmoutMojo = new OdoStorageUnmoutMojo();
-        Odo odo = new Odo(odoExecutorStub);
-
-        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
-
-        Map<String, String> unmountStorageConfig = new HashMap<>();
-        unmountStorageConfig.put("app", "myapp");
-        unmountStorageConfig.put("component", "mycomponent");
-        unmountStorageConfig.put("project", "myproject");
-
-        odoStorageUnmoutMojo.unmountStorage = unmountStorageConfig;
-        odoStorageUnmoutMojo.project = project;
-        odoStorageUnmoutMojo.storageName = "foostorage";
-        odoStorageUnmoutMojo.path = "/foo/storage";
-        odoStorageUnmoutMojo.odo = odo;
-
-        // When:
-        odoStorageUnmoutMojo.execute();
-
-        // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo storage unmount /tmp/foodir/foo/storage --app myapp --component mycomponent --project myproject");
-    }
-
 }

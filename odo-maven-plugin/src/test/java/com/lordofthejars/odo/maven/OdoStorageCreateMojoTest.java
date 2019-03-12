@@ -53,4 +53,30 @@ public class OdoStorageCreateMojoTest {
         // Then:
         assertThat(odoExecutorStub).hasExecuted("odo storage create foostorage --app myapp --component mycomponent --project myproject --path /tmp/foodir/storage/foovolume --size 1Gi");
     }
+
+    @Test
+    public void testMojoBehaviorMinimal(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+        // Given
+        OdoStorageCreateMojo odoStorageCreateMojo = new OdoStorageCreateMojo();
+        Odo odo = new Odo(odoExecutorStub);
+
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
+        String storageName = "foostorage";
+        String size = "1Gi";
+        String path = "/storage/foovolume";
+
+
+        odoStorageCreateMojo.project = project;
+        odoStorageCreateMojo.path = path;
+        odoStorageCreateMojo.size = size;
+        odoStorageCreateMojo.storageName = storageName;
+
+        odoStorageCreateMojo.odo = odo;
+
+        // When:
+        odoStorageCreateMojo.execute();
+
+        // Then:
+        assertThat(odoExecutorStub).hasExecuted("odo storage create foostorage --path /tmp/foodir/storage/foovolume --size 1Gi");
+    }
 }

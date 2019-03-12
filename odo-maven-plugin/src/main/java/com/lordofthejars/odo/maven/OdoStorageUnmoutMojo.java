@@ -7,6 +7,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -23,29 +25,22 @@ public class OdoStorageUnmoutMojo extends AbstractMojo {
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
 
-    @Parameter
-    protected String storageName;
+    @Parameter(required = true)
+    protected String storageNameorPath;
 
     @Parameter
     protected Map<String, String> unmountStorage;
-
-    @Parameter
-    protected String path;
 
     @Override
     public void execute() {
         if(odo == null) {
             odo = new Odo();
         }
-
-        StorageUnmountCommand.Builder builder = odo.unmountStorage(storageName);
-
-        if (path!= null && path.length() > 0) {
-            builder.withPath(project.getBasedir().getAbsolutePath().concat(path));
-        }
-
-        StorageUnmountCommand storageUnmountCommand = builder.build();
+        String currentPath = project.getBasedir().getAbsolutePath();
+        storageNameorPath = Files.isDirectory(Paths.get(project.getBasedir().getAbsolutePath().concat(storageNameorPath))) ?
+                currentPath.concat(storageNameorPath) : storageNameorPath;
+        StorageUnmountCommand storageUnmountCommand = odo.unmountStorage(storageNameorPath).build();
         injectFields(storageUnmountCommand, unmountStorage, logger);
-        storageUnmountCommand.execute();
+        storageUnmountCommand.execute(project.getBasedir().toPath());
     }
 }

@@ -50,4 +50,27 @@ public class OdoStorageMountMojoTest {
         // Then:
         assertThat(odoExecutorStub).hasExecuted("odo storage mount mystorage --app myapp --component mycomponent --project myproject --path /tmp/foodir/storage/foo");
     }
+
+    @Test
+    public void testMojoBehaviorMinimal(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+        // Given
+        OdoStorageMountMojo odoStorageMountMojo = new OdoStorageMountMojo();
+        Odo odo = new Odo(odoExecutorStub);
+
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
+
+        String path = "/storage/foo";
+        String storagename = "mystorage";
+        odoStorageMountMojo.project = project;
+        odoStorageMountMojo.path = path;
+        odoStorageMountMojo.storageName = storagename;
+
+        odoStorageMountMojo.odo = odo;
+
+        // When:
+        odoStorageMountMojo.execute();
+
+        // Then:
+        assertThat(odoExecutorStub).hasExecuted("odo storage mount mystorage --path /tmp/foodir/storage/foo");
+    }
 }

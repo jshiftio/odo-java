@@ -5,6 +5,7 @@ import com.lordofthejars.odo.core.commands.StorageDeleteCommand;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 import java.util.Map;
 import java.util.logging.Logger;
@@ -17,7 +18,11 @@ public class OdoStorageDeleteMojo extends AbstractMojo {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @Parameter
+    // Current maven project
+    @Parameter(defaultValue= "${project}", readonly = true)
+    protected MavenProject project;
+
+    @Parameter(required = true)
     protected String storageName;
 
     @Parameter
@@ -34,6 +39,6 @@ public class OdoStorageDeleteMojo extends AbstractMojo {
 
         StorageDeleteCommand storageDeleteCommand = odo.deleteStorage(storageName).withForce(forceDeletion).build();
         injectFields(storageDeleteCommand, deleteStorage, logger);
-        storageDeleteCommand.execute();
+        storageDeleteCommand.execute(project.getBasedir().toPath());
     }
 }
