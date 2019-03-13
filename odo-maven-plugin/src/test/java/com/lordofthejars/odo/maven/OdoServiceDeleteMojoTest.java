@@ -3,15 +3,14 @@ package com.lordofthejars.odo.maven;
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.testbed.junit5.OdoExecutorStubInjector;
 import com.lordofthejars.odo.testbed.odo.OdoExecutorStub;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.lordofthejars.odo.testbed.assertj.OdoExecutorAssertion.assertThat;
 import static org.mockito.Mockito.when;
@@ -29,11 +28,11 @@ public class OdoServiceDeleteMojoTest {
 
         when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
         Map<String, String> serviceDeleteConfiguration = new HashMap<>();
-        serviceDeleteConfiguration.put("force", "true");
+        serviceDeleteConfiguration.put("serviceName",  "fooservice");
 
         odoServiceDeleteMojo.project = project;
-        odoServiceDeleteMojo.serviceName = "fooservice";
         odoServiceDeleteMojo.odo = odo;
+        odoServiceDeleteMojo.deleteService = serviceDeleteConfiguration;
 
         // When:
         odoServiceDeleteMojo.execute();

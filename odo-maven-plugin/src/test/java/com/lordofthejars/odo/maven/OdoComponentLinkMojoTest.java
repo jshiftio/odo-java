@@ -3,17 +3,14 @@ package com.lordofthejars.odo.maven;
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.testbed.junit5.OdoExecutorStubInjector;
 import com.lordofthejars.odo.testbed.odo.OdoExecutorStub;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.lordofthejars.odo.testbed.assertj.OdoExecutorAssertion.assertThat;
 import static org.mockito.Mockito.when;
@@ -24,7 +21,7 @@ public class OdoComponentLinkMojoTest {
     MavenProject project;
 
     @Test
-    public void testMojoBehaviorCurrentComponentToAnotherComponent(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+    public void testMojoBehaviorCurrentComponentToAnotherComponent(OdoExecutorStub odoExecutorStub) {
         // Given
         OdoComponentLinkMojo odoComponentLinkMojo = new OdoComponentLinkMojo();
         Odo odo = new Odo(odoExecutorStub);
@@ -35,10 +32,10 @@ public class OdoComponentLinkMojoTest {
         componentLinkConfiguration.put("port", "8080");
         componentLinkConfiguration.put("project", "myproject");
         componentLinkConfiguration.put("waitForTarget", "true");
+        componentLinkConfiguration.put("name",  "target");
 
         odoComponentLinkMojo.linkComponent = componentLinkConfiguration;
         odoComponentLinkMojo.project = project;
-        odoComponentLinkMojo.target = "target";
         odoComponentLinkMojo.odo = odo;
 
         // When:
@@ -49,7 +46,7 @@ public class OdoComponentLinkMojoTest {
     }
 
     @Test
-    public void testMojoBehaviorlinkComponentAToComponentB(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+    public void testMojoBehaviorlinkComponentAToComponentB(OdoExecutorStub odoExecutorStub) {
         // Given
         OdoComponentLinkMojo odoComponentLinkMojo = new OdoComponentLinkMojo();
         Odo odo = new Odo(odoExecutorStub);
@@ -59,10 +56,10 @@ public class OdoComponentLinkMojoTest {
         componentLinkConfiguration.put("waitForTarget", "true");
         componentLinkConfiguration.put("wait", "true");
         componentLinkConfiguration.put("component", "ComponentA");
+        componentLinkConfiguration.put("name",  "ComponentB");
 
         odoComponentLinkMojo.linkComponent = componentLinkConfiguration;
         odoComponentLinkMojo.project = project;
-        odoComponentLinkMojo.target = "ComponentB";
 
         odoComponentLinkMojo.odo = odo;
 

@@ -2,15 +2,11 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.UrlCreateCommand;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-
-import java.util.Map;
-import java.util.logging.Logger;
 
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
@@ -19,8 +15,6 @@ public class OdoUrlCreateMojo extends AbstractMojo {
 
     protected Odo odo = null;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
     // Current maven project
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
@@ -28,24 +22,17 @@ public class OdoUrlCreateMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> createUrl;
 
-    @Parameter
-    protected String urlName;
-
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        if(odo == null) {
+    public void execute() {
+
+        if (odo == null) {
             odo = new Odo();
         }
 
         UrlCreateCommand.Builder builder = odo.createUrl();
-
-        if (urlName != null && urlName.length() > 0) {
-            builder.withName(urlName);
-        }
-
         UrlCreateCommand urlCreateCommand = builder.build();
 
-        injectFields(urlCreateCommand, createUrl, logger);
+        injectFields(urlCreateCommand, createUrl);
         urlCreateCommand.execute(project.getBasedir().toPath());
     }
 }

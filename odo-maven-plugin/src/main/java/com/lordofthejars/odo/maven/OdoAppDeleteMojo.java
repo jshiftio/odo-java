@@ -17,8 +17,6 @@ public class OdoAppDeleteMojo extends AbstractMojo {
 
     protected Odo odo = null;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
     // Current maven project
     @Parameter(defaultValue = "${project}", readonly = true)
     protected MavenProject project;
@@ -26,17 +24,15 @@ public class OdoAppDeleteMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> deleteApp;
 
-    @Parameter(required = true)
-    protected String appName;
-
     @Override
     public void execute() {
         if (odo == null) {
             odo = new Odo();
         }
-        AppDeleteCommand appDeleteCommand = odo.deleteApp(appName).build();
 
-        injectFields(appDeleteCommand, deleteApp, logger);
+        AppDeleteCommand appDeleteCommand = odo.deleteApp().build();
+
+        injectFields(appDeleteCommand, deleteApp);
         appDeleteCommand.execute(project.getBasedir().toPath());
     }
 }

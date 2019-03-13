@@ -123,9 +123,9 @@ public class Odo {
         return new AppCreateCommand.Builder(appCommand, this.odoExecutor);
     }
 
-    public AppDeleteCommand.Builder deleteApp(String appName) {
+    public AppDeleteCommand.Builder deleteApp() {
         final AppCommand appCommand = new AppCommand.Builder().build();
-        return new AppDeleteCommand.Builder(appCommand, appName, this.odoExecutor);
+        return new AppDeleteCommand.Builder(appCommand, this.odoExecutor);
     }
 
     public AppListCommand.Builder listApps() {
@@ -168,9 +168,9 @@ public class Odo {
         return new ServiceDeleteCommand.Builder(serviceCommand, serviceName, this.odoExecutor);
     }
 
-    public StorageCreateCommand.Builder createStorage(String storageName) {
+    public StorageCreateCommand.Builder createStorage(String storageName, String path) {
         final StorageCommand storageCommand = new StorageCommand.Builder().build();
-        return new StorageCreateCommand.Builder(storageCommand, storageName, this.odoExecutor);
+        return new StorageCreateCommand.Builder(storageCommand, storageName, path, this.odoExecutor);
     }
 
     public StorageDeleteCommand.Builder deleteStorage(String storageName) {
@@ -178,9 +178,9 @@ public class Odo {
         return new StorageDeleteCommand.Builder(storageCommand, storageName, this.odoExecutor);
     }
 
-    public StorageMountCommand.Builder mountStorage(String storageName) {
+    public StorageMountCommand.Builder mountStorage(String storageName, String path) {
         final StorageCommand storageCommand = new StorageCommand.Builder().build();
-        return new StorageMountCommand.Builder(storageCommand, storageName, this.odoExecutor);
+        return new StorageMountCommand.Builder(storageCommand, storageName, path, this.odoExecutor);
     }
 
     public StorageUnmountCommand.Builder unmountStorage(String storageName) {

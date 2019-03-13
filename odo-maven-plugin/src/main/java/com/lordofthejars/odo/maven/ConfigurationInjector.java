@@ -10,6 +10,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ConfigurationInjector {
+
+    private static Logger logger = Logger.getLogger(ConfigurationInjector.class.getName());
+
     public static void copy(Object command, Class<?> c, Map.Entry<String, String> entry) {
         try {
             Field field = c.getDeclaredField(entry.getKey());
@@ -37,7 +40,7 @@ public class ConfigurationInjector {
         }
     }
 
-    public static void injectFields(AbstractRunnableCommand<Void> command, Map<String, String> config, Logger logger) {
+    public static void injectFields(AbstractRunnableCommand<Void> command, Map<String, String> config) {
         if (config != null) {
             Class<?> c = command.getClass();
             for (Map.Entry<String, String> entry : config.entrySet()) {
@@ -47,6 +50,6 @@ public class ConfigurationInjector {
                     logger.warning(exception.getMessage());
                 }
             }
-        };
+        }
     }
 }

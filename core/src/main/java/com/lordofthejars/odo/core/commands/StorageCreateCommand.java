@@ -25,10 +25,11 @@ public class StorageCreateCommand extends AbstractRunnableCommand<Void> {
     private StorageCommand storageCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private StorageCreateCommand(StorageCommand storageCommand, String storageName, CliExecutor odoExecutor) {
+    private StorageCreateCommand(StorageCommand storageCommand, String storageName, String path, CliExecutor odoExecutor) {
         super(odoExecutor);
         this.storageName = storageName;
         this.storageCommand = storageCommand;
+        this.path = path;
     }
 
     @Override
@@ -76,8 +77,8 @@ public class StorageCreateCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<StorageCreateCommand.Builder> {
         private StorageCreateCommand storageCreateCommand;
 
-        public Builder(StorageCommand storageCommand, String storageName, CliExecutor odoExecutor) {
-            this.storageCreateCommand = new StorageCreateCommand(storageCommand, storageName, odoExecutor);
+        public Builder(StorageCommand storageCommand, String storageName, String path, CliExecutor odoExecutor) {
+            this.storageCreateCommand = new StorageCreateCommand(storageCommand, storageName, path, odoExecutor);
         }
 
         public StorageCreateCommand.Builder withApp(String app) {

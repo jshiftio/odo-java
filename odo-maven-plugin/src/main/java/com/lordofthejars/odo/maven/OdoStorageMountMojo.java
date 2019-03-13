@@ -2,15 +2,11 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.StorageMountCommand;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-
-import java.util.Map;
-import java.util.logging.Logger;
 
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
@@ -19,8 +15,6 @@ public class OdoStorageMountMojo extends AbstractMojo {
 
     protected Odo odo = null;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
     // Current maven project
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
@@ -28,21 +22,26 @@ public class OdoStorageMountMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> mountStorage;
 
-    @Parameter(required = true)
-    protected String storageName;
-
-    @Parameter(required = true)
-    protected String path;
-
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        if(odo == null) {
+    public void execute() {
+
+        if (odo == null) {
             odo = new Odo();
         }
-        StorageMountCommand storageMountCommand = odo.mountStorage(storageName)
-                .withPath(project.getBasedir().getAbsolutePath().concat(path)).build();
 
-        injectFields(storageMountCommand, mountStorage, logger);
+        if (!mountStorage.containsKey("storageName")) {
+            throw new IllegalArgumentException("storageName property is required for mount storage.");
+        }
+
+        if (!mountStorage.containsKey("path")) {
+            throw new IllegalArgumentException("path property is required for mount storage.");
+        }
+
+        StorageMountCommand storageMountCommand = odo
+            .mountStorage(mountStorage.get("storageName"), mountStorage.get("path"))
+            .build();
+
+        injectFields(storageMountCommand, mountStorage);
         storageMountCommand.execute(project.getBasedir().toPath());
     }
 

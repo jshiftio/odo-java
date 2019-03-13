@@ -3,13 +3,11 @@ package com.lordofthejars.odo.maven;
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.ComponentDeleteCommand;
 import com.lordofthejars.odo.maven.util.MavenArtifactsUtil;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-
-import java.util.Map;
-import java.util.logging.Logger;
 
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
@@ -19,35 +17,27 @@ public class OdoComponentDeleteMojo extends AbstractMojo {
 
     protected Odo odo = null;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
     // Current maven project
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
 
     @Parameter
-    protected String componentName;
-
-    @Parameter
     protected Map<String, String> deleteComponent;
-
-    @Parameter
-    protected String app;
-
-    @Parameter(defaultValue = "false")
-    protected Boolean forceDeletion = false;
 
     @Override
     public void execute() {
-        if(odo == null) {
+        if (odo == null) {
             odo = new Odo();
         }
 
+        if (!deleteComponent.containsKey("componentName")) {
+            throw new IllegalArgumentException("componentName property is required for delete component.");
+        }
+
         ComponentDeleteCommand componentDeleteCommand = odo
-                .deleteComponent(componentName != null ? componentName : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
-                .withForce(forceDeletion)
+                .deleteComponent(deleteComponent.get("componentName") != null ? deleteComponent.get("componentName") : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
                 .build();
-        injectFields(componentDeleteCommand, deleteComponent, logger);
+        injectFields(componentDeleteCommand, deleteComponent);
         componentDeleteCommand.execute(project.getBasedir().toPath());
     }
 }

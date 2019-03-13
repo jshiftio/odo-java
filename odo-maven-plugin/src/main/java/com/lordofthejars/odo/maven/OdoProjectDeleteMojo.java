@@ -2,14 +2,15 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.ProjectDeleteCommand;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-@Mojo(name = "create-project")
+import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
+
+@Mojo(name = "delete-project")
 public class OdoProjectDeleteMojo extends AbstractMojo {
 
     protected Odo odo = null;
@@ -21,21 +22,21 @@ public class OdoProjectDeleteMojo extends AbstractMojo {
     @Parameter(required = true)
     protected String projectName;
 
-    @Parameter(defaultValue = "true")
-    Boolean withForce;
+    @Parameter
+    protected Map<String, String> projectDelete;
 
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        if(odo == null) {
+    public void execute() {
+        if (odo == null) {
             odo = new Odo();
         }
-        ProjectDeleteCommand.Builder builder = odo.deleteProject(projectName);
 
-        if (withForce!= null && !withForce) {
-            builder.withForce(false);
+        if (!projectDelete.containsKey("projectName")) {
+            throw new IllegalArgumentException("projectName property is required for delete project.");
         }
 
-        ProjectDeleteCommand projectDeleteCommand = builder.build();
+        ProjectDeleteCommand projectDeleteCommand = odo.deleteProject(projectDelete.get("projectName")).build();
+        injectFields(projectDeleteCommand, projectDelete);
 
         projectDeleteCommand.execute(project.getBasedir().toPath());
     }

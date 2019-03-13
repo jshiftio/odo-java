@@ -29,8 +29,7 @@ public class StorageCommandTest {
 
         // Given
 
-        final StorageCreateCommand storageCreateCommand = new StorageCreateCommand.Builder(storageCommand,"mystorage", odoExecutor)
-            .withPath("/opt/app-root/src/storage/")
+        final StorageCreateCommand storageCreateCommand = new StorageCreateCommand.Builder(storageCommand,"mystorage", "/opt/app-root/src/storage/", odoExecutor)
             .withSize("1Gi")
             .build();
 
@@ -87,8 +86,7 @@ public class StorageCommandTest {
 
         // Given
 
-        final StorageMountCommand storageMountCommand = new StorageMountCommand.Builder(storageCommand, "dbstorage", odoExecutor)
-            .withPath("/data")
+        final StorageMountCommand storageMountCommand = new StorageMountCommand.Builder(storageCommand, "dbstorage", "/data", odoExecutor)
             .withComponent("mongodb")
             .build();
 

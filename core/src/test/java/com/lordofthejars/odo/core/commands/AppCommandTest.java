@@ -50,7 +50,7 @@ public class AppCommandTest {
 
         // Given
 
-        final AppDeleteCommand appDeleteCommand = new AppDeleteCommand.Builder(appCommand, "myapp", odoExecutor).build();
+        final AppDeleteCommand appDeleteCommand = new AppDeleteCommand.Builder(appCommand, odoExecutor).build();
 
         // When
 

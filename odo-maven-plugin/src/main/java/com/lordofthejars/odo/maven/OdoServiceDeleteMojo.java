@@ -16,11 +16,6 @@ public class OdoServiceDeleteMojo extends AbstractMojo {
 
     protected Odo odo = null;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
-    @Parameter(required = true)
-    protected String serviceName;
-
     // Current maven project
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
@@ -30,14 +25,18 @@ public class OdoServiceDeleteMojo extends AbstractMojo {
 
     @Override
     public void execute() {
-        if(odo == null) {
+        if (odo == null) {
             odo = new Odo();
         }
 
-        final ServiceDeleteCommand serviceDeleteCommand = odo.deleteService(serviceName)
+        if (!deleteService.containsKey("serviceName")) {
+            throw new IllegalArgumentException("serviceType property is required for delete service.");
+        }
+
+        final ServiceDeleteCommand serviceDeleteCommand = odo.deleteService("serviceName")
                 .build();
 
-        injectFields(serviceDeleteCommand, deleteService, logger);
+        injectFields(serviceDeleteCommand, deleteService);
         serviceDeleteCommand.execute(project.getBasedir().toPath());
     }
 }

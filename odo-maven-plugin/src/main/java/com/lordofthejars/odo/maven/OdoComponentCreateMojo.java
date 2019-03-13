@@ -3,15 +3,11 @@ package com.lordofthejars.odo.maven;
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.ComponentCreateCommand;
 import com.lordofthejars.odo.maven.util.MavenArtifactsUtil;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-
-import java.util.Map;
-import java.util.logging.Logger;
 
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
@@ -22,33 +18,29 @@ public class OdoComponentCreateMojo extends AbstractMojo {
 
     protected Odo odo = null;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
     // Current maven project
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
 
-    @Parameter(defaultValue = "openjdk18", required = true)
-    protected String componentType;
-
     @Parameter
     protected Map<String, String> createComponent;
 
-    @Parameter
-    protected String componentName;
-
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        if(odo == null) {
+    public void execute() {
+
+        if (odo == null) {
             odo = new Odo();
         }
 
-        ComponentCreateCommand componentCreateCommand = odo.createComponent(componentType)
-                .withComponentName(componentName != null ? componentName : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
-                .withLocal(project.getBasedir().getAbsolutePath())
+        if (!createComponent.containsKey("componentType")) {
+            throw new IllegalArgumentException("componentType property is required for create component.");
+        }
+
+        ComponentCreateCommand componentCreateCommand = odo.createComponent(createComponent.get("componentType"))
+                .withComponentName(createComponent.get("componentName") != null ? createComponent.get("componentName") : MavenArtifactsUtil.getSanitizedArtifactId(project, PREFIX))
                 .build();
 
-        injectFields(componentCreateCommand, createComponent, logger);
+        injectFields(componentCreateCommand, createComponent);
         componentCreateCommand.execute(project.getBasedir().toPath());
     }
 }

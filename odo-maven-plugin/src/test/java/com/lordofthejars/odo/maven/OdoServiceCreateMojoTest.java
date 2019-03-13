@@ -33,15 +33,17 @@ public class OdoServiceCreateMojoTest {
          serviceCreateConfiguration.put("app", "fooapp");
 
         odoServiceCreateMojo.project = project;
-        odoServiceCreateMojo.serviceType = "dh-postgresql-apb";
-        odoServiceCreateMojo.serviceName = "fooservice";
-        odoServiceCreateMojo.servicePlan = "dev";
+        serviceCreateConfiguration.put("serviceType", "dh-postgresql-apb");
+        serviceCreateConfiguration.put("serviceName",  "fooservice");
+        serviceCreateConfiguration.put("planName", "dev");
+
         odoServiceCreateMojo.odo = odo;
+        odoServiceCreateMojo.createService = serviceCreateConfiguration;
 
         // When:
         odoServiceCreateMojo.execute();
 
         // Then:
-        assertThat(odoExecutorStub).hasExecuted("odo service create dh-postgresql-apb fooservice --plan dev --project /tmp/foodir");
+        assertThat(odoExecutorStub).hasExecuted("odo service create dh-postgresql-apb fooservice --plan dev --app fooapp");
     }
 }

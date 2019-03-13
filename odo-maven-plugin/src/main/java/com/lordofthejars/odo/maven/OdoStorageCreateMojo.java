@@ -2,15 +2,11 @@ package com.lordofthejars.odo.maven;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.core.commands.StorageCreateCommand;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-
-import java.util.Map;
-import java.util.logging.Logger;
 
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
@@ -23,29 +19,26 @@ public class OdoStorageCreateMojo extends AbstractMojo {
     @Parameter(defaultValue= "${project}", readonly = true)
     protected MavenProject project;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
-    @Parameter(required = true)
-    protected String path;
-
-    @Parameter(required = true)
-    protected String size;
-
     @Parameter
     protected Map<String, String> createStorage;
 
-    @Parameter(required = true)
-    protected String storageName;
-
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        if(odo == null) {
+    public void execute() {
+        if (odo == null) {
             odo = new Odo();
         }
 
-        StorageCreateCommand storageCreateCommand = odo.createStorage(storageName)
-                .withPath(project.getBasedir().getAbsolutePath().concat(path)).withSize(size).build();
+        if (!createStorage.containsKey("storageName")) {
+            throw new IllegalArgumentException("storageName property is required for create storage.");
+        }
 
-        injectFields(storageCreateCommand, createStorage, logger);
+        if (!createStorage.containsKey("path")) {
+            throw new IllegalArgumentException("path property is required for create storage.");
+        }
+
+        StorageCreateCommand storageCreateCommand = odo.createStorage(createStorage.get("storageName"), createStorage.get("path"))
+                .build();
+
+        injectFields(storageCreateCommand, createStorage);
         storageCreateCommand.execute(project.getBasedir().toPath());
     }
 }

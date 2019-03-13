@@ -19,9 +19,8 @@ public class AppDeleteCommand extends AbstractRunnableCommand<Void> {
     private AppCommand appCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private AppDeleteCommand(AppCommand appCommand, String appName, CliExecutor odoExecutor){
+    private AppDeleteCommand(AppCommand appCommand, CliExecutor odoExecutor){
         super(odoExecutor);
-        this.appName = appName;
         this.appCommand = appCommand;
     }
 
@@ -32,7 +31,11 @@ public class AppDeleteCommand extends AbstractRunnableCommand<Void> {
         arguments.addAll(appCommand.getCliCommand());
 
         arguments.add(COMMAND_NAME);
-        arguments.add(appName);
+
+        if (appName != null) {
+            arguments.add(appName);
+        }
+
 
         if (project != null) {
             arguments.add(PROJECT);
@@ -53,12 +56,17 @@ public class AppDeleteCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<AppDeleteCommand.Builder> {
         private AppDeleteCommand appDeleteCommand;
 
-        public Builder(AppCommand appCommand, String appName, CliExecutor odoExecutor) {
-            this.appDeleteCommand = new AppDeleteCommand(appCommand, appName, odoExecutor);
+        public Builder(AppCommand appCommand, CliExecutor odoExecutor) {
+            this.appDeleteCommand = new AppDeleteCommand(appCommand, odoExecutor);
         }
 
         public AppDeleteCommand.Builder withProject(String project) {
             this.appDeleteCommand.project = project;
+            return this;
+        }
+
+        public AppDeleteCommand.Builder withAppName(String appName) {
+            this.appDeleteCommand.appName = appName;
             return this;
         }
 
