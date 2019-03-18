@@ -40,7 +40,7 @@
       <plugin>
         <groupId>com.lordofthejars.odo</groupId>
         <artifactId>odo-maven-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${project.version}</version>
         <configuration>
           <createComponent>
             <maxMemory>2</maxMemory>
@@ -53,6 +53,13 @@
             <version>0.0.1-SNAPSHOT</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>

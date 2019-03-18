@@ -62,7 +62,7 @@ public class JavaExecDetectorTest {
         // Then
 
         OdoExecutorAssertion.assertThat(odoExecutorStub)
-            .hasExecuted("odo component create openjdk18 " + name + " --wait", "odo component push");
+            .hasExecuted("odo component create openjdk18 " + name + " --wait", "odo component push", "odo url create --component demo --port 8080");
     }
 
 }

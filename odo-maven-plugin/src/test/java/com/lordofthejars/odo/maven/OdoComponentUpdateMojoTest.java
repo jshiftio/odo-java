@@ -6,8 +6,6 @@ import com.lordofthejars.odo.testbed.odo.OdoExecutorStub;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +21,7 @@ public class OdoComponentUpdateMojoTest {
     MavenProject project;
 
     @Test
-    public void testMojoBehavior(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+    public void testMojoBehavior(OdoExecutorStub odoExecutorStub) {
         // Given
         OdoComponentUpdateMojo odoComponentUpdateMojo = new OdoComponentUpdateMojo();
         Odo odo = new Odo(odoExecutorStub);
@@ -41,7 +39,7 @@ public class OdoComponentUpdateMojoTest {
     }
 
     @Test
-    public void testMojoBehaviorWithLocalPath(OdoExecutorStub odoExecutorStub) throws MojoExecutionException, MojoFailureException {
+    public void testMojoBehaviorWithLocalPath(OdoExecutorStub odoExecutorStub) {
         // Given
         OdoComponentUpdateMojo odoComponentUpdateMojo = new OdoComponentUpdateMojo();
         Odo odo = new Odo(odoExecutorStub);

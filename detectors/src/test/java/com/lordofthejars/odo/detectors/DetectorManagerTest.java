@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith({OdoExecutorStubInjector.class, MockitoExtension.class})
-public class DetectorHubTest {
+public class DetectorManagerTest {
 
     @Mock
     Extractor extractor;
@@ -35,19 +35,19 @@ public class DetectorHubTest {
         Mockito.when(extractor.extractArtifactId()).thenReturn("demo");
 
         final Odo odo = new Odo(odoExecutorStub);
-        final DetectorHub detectorHub = new DetectorHub(extractor, odo);
+        final DetectorManager detectorManager = new DetectorManager(extractor, odo);
 
         // When
 
-        detectorHub.execute();
+        detectorManager.execute();
 
         // Then
 
         OdoExecutorAssertion.assertThat(odoExecutorStub)
             .hasExecuted("odo service create mysql-persistent --plan dev --wait",
-            "odo component create openjdk18 demo --wait",
-            "odo component push",
-            "odo component link mysql-persistent --component demo --port 8080 --wait",
-            "odo url create --component demo");
+                "odo component create openjdk18 demo --wait",
+                "odo component push",
+                "odo url create --component demo --port 8080",
+                "odo component link mysql-persistent --component demo --port 8080 --wait");
     }
 }

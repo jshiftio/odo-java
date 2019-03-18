@@ -9,12 +9,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetectorHub {
+public class DetectorManager {
 
     private Extractor extractor;
     private Odo odo;
 
-    DetectorHub(Extractor extractor, Odo odo) {
+    public DetectorManager(Extractor extractor, Odo odo) {
         this.odo = odo;
         this.extractor = extractor;
     }
@@ -24,8 +24,6 @@ public class DetectorHub {
         final List<String> listOfServicesName = detectServices();
         final String componentName = detectComponent();
         linkServices(componentName, listOfServicesName);
-
-        odo.createUrl().withComponent(componentName).build().execute();
 
     }
 
