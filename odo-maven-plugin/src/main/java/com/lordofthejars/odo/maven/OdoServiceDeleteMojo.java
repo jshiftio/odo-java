@@ -8,7 +8,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.util.Map;
-import java.util.logging.Logger;
+
 import static com.lordofthejars.odo.maven.ConfigurationInjector.injectFields;
 
 @Mojo(name = "delete-service")
@@ -33,7 +33,7 @@ public class OdoServiceDeleteMojo extends AbstractMojo {
             throw new IllegalArgumentException("serviceType property is required for delete service.");
         }
 
-        final ServiceDeleteCommand serviceDeleteCommand = odo.deleteService("serviceName")
+        final ServiceDeleteCommand serviceDeleteCommand = odo.deleteService(deleteService.get("serviceName"))
                 .build();
 
         injectFields(serviceDeleteCommand, deleteService);
