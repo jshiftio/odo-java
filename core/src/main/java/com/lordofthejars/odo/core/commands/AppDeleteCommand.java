@@ -32,10 +32,8 @@ public class AppDeleteCommand extends AbstractRunnableCommand<Void> {
 
         arguments.add(COMMAND_NAME);
 
-        if (appName != null) {
-            arguments.add(appName);
-        }
-
+        // required arg
+        arguments.add(appName);
 
         if (project != null) {
             arguments.add(PROJECT);

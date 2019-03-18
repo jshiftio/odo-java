@@ -4,14 +4,15 @@ import com.lordofthejars.odo.core.CliExecutor;
 import com.lordofthejars.odo.core.commands.output.App;
 import com.lordofthejars.odo.core.commands.output.AppList;
 import com.lordofthejars.odo.core.commands.output.TerminalOutput;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import static com.lordofthejars.odo.core.commands.CommandTransformer.transform;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,7 +51,8 @@ public class AppCommandTest {
 
         // Given
 
-        final AppDeleteCommand appDeleteCommand = new AppDeleteCommand.Builder(appCommand, odoExecutor).build();
+        final AppDeleteCommand appDeleteCommand = new AppDeleteCommand.Builder(appCommand, odoExecutor)
+                .withAppName("myapp").build();
 
         // When
 
