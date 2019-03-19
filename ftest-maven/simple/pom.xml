@@ -50,7 +50,7 @@
           <dependency>
             <groupId>com.lordofthejars.odo</groupId>
             <artifactId>odo-binary</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
           </dependency>
         </dependencies>
       </plugin>

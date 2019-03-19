@@ -18,7 +18,7 @@ public class MySQLDetector extends ServiceDetector {
 
     @Override
     public String apply() {
-        odo.createService(MYSQL_PERSISTENT, "dev").withWait().build()
+        odo.createService(MYSQL_PERSISTENT, "default").withWait().build()
             .execute(extractor.workingDirectory());
         return MYSQL_PERSISTENT;
     }

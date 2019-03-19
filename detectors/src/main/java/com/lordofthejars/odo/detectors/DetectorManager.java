@@ -31,7 +31,6 @@ public class DetectorManager {
         for (String service : services) {
             odo.linkComponent(service)
                 .withComponent(componentName)
-                .withPort("8080")
                 .withWait()
                 .build()
                 .execute();

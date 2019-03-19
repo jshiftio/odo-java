@@ -18,7 +18,7 @@ public class PostgreSQLDetector extends ServiceDetector {
 
     @Override
     public String apply() {
-        odo.createService(POSTGRESQL_PERSISTENT, "dev").withWait().build()
+        odo.createService(POSTGRESQL_PERSISTENT, "default").withWait().build()
             .execute(extractor.workingDirectory());
         return POSTGRESQL_PERSISTENT;
     }
