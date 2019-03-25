@@ -2,11 +2,13 @@ package com.lordofthejars.odo.detectors;
 
 import com.lordofthejars.odo.core.Odo;
 import com.lordofthejars.odo.detectors.extractor.Extractor;
+import com.lordofthejars.odo.detectors.service.ServiceDetector;
 import com.lordofthejars.odo.detectors.spi.Detector;
 import com.lordofthejars.odo.detectors.util.BuildTool;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DetectorManager {
@@ -14,9 +16,12 @@ public class DetectorManager {
     private Extractor extractor;
     private Odo odo;
 
+    DetectorLoader detectorLoader;
+
     public DetectorManager(Extractor extractor, Odo odo) {
         this.odo = odo;
         this.extractor = extractor;
+        this.detectorLoader = new DetectorLoader();
     }
 
     public void execute () {
@@ -39,7 +44,8 @@ public class DetectorManager {
 
     private String detectComponent() {
         String componentName = null;
-        final List<Detector> componentDetectors = DetectorLoader.componentDetectors();
+        final List<Detector> componentDetectors = detectorLoader.componentDetectors();
+        Collections.sort(componentDetectors);
         for (Detector detector : componentDetectors) {
             detector.configure(extractor, odo);
             if (detector.detect()) {
@@ -53,16 +59,25 @@ public class DetectorManager {
     }
 
     private List<String> detectServices() {
+        final List<Class<? extends Detector>> overridden = new ArrayList<>();
+
         final List<String> listOfServicesName = new ArrayList<>();
-        final List<Detector> serviceDetectors = DetectorLoader.serviceDetectors();
+        final List<Detector> serviceDetectors = detectorLoader.serviceDetectors();
+        Collections.sort(serviceDetectors);
         for (Detector detector : serviceDetectors) {
             detector.configure(extractor, odo);
-            if (detector.detect()) {
+            if (isNotOverridden(overridden, detector.getClass()) && detector.detect()) {
+                detector.overrides().ifPresent(o -> overridden.add(o));
                 listOfServicesName.add(detector.apply());
             }
         }
 
         return listOfServicesName;
+    }
+
+    private boolean isNotOverridden(final List<Class<? extends Detector>> overridden,
+        Class<? extends Detector> currentService) {
+        return !overridden.contains(currentService);
     }
 
 }

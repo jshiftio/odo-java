@@ -18,14 +18,14 @@ public class DetectorLoader {
         return loader.iterator();
     }
 
-    public static List<Detector> componentDetectors() {
+    public List<Detector> componentDetectors() {
         return StreamSupport.stream(
             Spliterators.spliteratorUnknownSize(detectors(), Spliterator.ORDERED), false)
             .filter(d -> d.getType() == DetectorType.COMPONENT)
             .collect(Collectors.toList());
     }
 
-    public static List<Detector> serviceDetectors() {
+    public List<Detector> serviceDetectors() {
         return StreamSupport.stream(
             Spliterators.spliteratorUnknownSize(detectors(), Spliterator.ORDERED), false)
             .filter(d -> d.getType() == DetectorType.SERVICE)
