@@ -1,0 +1,4 @@
+io.jshift.odo.detectors.component.WildflyDetector
+io.jshift.odo.detectors.component.JavaExecDetector
+io.jshift.odo.detectors.service.MySQLDetector
+io.jshift.odo.detectors.service.PostgreSQLDetector

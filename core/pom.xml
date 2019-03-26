@@ -5,7 +5,7 @@
 
   <parent>
     <artifactId>odo-java</artifactId>
-    <groupId>com.lordofthejars.odo</groupId>
+    <groupId>io.jshift</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>

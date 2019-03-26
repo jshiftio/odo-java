@@ -38,8 +38,8 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>com.lordofthejars.odo</groupId>
-        <artifactId>odo-maven-plugin</artifactId>
+        <groupId>com.lordofthejars.io.jshift.odo</groupId>
+        <artifactId>io.jshift.odo-maven-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
           <createComponent>
@@ -48,8 +48,8 @@
         </configuration>
         <dependencies>
           <dependency>
-            <groupId>com.lordofthejars.odo</groupId>
-            <artifactId>odo-binary</artifactId>
+            <groupId>com.lordofthejars.io.jshift.odo</groupId>
+            <artifactId>io.jshift.odo-binary</artifactId>
             <version>${project.version}</version>
           </dependency>
         </dependencies>

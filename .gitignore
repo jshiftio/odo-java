@@ -201,8 +201,8 @@ buildNumber.properties
 # Ignore all local history of files
 .history
 
-### Adds odo binary
+### Adds io.jshift.odo binary
 
-odo-binary/src/main/resources/binaries
+io.jshift.odo-binary/src/main/resources/binaries
 
 # End of https://www.gitignore.io/api/java,maven,eclipse,intellij,visualstudiocode

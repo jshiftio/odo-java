@@ -5,7 +5,7 @@
 
   <parent>
     <artifactId>odo-java</artifactId>
-    <groupId>com.lordofthejars.odo</groupId>
+    <groupId>io.jshift</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
@@ -36,19 +36,19 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.lordofthejars.odo</groupId>
+      <groupId>io.jshift</groupId>
       <artifactId>odo-testbed</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.lordofthejars.odo</groupId>
+      <groupId>io.jshift</groupId>
       <artifactId>odo-binary</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.lordofthejars.odo</groupId>
+      <groupId>io.jshift</groupId>
       <artifactId>odo-java-core</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>

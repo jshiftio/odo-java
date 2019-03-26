@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>odo-java</artifactId>
-        <groupId>com.lordofthejars.odo</groupId>
+        <groupId>io.jshift</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -29,12 +29,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.lordofthejars.odo</groupId>
+            <groupId>io.jshift</groupId>
             <artifactId>odo-java-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.lordofthejars.odo</groupId>
+            <groupId>io.jshift</groupId>
             <artifactId>detectors</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -54,13 +54,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.lordofthejars.odo</groupId>
+            <groupId>io.jshift</groupId>
             <artifactId>odo-testbed</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.lordofthejars.odo</groupId>
+            <groupId>io.jshift</groupId>
             <artifactId>odo-binary</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

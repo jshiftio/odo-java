@@ -5,7 +5,7 @@
 
   <parent>
     <artifactId>odo-java</artifactId>
-    <groupId>com.lordofthejars.odo</groupId>
+    <groupId>io.jshift</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
@@ -34,37 +34,37 @@
         <version>1.4.1</version>
         <executions>
           <execution>
-            <id>install-odo-mac</id>
+            <id>install-io.jshift.odo-mac</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-darwin-amd64</url>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${io.jshift.odo.version}/odo-darwin-amd64</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>install-odo-linux</id>
+            <id>install-io.jshift.odo-linux</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-linux-amd64</url>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${io.jshift.odo.version}/odo-linux-amd64</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>install-odo-win</id>
+            <id>install-io.jshift.odo-win</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-windows-amd64.exe</url>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${io.jshift.odo.version}/odo-windows-amd64.exe</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
