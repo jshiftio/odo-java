@@ -15,10 +15,6 @@ public class LocationResolverChain {
 
     public LocationResolver getLocationResolver(OdoConfiguration odoConfiguration) {
 
-        if (odoConfiguration.isLocalOdoSet()) {
-            return getLocalLocationResolver(odoConfiguration.getLocalOdo());
-        }
-
         final String odoBinary = this.operatingSystemConfig.resolveOdoBinary();
 
         if (System.getProperty(ODO_VERSION) != null) {
@@ -38,10 +34,6 @@ public class LocationResolverChain {
 
     private LocationResolver getUrlLocationResolver(String odoBinary, String version) {
         return new UrlLocationResolver(odoBinary, version);
-    }
-
-    private LocationResolver getLocalLocationResolver(Path path) {
-        return new LocalLocationResolver(path);
     }
 
 }

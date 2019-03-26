@@ -16,15 +16,17 @@ public class FileManager {
         this.name = name;
     }
 
-    Path copyToTemp() throws IOException {
-        final Path odoTempDirectory = Files.createTempDirectory("odo");
-
-        final Path output = odoTempDirectory.resolve(this.name);
+    Path copyToLocation(Path location) throws IOException {
+        final Path output = location.resolve(this.name);
         try(final InputStream stream = this.content) {
             Files.copy(stream, output, StandardCopyOption.REPLACE_EXISTING);
         }
         return output;
     }
 
+    Path copyToTemp() throws IOException {
+        final Path odoTempDirectory = Files.createTempDirectory("odo");
+        return copyToLocation(odoTempDirectory);
+    }
 
 }

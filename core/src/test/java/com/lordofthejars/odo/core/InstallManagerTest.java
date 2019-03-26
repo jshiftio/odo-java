@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -43,6 +44,31 @@ public class InstallManagerTest {
         assertThat(installPath)
             .exists()
             .isExecutable();
+
+    }
+
+    @Test
+    public void should_install_file_in_concrete_location(@TempDir Path installationDir) throws IOException {
+
+        // Given
+
+        when(locationResolverChain.getLocationResolver(any(OdoConfiguration.class))).thenReturn(locationResolver);
+        when(locationResolver.getName()).thenReturn("helloworld.txt");
+        when(locationResolver.loadResource()).thenReturn(InstallManagerTest.class.getClassLoader().getResourceAsStream("binaries/hello.txt"));
+
+        InstallManager installManager = new InstallManager();
+        installManager.locationResolverChain = locationResolverChain;
+
+        // When
+
+        final OdoConfiguration odoConfiguration = new OdoConfiguration();
+        odoConfiguration.setInstallationDir(installationDir);
+
+        final Path installPath = installManager.install(odoConfiguration);
+
+        // Then
+
+        assertThat(installPath).startsWith(installationDir);
 
     }
 

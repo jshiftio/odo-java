@@ -26,7 +26,7 @@ public class OdoStorageDeleteMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!deleteStorage.containsKey("storageName")) {

@@ -24,8 +24,9 @@ public class OdoComponentLinkMojo extends AbstractMojo {
 
     @Override
     public void execute() {
+
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!linkComponent.containsKey("name")) {

@@ -26,8 +26,9 @@ public class OdoComponentDeleteMojo extends AbstractMojo {
 
     @Override
     public void execute() {
+
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!deleteComponent.containsKey("componentName")) {

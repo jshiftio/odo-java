@@ -28,7 +28,7 @@ public class OdoServiceCreateMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!createService.containsKey("serviceType")) {

@@ -42,7 +42,6 @@ import java.util.logging.Logger;
 
 public class Odo {
 
-    private static final Logger logger = Logger.getLogger(Odo.class.getName());
     private final OdoConfiguration odoConfiguration;
 
     private InstallManager installManager = new InstallManager();
@@ -67,7 +66,11 @@ public class Odo {
 
     protected void install() {
         try {
-            odoHome = odoHome == null ? installManager.install(this.odoConfiguration) : odoHome;
+            if (this.odoConfiguration.isLocalOdoSet()) {
+                odoHome = this.odoConfiguration.getLocalOdo();
+            } else {
+                odoHome = odoHome == null ? installManager.install(this.odoConfiguration) : odoHome;
+            }
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }

@@ -25,8 +25,9 @@ public class OdoServiceDeleteMojo extends AbstractMojo {
 
     @Override
     public void execute() {
+
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!deleteService.containsKey("serviceName")) {

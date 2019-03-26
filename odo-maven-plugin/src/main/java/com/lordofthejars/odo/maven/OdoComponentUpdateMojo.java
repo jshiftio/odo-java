@@ -24,8 +24,8 @@ public class OdoComponentUpdateMojo extends AbstractMojo {
     @Override
     public void execute() {
 
-        if(odo == null) {
-            odo = new Odo();
+        if (odo == null) {
+            odo = OdoFactory.createOdo();
         }
 
         ComponentUpdateCommand componentUpdateCommand = odo.updateComponent().build();

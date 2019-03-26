@@ -31,11 +31,7 @@ public class OdoDetectDeployMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            if (dryRun) {
-                odo = new Odo(new DryRunOdoExecutor());
-            } else {
-                odo = new Odo();
-            }
+            odo = OdoFactory.createOdo();
         }
 
         final DetectorManager detectorManager = new DetectorManager(new MavenExtractor(project), odo);

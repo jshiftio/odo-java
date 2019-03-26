@@ -6,12 +6,17 @@ public class OdoConfiguration {
 
     private String version;
     private Path localOdo;
+    private Path installationDir;
 
     private boolean printStandardStreamToConsole = true;
     private boolean printErrorStreamToConsole = true;
 
     public OdoConfiguration() {
 
+    }
+
+    public boolean isInstallationDirSet() {
+        return this.installationDir != null;
     }
 
     public boolean isLocalOdoSet() {
@@ -36,6 +41,14 @@ public class OdoConfiguration {
 
     public Path getLocalOdo() {
         return localOdo;
+    }
+
+    public Path getInstallationDir() {
+        return installationDir;
+    }
+
+    public void setInstallationDir(Path installationDir) {
+        this.installationDir = installationDir;
     }
 
     public boolean isPrintStandardStreamToConsole() {

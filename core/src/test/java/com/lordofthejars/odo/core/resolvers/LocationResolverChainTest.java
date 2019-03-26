@@ -2,7 +2,6 @@ package com.lordofthejars.odo.core.resolvers;
 
 import com.lordofthejars.odo.api.LocationResolver;
 import com.lordofthejars.odo.api.OdoConfiguration;
-import java.nio.file.Paths;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -65,27 +64,6 @@ public class LocationResolverChainTest {
 
         assertThat(locationResolver)
             .isInstanceOf(UrlLocationResolver.class);
-    }
-
-    @Test
-    public void should_use_local_locator_if_local_path_set() {
-
-        // Given
-
-        final LocationResolverChain locationResolverChain = new LocationResolverChain();
-
-        // When
-
-        final OdoConfiguration odoConfiguration = new OdoConfiguration();
-        odoConfiguration.setLocalOdo(Paths.get("hello.txt"));
-
-        final LocationResolver locationResolver = locationResolverChain.getLocationResolver(odoConfiguration);
-
-        // Then
-
-        assertThat(locationResolver)
-            .isInstanceOf(LocalLocationResolver.class);
-
     }
 
     @AfterEach

@@ -29,7 +29,7 @@ public class OdoComponentCreateMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!createComponent.containsKey("componentType")) {

@@ -45,7 +45,7 @@ public class MySQLDetectorTest {
         // Then
 
         OdoExecutorAssertion.assertThat(odoExecutorStub)
-            .hasExecuted("odo service create mysql-persistent --plan dev --wait");
+            .hasExecuted("odo service create mysql-persistent --plan default --wait");
     }
 
 }

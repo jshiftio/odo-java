@@ -26,7 +26,7 @@ public class OdoStorageMountMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!mountStorage.containsKey("storageName")) {

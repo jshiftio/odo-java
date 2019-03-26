@@ -23,8 +23,9 @@ public class OdoStorageCreateMojo extends AbstractMojo {
     protected Map<String, String> createStorage;
 
     public void execute() {
+
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         if (!createStorage.containsKey("storageName")) {

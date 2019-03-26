@@ -24,8 +24,9 @@ public class OdoWatchMojo extends AbstractMojo {
 
     @Override
     public void execute() {
+
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         WatchCommand.Builder builder = odo.watch();

@@ -24,8 +24,9 @@ public class OdoComponentPushMojo extends AbstractMojo {
 
     @Override
     public void execute() {
+
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         ComponentPushCommand componentPushCommand = odo.pushComponent().build();

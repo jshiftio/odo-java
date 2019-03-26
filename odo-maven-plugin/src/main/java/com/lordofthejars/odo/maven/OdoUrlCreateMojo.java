@@ -26,7 +26,7 @@ public class OdoUrlCreateMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         UrlCreateCommand.Builder builder = odo.createUrl();

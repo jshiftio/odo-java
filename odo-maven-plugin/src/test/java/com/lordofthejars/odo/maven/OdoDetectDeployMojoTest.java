@@ -47,11 +47,11 @@ public class OdoDetectDeployMojoTest {
 
         // Then
 
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo service create postgresql-persistent --plan dev --wait",
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo service create postgresql-persistent --plan default --wait",
             "odo component create openjdk18 --wait",
             "odo component push",
             "odo url create --port 8080",
-            "odo component link postgresql-persistent --port 8080 --wait");
+            "odo component link postgresql-persistent --wait");
     }
 
 }

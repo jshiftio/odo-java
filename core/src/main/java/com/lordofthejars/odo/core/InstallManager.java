@@ -7,31 +7,37 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-class InstallManager {
+public class InstallManager {
 
-    private Path copyToTemp;
+    private Path path;
     LocationResolverChain locationResolverChain;
 
-    InstallManager() {
+    public InstallManager() {
         this.locationResolverChain = new LocationResolverChain();
     }
 
-    Path install(OdoConfiguration odoConfiguration) throws IOException {
+    public Path install(OdoConfiguration odoConfiguration) throws IOException {
 
         final LocationResolver locationResolver = this.locationResolverChain.getLocationResolver(odoConfiguration);
 
         final FileManager fileManager = new FileManager(locationResolver.getName(),
             locationResolver.loadResource());
-        copyToTemp = fileManager.copyToTemp();
 
-        FilePermission.execPermission(copyToTemp);
+        if (odoConfiguration.isInstallationDirSet()) {
+            path = fileManager.copyToLocation(odoConfiguration.getInstallationDir());
+        } else {
+            path = fileManager.copyToTemp();
+        }
 
-        return copyToTemp;
+
+        FilePermission.execPermission(path);
+
+        return path;
     }
 
     void uninstall() throws IOException {
-        if (Files.exists(copyToTemp)) {
-            Files.delete(copyToTemp);
+        if (Files.exists(path)) {
+            Files.delete(path);
         }
     }
 

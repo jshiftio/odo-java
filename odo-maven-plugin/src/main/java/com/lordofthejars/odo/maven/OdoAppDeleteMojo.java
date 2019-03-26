@@ -26,8 +26,9 @@ public class OdoAppDeleteMojo extends AbstractMojo {
 
     @Override
     public void execute() {
+
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         AppDeleteCommand appDeleteCommand = odo.deleteApp().build();

@@ -43,7 +43,7 @@ public class PostgreSQLDetectorTest {
         // Then
 
         OdoExecutorAssertion.assertThat(odoExecutorStub)
-            .hasExecuted("odo service create postgresql-persistent --plan dev --wait");
+            .hasExecuted("odo service create postgresql-persistent --plan default --wait");
     }
 
 }

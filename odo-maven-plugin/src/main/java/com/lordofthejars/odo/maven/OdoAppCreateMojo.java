@@ -26,7 +26,7 @@ public class OdoAppCreateMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            odo = new Odo();
+            odo = OdoFactory.createOdo();
         }
 
         AppCreateCommand.Builder builder = odo.createApp();
