@@ -6,13 +6,13 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: io.jshift.odo-{{ checksum "pom.xml" }}
+        key: odo-{{ checksum "pom.xml" }}
     - run:
         command: |
           # Run maven build
           mvn clean install
     - save_cache:
-        key: io.jshift.odo-{{ checksum "pom.xml" }}
+        key: odo-{{ checksum "pom.xml" }}
         paths:
         - ~/.m2
 

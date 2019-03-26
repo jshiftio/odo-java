@@ -24,7 +24,7 @@ public class GitExtension implements BeforeAllCallback, ParameterResolver {
 
     public GitExtension() {
         try {
-            sharedTempDir = Files.createTempDirectory("io.jshift.odo-test");
+            sharedTempDir = Files.createTempDirectory("odo-test");
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

@@ -25,7 +25,7 @@ public class CreateServicesFromCatalogTest {
     private final Odo odo = new Odo(); // Creates Odo instance
 
     @AfterEach
-    public void removeService() { // Clean components created by io.jshift.odo
+    public void removeService() { // Clean components created by odo
         odo.deleteService("postgresql-persistent").build().execute();
     }
 

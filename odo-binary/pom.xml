@@ -34,37 +34,37 @@
         <version>1.4.1</version>
         <executions>
           <execution>
-            <id>install-io.jshift.odo-mac</id>
+            <id>install-odo-mac</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${io.jshift.odo.version}/odo-darwin-amd64</url>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-darwin-amd64</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>install-io.jshift.odo-linux</id>
+            <id>install-odo-linux</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${io.jshift.odo.version}/odo-linux-amd64</url>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-linux-amd64</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>install-io.jshift.odo-win</id>
+            <id>install-odo-win</id>
             <phase>initialize</phase>
             <goals>
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${io.jshift.odo.version}/odo-windows-amd64.exe</url>
+              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-windows-amd64.exe</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>

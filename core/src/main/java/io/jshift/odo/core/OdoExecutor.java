@@ -86,12 +86,12 @@ public class OdoExecutor implements CliExecutor {
 
     private void validateInput(Path binary, Path directory) {
         if (!Files.isRegularFile(binary)) {
-            throw new IllegalArgumentException(String.format("%s binary path should point to io.jshift.odo executable.", binary));
+            throw new IllegalArgumentException(String.format("%s binary path should point to odo executable.", binary));
         }
 
         if (!Files.isDirectory(directory)) {
             throw new IllegalArgumentException(
-                String.format("%s should be a directory where running io.jshift.odo (typically the cloned project)", directory));
+                String.format("%s should be a directory where running odo (typically the cloned project)", directory));
         }
     }
 
