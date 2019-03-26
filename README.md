@@ -27,3 +27,9 @@ to them: code.
         odo.link("provider").withComponent("consumer").withPort("8080").build().execute(cloneRepo);
 
 ```
+
+### Maven plugin
+
+### Detectors
+
+### Updating to a new version
