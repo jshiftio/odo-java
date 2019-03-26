@@ -1,4 +1,0 @@
-com.lordofthejars.odo.detectors.component.WildflyDetector
-com.lordofthejars.odo.detectors.component.JavaExecDetector
-com.lordofthejars.odo.detectors.service.MySQLDetector
-com.lordofthejars.odo.detectors.service.PostgreSQLDetector
