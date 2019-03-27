@@ -15,9 +15,23 @@ jobs:
         key: odo-{{ checksum "pom.xml" }}
         paths:
         - ~/.m2
-
+    
+  ftests:
+    machine: true
+    steps:
+    - checkout
+    - run:
+        command: |
+          bash ./scripts/prepare_test_environment.sh
+          ./mvnw clean install -Pitest-openshift
+    - save_cache:
+        key: odo-{{ checksum "pom.xml" }}
+        paths:
+        - ~/.m2
+                
 workflows:
   version: 2
   all:
     jobs:
     - build
+    - ftests
