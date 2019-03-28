@@ -2,8 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/jshiftio/odo-java.svg?style=svg)](https://circleci.com/gh/jshiftio/odo-java)
 
-This library provides a wrapper for [odo](https://github.com/redhat-developer/io.jshift.odo) which is a CLI tool for developers who are writing,
-building and deploying applications on Openshift. on OpenShift. With Odo, developers get an opinionated CLI tool that supports fast,  iterative development which abstracts away Kubernetes and OpenShift concepts, thus allowing them to focus on what's most important 
+This library provides a wrapper for [odo](https://github.com/redhat-developer/odo) which is a CLI tool for developers who are writing,
+building and deploying applications on Openshift. With Odo, developers get an opinionated CLI tool that supports fast, iterative development which abstracts away Kubernetes and OpenShift concepts, thus allowing them to focus on what's most important 
 to them: code.
 
 ### Usage
