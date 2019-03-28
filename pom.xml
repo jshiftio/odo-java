@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.jshift</groupId>
@@ -8,14 +9,35 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>odo-java</name>
-  <description>odo integration in Java.</description>
-
+  <name>Odo Java</name>
+  <description>Odo Integration in Java.</description>
+  <url>https://github.com/jshiftio/odo-java</url>
   <licenses>
     <license>
       <name>Apache License Version 2.0</name>
     </license>
   </licenses>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/jshiftio/odo-java/issues</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:git:git@github.com:jshiftio/odo-java.git</connection>
+    <developerConnection>scm:git:git@github.com:jshiftio/odo-java.git</developerConnection>
+    <url>scm:git:git@github.com:jshiftio/odo-java.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>asotobu</id>
+      <name>Alex Soto Bueno</name>
+      <email>asotobue@redhat.com</email>
+    </developer>
+  </developers>
+
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -102,6 +124,22 @@
   </dependencyManagement>
 
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
@@ -141,6 +179,13 @@
       </plugins>
     </pluginManagement>
   </build>
+  <distributionManagement>
+    <repository>
+      <id>bintray-lordofthejars-maven</id>
+      <name>lordofthejars-maven</name>
+      <url>https://api.bintray.com/maven/jshiftio/jshift/odo-java/;publish=1</url>
+    </repository>
+  </distributionManagement>
   <profiles>
     <profile>
       <id>itest-openshift</id>
