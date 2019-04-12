@@ -15,7 +15,7 @@ public class DatabaseConfigurationExtractorLoader {
 
     private List<DatabaseConfigurationExtractor> databaseConfigurationExtractors = new ArrayList<>();
 
-    public List<DatabaseConfigurationExtractor> detectors(Extractor extractor) {
+    public List<DatabaseConfigurationExtractor> databaseConfigurationExtractors(Extractor extractor) {
         if (databaseConfigurationExtractors.isEmpty()) {
             databaseConfigurationExtractors.addAll(
                 StreamSupport.stream(loader.spliterator(), false)

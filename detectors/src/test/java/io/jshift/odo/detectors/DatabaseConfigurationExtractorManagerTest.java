@@ -28,7 +28,7 @@ public class DatabaseConfigurationExtractorManagerTest {
 
     @BeforeEach
     public void setupLoader() {
-        when(databaseConfigurationExtractorLoader.detectors(extractor)).thenReturn(Arrays.asList(databaseConfigurationExtractor));
+        when(databaseConfigurationExtractorLoader.databaseConfigurationExtractors(extractor)).thenReturn(Arrays.asList(databaseConfigurationExtractor));
     }
 
     @Test

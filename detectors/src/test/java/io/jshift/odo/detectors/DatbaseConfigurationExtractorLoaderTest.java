@@ -25,7 +25,7 @@ public class DatbaseConfigurationExtractorLoaderTest {
 
         // When
 
-        final List<DatabaseConfigurationExtractor> detectors = databaseConfigurationExtractorLoader.detectors(extractor);
+        final List<DatabaseConfigurationExtractor> detectors = databaseConfigurationExtractorLoader.databaseConfigurationExtractors(extractor);
 
         // Then
 

@@ -15,7 +15,7 @@ public class DatabaseConfigurationExtractorManager {
     }
 
     public Optional<DatabaseConfiguration> getDatabaseConfiguration(Extractor extractor) {
-        final List<DatabaseConfigurationExtractor> detectors = this.databaseConfigurationExtractorLoader.detectors(extractor);
+        final List<DatabaseConfigurationExtractor> detectors = this.databaseConfigurationExtractorLoader.databaseConfigurationExtractors(extractor);
 
         for (DatabaseConfigurationExtractor detector : detectors) {
             final Optional<DatabaseConfiguration> extract = detector.extract();
