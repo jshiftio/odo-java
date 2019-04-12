@@ -1,0 +1,3 @@
+io.jshift.odo.detectors.service.QuarkusDatabaseExtractor
+io.jshift.odo.detectors.service.JpaDatabaseExtractor
+io.jshift.odo.detectors.service.SpringBootDatabaseExtractor

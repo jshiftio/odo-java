@@ -1,0 +1,9 @@
+spring:
+    application:
+        name: persistence
+    datasource:
+        url: jdbc:devnull:h2:mem:persistence;DB_CLOSE_ON_EXIT=FALSE
+        username: as
+        password: as
+        ddlEnable: true
+        driver-class-name: com.lordofthejars.devnull.driver.DevNullDriver
