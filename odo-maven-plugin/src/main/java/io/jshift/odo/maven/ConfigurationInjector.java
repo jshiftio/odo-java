@@ -61,7 +61,7 @@ public class ConfigurationInjector {
                     if (isGlobalParameter(entry.getKey())) {
                         final Field globalParamsField = getGlobalParamsField(command);
                         // If command class contains a global parameter object (all of them should have one, but who knows)
-                        if(globalParamsField != null) {
+                        if (globalParamsField != null) {
                             if (globalParametersSupport == null) {
                                 globalParametersSupport = instantiateGlobalParams(command);
                             }
