@@ -7,13 +7,13 @@ building and deploying applications on Openshift.
 With Odo, developers get an opinionated CLI tool that supports fast, iterative development which abstracts away Kubernetes and OpenShift concepts, thus allowing them to focus on what's most important
 to them: code.
 
-Odo-java is composed by a `core` module which is the front interface to execute Odo commands.
+Odo-java is composed of a `core` module which is the front interface to execute Odo commands.
 All integrators should use this interface as its base to call Odo from Java.
-For example Odo Maven Plugin integrates Odo into Maven by using the `core` module.
+For example, Odo Maven Plugin integrates Odo into Maven by using the `core` module.
 
 == Installation
 
-Currently Odo-Java is released in bintray, so you need to add that repository.
+Currently, Odo-Java is released in bintray, so you need to add that repository.
 This will change in the future.
 
 [source, xml]
@@ -33,7 +33,7 @@ This will change in the future.
 
 == Core
 
-Core module acts as interface between Java and Odo.
+Core module acts as an interface between Java and Odo.
 
 To install it you need to add next dependency:
 
@@ -103,7 +103,7 @@ TIP: If you are running Odo-java in the same directory as the project you want t
 
 Odo-java has a module called `detectors` which scans a given Java project and apply automatically Odo commands to deploy the application.
 
-Basically detectors works in two directions, in creating a component of our service definition and in starting the required services.
+Basically detectors work in two directions, in creating a component of our service definition and in starting the required services.
 
 To install it you need to add next dependency:
 
@@ -131,7 +131,7 @@ Detectors scans dependencies of your project and creates the required services a
 
 Services that are now supported to be auto-detected and started are MySQL and PostgreSQL.
 
-Moreover it reads database configuration (username, password and database name) and starts the service with give configuration.
+Moreover, it reads database configuration (username, password and database name) and starts the service with give configuration.
 Configuration files supported are:
 
 * JPA:: `persistence.xml`
@@ -140,7 +140,7 @@ Configuration files supported are:
 
 == Odo Maven Plugin
 
-Odo-java also have a Maven plugin so you can use Odo as a Maven plugin.
+Odo-java also has a Maven plugin so you can use Odo as a Maven plugin.
 
 
 To use it you need to register in `plugins` section:
@@ -167,7 +167,7 @@ To use it you need to register in `plugins` section:
 Any command that is available in Odo, is also mapped as Maven goal in the next form, `odo:<operation>`.
 For example to create a new component, you'd usually do `odo create component`, doing the same but in Maven plugin, you'd do `mvn odo:create-component`.
 
-And in similar way for creating a link `mvn odo:link-component` or  to expose a URL `mvn odo:create-url`.
+And in similar way for creating a link `mvn odo:link-component` or to expose a URL `mvn odo:create-url`.
 
 Also, every configuration parameter of Odo can be set as plugin configuration.
 The first thing to do is put inside `configuration` tag, a parent tag identifying the command name, which is the same as component name but in camel case.
@@ -196,7 +196,7 @@ For example to configure `mvn odo:create-component` call you need to create a pa
 ----
 
 And parameters name are almost the same as in Odo commands but following Java conventions.
-The best way to know the real name parameters for each command is inspect the Java command classes directly: https://github.com/jshiftio/odo-java/tree/master/core/src/main/java/io/jshift/odo/core/commands
+The best way to know the real name parameters for each command is inspecting the Java command classes directly: https://github.com/jshiftio/odo-java/tree/master/core/src/main/java/io/jshift/odo/core/commands
 
 For example in case of `createComponent`:
 
