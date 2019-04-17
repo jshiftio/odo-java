@@ -54,7 +54,31 @@ public class PostgreSQLDetectorTest {
     }
 
     @Test
-    public void should_apply_odo_commands_to_postgresql_with_configration(OdoExecutorStub odoExecutorStub) {
+    public void should_apply_odo_commands_to_quarkus_postgres(OdoExecutorStub odoExecutorStub) {
+        // Given
+
+        final Set<Dependency> dependencySet = new HashSet<>();
+        dependencySet.add(PostgreSQLDetector.POSTGRESQL_QUARKS_DEPENDENCY);
+        when(extractor.extractDependencies()).thenReturn(dependencySet);
+        when(extractor.workingDirectory()).thenReturn(Paths.get("/tmp"));
+
+        final Odo odo = new Odo(odoExecutorStub);
+        final PostgreSQLDetector postgreSQLDetector = new PostgreSQLDetector();
+        postgreSQLDetector.configure(extractor, odo);
+
+        // When
+
+        postgreSQLDetector.detect();
+        postgreSQLDetector.apply();
+
+        // Then
+
+        OdoExecutorAssertion.assertThat(odoExecutorStub)
+            .hasExecuted("odo service create postgresql-persistent --plan default --wait");
+    }
+
+    @Test
+    public void should_apply_odo_commands_to_postgresql_with_configuration(OdoExecutorStub odoExecutorStub) {
 
         // Given
 
