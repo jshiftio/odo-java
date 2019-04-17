@@ -1,0 +1,235 @@
+= Odo-java
+
+image:https://circleci.com/gh/jshiftio/odo-java.svg?style=svg["CircleCI", link="https://circleci.com/gh/jshiftio/odo-java"]
+
+This library provides a wrapper for [odo](https://github.com/redhat-developer/odo) which is a CLI tool for developers who are writing,
+building and deploying applications on Openshift.
+With Odo, developers get an opinionated CLI tool that supports fast, iterative development which abstracts away Kubernetes and OpenShift concepts, thus allowing them to focus on what's most important
+to them: code.
+
+Odo-java is composed by a `core` module which is the front interface to execute Odo commands.
+All integrators should use this interface as its base to call Odo from Java.
+For example Odo Maven Plugin integrates Odo into Maven by using the `core` module.
+
+== Installation
+
+Currently Odo-Java is released in bintray, so you need to add that repository.
+This will change in the future.
+
+[source, xml]
+.pom.xml
+----
+<repositories>
+  <repository>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+    <id>bintray-jshiftio-jshift</id>
+    <name>bintray</name>
+    <url>https://dl.bintray.com/jshiftio/jshift</url>
+  </repository>
+</repositories>
+----
+
+== Core
+
+Core module acts as interface between Java and Odo.
+
+To install it you need to add next dependency:
+
+[source, xml]
+.pom.xml
+----
+<dependency>
+  <groupId>io.jshift</groupId>
+  <artifactId>odo-java-core</artifactId>
+  <version>${project.version}</version>
+</dependency>
+----
+
+Odo-java does not assume where Odo tool is installed, so you need to provide the location of Odo home.
+But you can skip this step if you add next dependency:
+
+[source, xml]
+.pom.xml
+----
+<dependency>
+  <groupId>io.jshift</groupId>
+  <artifactId>odo-binary</artifactId>
+  <version>${project.version}</version>
+</dependency>
+----
+
+If you do this, Odo will be automatically installed and you'll be ready to use Odo-java without having to install Odo manually nor setting the Odo home directory.
+Moreover, adding this dependency you ensure that the version of Odo works with the version of Odo-java and you don't get any incompatibility problems.
+
+=== Usage
+
+Assuming that you have `odo-binary` in classpath.
+
+* Create Odo instance:
+
+[source, java]
+----
+final Odo odo = new Odo();
+----
+
+* Create application, add a component of type `nodejs` to your application:
+
+[source, java]
+----
+odo.create("nodejs").build().execute(projectDirectory);
+----
+
+* Deploy your application :
+
+[source, java]
+----
+odo.push().build().execute(projectDirectory);
+----
+
+* Expose your application endpoint :
+
+[source, java]
+----
+odo.createUrl().withPort(8080).build().execute(projectDirectory);
+----
+
+And the same approach can be used with any other Odo operation like link, storage, ...
+
+TIP: If you are running Odo-java in the same directory as the project you want to manage, it is not necessary you set the `projectDirectory`.
+
+== Detectors
+
+Odo-java has a module called `detectors` which scans a given Java project and apply automatically Odo commands to deploy the application.
+
+Basically detectors works in two directions, in creating a component of our service definition and in starting the required services.
+
+To install it you need to add next dependency:
+
+[source, java]
+.pom.xml
+----
+<dependency>
+  <groupId>io.jshift</groupId>
+  <artifactId>detectors</artifactId>
+  <version>${project.version}</version>
+</dependency>
+----
+
+=== Component Detections
+
+Detectors will scan the current project and create a component with it.
+
+If the project is of type `JAR`, then `openjdk` image is used.
+
+If the project is of type `WAR`, then `wildfly` image is used.
+
+=== Service Detections
+
+Detectors scans dependencies of your project and creates the required services and link them to your component automatically.
+
+Services that are now supported to be auto-detected and started are MySQL and PostgreSQL.
+
+Moreover it reads database configuration (username, password and database name) and starts the service with give configuration.
+Configuration files supported are:
+
+* JPA:: `persistence.xml`
+* Spring Boot:: `application.properties`, `application.y[a]ml`
+* Quarkus:: `application.properties`
+
+== Odo Maven Plugin
+
+Odo-java also have a Maven plugin so you can use Odo as a Maven plugin.
+
+
+To use it you need to register in `plugins` section:
+
+[soure, xml]
+.pom.xml
+----
+<plugin>
+  <groupId>io.jshift.odo</groupId>
+  <artifactId>odo-maven-plugin</artifactId>
+  <version>${project.version}</version>
+  <configuration>
+  </configuration>
+  <dependencies>
+    <dependency>
+      <groupId>io.jshift.odo</groupId>
+      <artifactId>odo-binary</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</plugin>
+----
+
+Any command that is available in Odo, is also mapped as Maven goal in the next form, `odo:<operation>`.
+For example to create a new component, you'd usually do `odo create component`, doing the same but in Maven plugin, you'd do `mvn odo:create-component`.
+
+And in similar way for creating a link `mvn odo:link-component` or  to expose a URL `mvn odo:create-url`.
+
+Also, every configuration parameter of Odo can be set as plugin configuration.
+The first thing to do is put inside `configuration` tag, a parent tag identifying the command name, which is the same as component name but in camel case.
+For example to configure `mvn odo:create-component` call you need to create a parent element called `<createComponent>`.
+
+[source, xml]
+.pom.xml
+----
+<plugin>
+  <groupId>io.jshift.odo</groupId>
+  <artifactId>odo-maven-plugin</artifactId>
+  <version>${project.version}</version>
+  <configuration>
+    <createComponent>
+    ....
+    </createComponent>
+  </configuration>
+  <dependencies>
+    <dependency>
+      <groupId>io.jshift.odo</groupId>
+      <artifactId>odo-binary</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</plugin>
+----
+
+And parameters name are almost the same as in Odo commands but following Java conventions.
+The best way to know the real name parameters for each command is inspect the Java command classes directly: https://github.com/jshiftio/odo-java/tree/master/core/src/main/java/io/jshift/odo/core/commands
+
+For example in case of `createComponent`:
+
+[source, xml]
+.pom.xml
+----
+<plugin>
+  <groupId>io.jshift.odo</groupId>
+  <artifactId>odo-maven-plugin</artifactId>
+  <version>${project.version}</version>
+  <configuration>
+    <createComponent>
+      <maxMemory>2</maxMemory>
+    </createComponent>
+  </configuration>
+  <dependencies>
+    <dependency>
+      <groupId>io.jshift.odo</groupId>
+      <artifactId>odo-binary</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</plugin>
+----
+
+=== Detectors
+
+You can run detector from Maven so with a single command you can deploy all service.
+To run it you just need to do: `mvn odo:detect-deploy`.
+
+This goal has a property named `dryRun` which just prints to console the odo commands that would be executed in case of not setting this property.
+
+
+
+
+
