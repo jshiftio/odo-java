@@ -36,7 +36,7 @@ public class DatabaseConfigurationExtractorManagerTest {
 
         // Given
 
-        when(databaseConfigurationExtractor.extract()).thenReturn(Optional.of(new DatabaseConfiguration("SA", "SA")));
+        when(databaseConfigurationExtractor.extract()).thenReturn(Optional.of(new DatabaseConfiguration("SA", "SA", "mydatabase")));
         final DatabaseConfigurationExtractorManager databaseConfigurationExtractorManager = new DatabaseConfigurationExtractorManager(databaseConfigurationExtractorLoader);
 
         // When

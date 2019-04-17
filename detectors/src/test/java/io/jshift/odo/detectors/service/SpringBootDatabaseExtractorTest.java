@@ -46,7 +46,7 @@ public class SpringBootDatabaseExtractorTest {
         assertThat(databaseConfiguration)
             .isNotEmpty()
             .get()
-            .isEqualTo(new DatabaseConfiguration("sa", "sa"));
+            .isEqualTo(new DatabaseConfiguration("sa", "sa", "mydatabase"));
 
     }
 
@@ -69,7 +69,7 @@ public class SpringBootDatabaseExtractorTest {
         assertThat(databaseConfiguration)
             .isNotEmpty()
             .get()
-            .isEqualTo(new DatabaseConfiguration("as", "as"));
+            .isEqualTo(new DatabaseConfiguration("as", "as", "mydatabase"));
 
     }
 

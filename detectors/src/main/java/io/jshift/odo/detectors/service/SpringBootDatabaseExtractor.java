@@ -71,6 +71,7 @@ public class SpringBootDatabaseExtractor implements DatabaseConfigurationExtract
         static DatabaseConfiguration extract(Map<String, Object> properties) {
             String username = "";
             String password = "";
+            String url = "";
 
             if (properties.containsKey("spring")) {
                 final Map<String, Object> spring = (Map<String, Object>) properties.get("spring");
@@ -84,14 +85,18 @@ public class SpringBootDatabaseExtractor implements DatabaseConfigurationExtract
                     if (datasource.containsKey("password")) {
                         password = (String) datasource.get("password");
                     }
+
+                    if (datasource.containsKey("url")) {
+                        url = (String) datasource.get("url");
+                    }
                 }
             }
 
-            if (username.isEmpty() && password.isEmpty()) {
+            if (username.isEmpty() && password.isEmpty() && url.isEmpty()) {
                 return null;
             }
 
-            return new DatabaseConfiguration(username, password);
+            return new DatabaseConfiguration(username, password, JdbcUrlParser.getDatabase(url));
         }
 
     }
@@ -100,10 +105,12 @@ public class SpringBootDatabaseExtractor implements DatabaseConfigurationExtract
 
         private static final String SPRING_DATASOURCE_USERNAME = "spring.datasource.username";
         private static final String SPRING_DATASOURCE_PASSWORD = "spring.datasource.password";
+        private static final String SPRING_DATASOURCE_URL = "spring.datasource.url";
 
         static DatabaseConfiguration extract(Properties properties) {
             String username = "";
             String password = "";
+            String url = "";
 
             if (properties.containsKey(SPRING_DATASOURCE_USERNAME)) {
                 username = properties.getProperty(SPRING_DATASOURCE_USERNAME);
@@ -113,11 +120,15 @@ public class SpringBootDatabaseExtractor implements DatabaseConfigurationExtract
                 password = properties.getProperty(SPRING_DATASOURCE_PASSWORD);
             }
 
-            if (username.isEmpty() && password.isEmpty()) {
+            if (properties.containsKey(SPRING_DATASOURCE_URL)) {
+                url = properties.getProperty(SPRING_DATASOURCE_URL);
+            }
+
+            if (username.isEmpty() && password.isEmpty() && url.isEmpty()) {
                 return null;
             }
 
-            return new DatabaseConfiguration(username, password);
+            return new DatabaseConfiguration(username, password, JdbcUrlParser.getDatabase(url));
         }
     }
 

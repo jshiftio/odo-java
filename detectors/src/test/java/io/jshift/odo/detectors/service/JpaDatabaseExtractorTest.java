@@ -25,7 +25,7 @@ public class JpaDatabaseExtractorTest {
         assertThat(databaseConfiguration)
             .isNotEmpty()
             .get()
-            .isEqualTo(new DatabaseConfiguration("APP", "APP"));
+            .isEqualTo(new DatabaseConfiguration("APP", "APP", "test"));
 
     }
 

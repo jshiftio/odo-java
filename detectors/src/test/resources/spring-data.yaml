@@ -2,7 +2,7 @@ spring:
     application:
         name: persistence
     datasource:
-        url: jdbc:devnull:h2:mem:persistence;DB_CLOSE_ON_EXIT=FALSE
+        url: jdbc:postgresql://localhost:5432/mydatabase
         username: as
         password: as
         ddlEnable: true

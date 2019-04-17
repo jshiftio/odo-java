@@ -14,6 +14,7 @@ public class QuarkusDatabaseExtractor implements DatabaseConfigurationExtractor 
 
     private static final String QUARKUS_DATASOURCE_USERNAME = "quarkus.datasource.username";
     private static final String QUARKUS_DATASOURCE_PASSWORD = "quarkus.datasource.password";
+    private static final String QUARKUS_DATASOURCE_URL = "quarkus.datasource.url";
 
     private static Path DEFAULT_LOCATION = Paths.get("src/main/resources");
 
@@ -51,6 +52,7 @@ public class QuarkusDatabaseExtractor implements DatabaseConfigurationExtractor 
     private DatabaseConfiguration getConfiguration(Properties properties) {
         String username = "";
         String password = "";
+        String url = "";
 
         if (properties.containsKey(QUARKUS_DATASOURCE_USERNAME)) {
             username = properties.getProperty(QUARKUS_DATASOURCE_USERNAME);
@@ -60,11 +62,15 @@ public class QuarkusDatabaseExtractor implements DatabaseConfigurationExtractor 
             password = properties.getProperty(QUARKUS_DATASOURCE_PASSWORD);
         }
 
-        if (username.isEmpty() && password.isEmpty()) {
+        if (properties.containsKey(QUARKUS_DATASOURCE_URL)) {
+            url = properties.getProperty(QUARKUS_DATASOURCE_URL);
+        }
+
+        if (username.isEmpty() && password.isEmpty() && url.isEmpty()) {
             return null;
         }
 
-        return new DatabaseConfiguration(username, password);
+        return new DatabaseConfiguration(username, password, JdbcUrlParser.getDatabase(url));
     }
 
 }

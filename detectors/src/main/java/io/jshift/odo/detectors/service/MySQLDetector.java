@@ -12,6 +12,7 @@ public class MySQLDetector extends ServiceDetector {
 
     private static String MYSQL_USER = "mysql_user";
     private static String MYSQL_PASSWORD = "mysql_password";
+    private static String MYSQL_DATABASE = "mysql_database";
 
     public MySQLDetector() {
         super();
@@ -31,7 +32,8 @@ public class MySQLDetector extends ServiceDetector {
         databaseConfigurationExtractor.ifPresent(databaseConfiguration -> builder.withParameters(
             Arrays.asList(
                 getParameter(MYSQL_USER, databaseConfiguration.getUsername()),
-                getParameter(MYSQL_PASSWORD, databaseConfiguration.getPassword()))));
+                getParameter(MYSQL_PASSWORD, databaseConfiguration.getPassword()),
+                getParameter(MYSQL_DATABASE, databaseConfiguration.getDatabase()))));
 
         builder.build()
             .execute(extractor.workingDirectory());
