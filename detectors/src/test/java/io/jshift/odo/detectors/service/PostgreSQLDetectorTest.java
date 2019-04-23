@@ -14,7 +14,6 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.when;
@@ -58,7 +57,7 @@ public class PostgreSQLDetectorTest {
         // Given
 
         final Set<Dependency> dependencySet = new HashSet<>();
-        dependencySet.add(PostgreSQLDetector.POSTGRESQL_QUARKS_DEPENDENCY);
+        dependencySet.add(PostgreSQLDetector.POSTGRESQL_QUARKUS_DEPENDENCY);
         when(extractor.extractDependencies()).thenReturn(dependencySet);
         when(extractor.workingDirectory()).thenReturn(Paths.get("/tmp"));
 

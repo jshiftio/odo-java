@@ -8,7 +8,7 @@ import java.util.Optional;
 public class PostgreSQLDetector extends ServiceDetector {
 
     static final Dependency POSTGRESQL_DEPENDENCY = new Dependency("org.postgresql", "postgresql");
-    static final Dependency POSTGRESQL_QUARKS_DEPENDENCY = new Dependency("io.quarkus", "quarkus-jdbc-postgresql");
+    static final Dependency POSTGRESQL_QUARKUS_DEPENDENCY = new Dependency("io.quarkus", "quarkus-jdbc-postgresql");
 
     private static final String POSTGRESQL_PERSISTENT = "postgresql-persistent";
 
@@ -21,7 +21,7 @@ public class PostgreSQLDetector extends ServiceDetector {
 
     @Override
     public boolean detect() {
-        return isDependencyRegistered(POSTGRESQL_DEPENDENCY) || isDependencyRegistered(POSTGRESQL_QUARKS_DEPENDENCY);
+        return isDependencyRegistered(POSTGRESQL_DEPENDENCY) || isDependencyRegistered(POSTGRESQL_QUARKUS_DEPENDENCY);
     }
 
     @Override
