@@ -81,7 +81,8 @@ public class PostgreSQLDetectorTest {
 
         // Given
 
-        when(databaseConfigurationExtractorManager.getDatabaseConfiguration(extractor)).thenReturn(Optional.of(new DatabaseConfiguration("sa", "sa")));
+        when(databaseConfigurationExtractorManager.getDatabaseConfiguration(extractor))
+            .thenReturn(Optional.of(new DatabaseConfiguration("sa", "sa", "mydatabase")));
 
         final Set<Dependency> dependencySet = new HashSet<>();
         dependencySet.add(PostgreSQLDetector.POSTGRESQL_DEPENDENCY);
@@ -101,7 +102,7 @@ public class PostgreSQLDetectorTest {
         // Then
 
         OdoExecutorAssertion.assertThat(odoExecutorStub)
-            .hasExecuted("odo service create postgresql-persistent --plan default --wait -p postgresql_user=sa -p postgresql_password=sa");
+            .hasExecuted("odo service create postgresql-persistent --plan default --wait -p postgresql_user=sa -p postgresql_password=sa -p postgresql_url=mydatabase");
 
     }
 }

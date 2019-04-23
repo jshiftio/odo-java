@@ -14,6 +14,7 @@ public class PostgreSQLDetector extends ServiceDetector {
 
     private static String POSTGRESQL_USER = "postgresql_user";
     private static String POSTGRESQL_PASSWORD = "postgresql_password";
+    private static String POSTGRESQL_DATABASE = "postgresql_url";
 
     public PostgreSQLDetector() {
         super();
@@ -34,7 +35,8 @@ public class PostgreSQLDetector extends ServiceDetector {
         databaseConfigurationExtractor.ifPresent(databaseConfiguration -> builder.withParameters(
             Arrays.asList(
                 getParameter(POSTGRESQL_USER, databaseConfiguration.getUsername()),
-                getParameter(POSTGRESQL_PASSWORD, databaseConfiguration.getPassword()))));
+                getParameter(POSTGRESQL_PASSWORD, databaseConfiguration.getPassword()),
+                getParameter(POSTGRESQL_DATABASE, databaseConfiguration.getDatabase()))));
 
         builder.build()
             .execute(extractor.workingDirectory());

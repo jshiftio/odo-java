@@ -58,7 +58,8 @@ public class MySQLDetectorTest {
 
         // Given
 
-        when(databaseConfigurationExtractorManager.getDatabaseConfiguration(extractor)).thenReturn(Optional.of(new DatabaseConfiguration("sa", "sa")));
+        when(databaseConfigurationExtractorManager.getDatabaseConfiguration(extractor))
+            .thenReturn(Optional.of(new DatabaseConfiguration("sa", "sa", "mydatabase")));
 
         final Set<Dependency> dependencySet = new HashSet<>();
         dependencySet.add(MySQLDetector.MYSQL_DEPENDENCY);
@@ -78,7 +79,7 @@ public class MySQLDetectorTest {
         // Then
 
         OdoExecutorAssertion.assertThat(odoExecutorStub)
-            .hasExecuted("odo service create mysql-persistent --plan default --wait -p mysql_user=sa -p mysql_password=sa");
+            .hasExecuted("odo service create mysql-persistent --plan default --wait -p mysql_user=sa -p mysql_password=sa -p mysql_database=mydatabase");
     }
 
 }

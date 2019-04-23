@@ -46,7 +46,7 @@ public class QuarkusDatabaseExtractorTest {
         assertThat(databaseConfiguration)
             .isNotEmpty()
             .get()
-            .isEqualTo(new DatabaseConfiguration("sarah", "connor"));
+            .isEqualTo(new DatabaseConfiguration("sarah", "connor", "mydatabase"));
 
     }
 

@@ -20,6 +20,7 @@ public class JpaDatabaseExtractor implements DatabaseConfigurationExtractor {
 
     public static final String JAVAX_PERSISTENCE_JDBC_USER = "javax.persistence.jdbc.user";
     public static final String JAVAX_PERSISTENCE_JDBC_PASSWORD = "javax.persistence.jdbc.password";
+    public static final String JAVAX_PERSISTENCE_JDBC_URL = "javax.persistence.jdbc.url";
     private static Path DEFAULT_LOCATION = Paths.get("src/main/resources/META-INF");
 
     Path persistence = DEFAULT_LOCATION.resolve("persistence.xml");
@@ -41,6 +42,7 @@ public class JpaDatabaseExtractor implements DatabaseConfigurationExtractor {
     private Optional<DatabaseConfiguration> getConfiguration() {
         String username = "";
         String password = "";
+        String databaseUrl = "";
 
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
@@ -66,6 +68,11 @@ public class JpaDatabaseExtractor implements DatabaseConfigurationExtractor {
                         if (nameAttribute.getValue().equalsIgnoreCase(JAVAX_PERSISTENCE_JDBC_PASSWORD)) {
                             password = startElement.getAttributeByName(QName.valueOf("value")).getValue();
                         }
+
+                        if (nameAttribute.getValue().equalsIgnoreCase(JAVAX_PERSISTENCE_JDBC_URL)) {
+                            databaseUrl = startElement.getAttributeByName(QName.valueOf("value")).getValue();
+                        }
+
                     }
                 }
             }
@@ -73,10 +80,10 @@ public class JpaDatabaseExtractor implements DatabaseConfigurationExtractor {
             throw new IllegalArgumentException(e);
         }
 
-        if (username.isEmpty() && password.isEmpty()) {
+        if (username.isEmpty() && password.isEmpty() && databaseUrl.isEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.of(new DatabaseConfiguration(username, password));
+        return Optional.of(new DatabaseConfiguration(username, password, JdbcUrlParser.getDatabase(databaseUrl)));
     }
 }
