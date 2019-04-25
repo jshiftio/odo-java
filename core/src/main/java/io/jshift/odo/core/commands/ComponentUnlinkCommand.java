@@ -10,15 +10,11 @@ public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
 
     private String name;
 
-    private static final String APP = "--app";
     private static final String COMPONENT = "--component";
     private static final String PORT = "--port";
-    private static final String PROJECT = "--project";
 
-    private String app;
     private String component;
     private String port;
-    private String project;
 
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
@@ -33,29 +29,21 @@ public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
 
-        arguments.addAll(componentCommand.getCliCommand());
+        arguments.add(componentCommand.getCommandName());
 
         arguments.add(COMMAND_NAME);
         arguments.add(name);
+
 
         if (component != null) {
             arguments.add(COMPONENT);
             arguments.add(component);
         }
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
-
+        arguments.addAll(componentCommand.getArguments());
         if (port != null) {
             arguments.add(PORT);
             arguments.add(port);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
         }
 
         if (globalParametersSupport != null) {
@@ -68,9 +56,11 @@ public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ComponentUnlinkCommand.Builder> {
 
         private ComponentUnlinkCommand componentUnlinkCommand;
+        private ComponentCommand componentCommand;
 
         public Builder(ComponentCommand componentCommand, String name, CliExecutor odoExecutor) {
             componentUnlinkCommand = new ComponentUnlinkCommand(componentCommand, name, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public ComponentUnlinkCommand.Builder withComponent(String component) {
@@ -79,7 +69,7 @@ public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
         }
 
         public ComponentUnlinkCommand.Builder withApp(String app) {
-            componentUnlinkCommand.app = app;
+            componentCommand.app = app;
             return this;
         }
 
@@ -89,7 +79,17 @@ public class ComponentUnlinkCommand extends AbstractRunnableCommand<Void> {
         }
 
         public ComponentUnlinkCommand.Builder withProject(String project) {
-            componentUnlinkCommand.project = project;
+            componentCommand.project = project;
+            return this;
+        }
+
+        public ComponentUnlinkCommand.Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentUnlinkCommand.Builder withContext(String context) {
+            this.componentCommand.context = context;
             return this;
         }
 

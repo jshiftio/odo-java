@@ -42,7 +42,7 @@ public class OdoComponentLinkMojoTest {
         odoComponentLinkMojo.execute();
 
         // Then:
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component link target --app myapp --port 8080 --project myproject --wait-for-target");
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component link target --app myapp --project myproject --port 8080 --wait-for-target");
     }
 
     @Test

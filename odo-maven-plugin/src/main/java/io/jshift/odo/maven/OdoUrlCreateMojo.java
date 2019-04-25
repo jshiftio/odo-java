@@ -27,7 +27,11 @@ public class OdoUrlCreateMojo extends AbstractMojo {
             odo = OdoFactory.createOdo();
         }
 
-        UrlCreateCommand.Builder builder = odo.createUrl();
+        if (!createUrl.containsKey("port")) {
+            throw new IllegalArgumentException("port property is required for create a url.");
+        }
+
+        UrlCreateCommand.Builder builder = odo.createUrl(Integer.parseInt(createUrl.get("port")));
         UrlCreateCommand urlCreateCommand = builder.build();
 
         ConfigurationInjector.injectFields(urlCreateCommand, createUrl);

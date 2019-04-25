@@ -29,9 +29,8 @@ public class JavaExecDetector extends ComponentDetector {
         odo.pushComponent().build()
             .execute(extractor.workingDirectory());
 
-        odo.createUrl()
+        odo.createUrl(8080)
             .withComponent(componentName)
-            .withPort(8080)
             .build()
             .execute(extractor.workingDirectory());
 

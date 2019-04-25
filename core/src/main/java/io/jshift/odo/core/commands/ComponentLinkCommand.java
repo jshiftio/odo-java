@@ -10,17 +10,13 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
 
     private String name;
 
-    private static final String APP = "--app";
     private static final String COMPONENT = "--component";
     private static final String PORT = "--port";
-    private static final String PROJECT = "--project";
     private static final String WAIT = "--wait";
     private static final String WAIT_FOR_TARGET = "--wait-for-target";
 
-    private String app;
     private String component;
     private String port;
-    private String project;
     private Boolean wait;
     private Boolean waitForTarget;
 
@@ -38,29 +34,22 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
 
         final List<String> arguments = new ArrayList<>();
 
-        arguments.addAll(componentCommand.getCliCommand());
+        arguments.add(componentCommand.getCommandName());
 
         arguments.add(COMMAND_NAME);
         arguments.add(name);
+
 
         if (component != null) {
             arguments.add(COMPONENT);
             arguments.add(component);
         }
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
+        arguments.addAll(componentCommand.getArguments());
 
         if (port != null) {
             arguments.add(PORT);
             arguments.add(port);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
         }
 
         if (wait != null && wait.booleanValue()) {
@@ -81,9 +70,11 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ComponentLinkCommand.Builder> {
 
         private ComponentLinkCommand componentLinkCommand;
+        private ComponentCommand componentCommand;
 
         public Builder(ComponentCommand componentCommand, String name, CliExecutor odoExecutor) {
             componentLinkCommand = new ComponentLinkCommand(componentCommand, name, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public ComponentLinkCommand.Builder withComponent(String component) {
@@ -92,7 +83,7 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
         }
 
         public ComponentLinkCommand.Builder withApp(String app) {
-            componentLinkCommand.app = app;
+            componentCommand.app = app;
             return this;
         }
 
@@ -102,7 +93,17 @@ public class ComponentLinkCommand extends AbstractRunnableCommand<Void> {
         }
 
         public ComponentLinkCommand.Builder withProject(String project) {
-            componentLinkCommand.project = project;
+            componentCommand.project = project;
+            return this;
+        }
+
+        public ComponentLinkCommand.Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentLinkCommand.Builder withContext(String context) {
+            this.componentCommand.context = context;
             return this;
         }
 

@@ -42,7 +42,7 @@ public class OdoComponentUnlinkMojoTest {
         odoComponentUnlinkMojo.execute();
 
         // Then:
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component unlink mysql-service --app myapp --port 8080 --project myproject");
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component unlink mysql-service --app myapp --project myproject --port 8080");
     }
 
 }

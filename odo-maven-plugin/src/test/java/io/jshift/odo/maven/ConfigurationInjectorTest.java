@@ -48,4 +48,35 @@ public class ConfigurationInjectorTest {
 
     }
 
+    @Test
+    public void should_inject_command_parameters(OdoExecutorStub odoExecutorStub) {
+
+        // Given
+
+        OdoComponentCreateMojo odoComponentCreateMojo = new OdoComponentCreateMojo();
+        Odo odo = new Odo(odoExecutorStub);
+
+        when(project.getBasedir()).thenReturn(new File("/tmp/foodir"));
+
+        Map<String, String> createComponentConfig = new HashMap<>();
+
+        createComponentConfig.put("componentType", "xyz");
+        createComponentConfig.put("componentName", "zyx");
+        createComponentConfig.put("context", "ctx");
+
+        odoComponentCreateMojo.project = project;
+        odoComponentCreateMojo.odo = odo;
+        odoComponentCreateMojo.createComponent = createComponentConfig;
+
+        // When
+
+        odoComponentCreateMojo.execute();
+
+        // Then
+
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component create xyz zyx --context ctx");
+
+
+    }
+
 }

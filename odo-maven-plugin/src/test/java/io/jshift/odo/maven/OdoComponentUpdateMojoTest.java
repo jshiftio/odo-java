@@ -60,7 +60,7 @@ public class OdoComponentUpdateMojoTest {
         odoComponentUpdateMojo.execute();
 
         // Then:
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component update test-component --project myproject --app myapp --local /tmp/foodir/path/foobar");
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component update test-component --app myapp --project myproject --local /tmp/foodir/path/foobar");
     }
 
     @Test
@@ -83,7 +83,7 @@ public class OdoComponentUpdateMojoTest {
         odoComponentUpdateMojo.execute();
 
         // Then:
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component update --project myproject --app myapp --git http://abc.xyz/repo.git");
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component update --app myapp --project myproject --git http://abc.xyz/repo.git");
     }
 
     @Test
@@ -107,6 +107,6 @@ public class OdoComponentUpdateMojoTest {
         odoComponentUpdateMojo.execute();
 
         // Then:
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component update test-component --project myproject --app myapp --binary /tmp/foodir/path/foobar.tar.gz");
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component update test-component --app myapp --project myproject --binary /tmp/foodir/path/foobar.tar.gz");
     }
 }

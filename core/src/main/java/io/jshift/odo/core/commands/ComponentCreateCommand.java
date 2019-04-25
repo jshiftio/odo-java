@@ -1,15 +1,14 @@
 package io.jshift.odo.core.commands;
 
+import io.jshift.odo.core.CliExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import io.jshift.odo.core.CliExecutor;
 
 public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "create";
 
-    private static final String APP = "--app";
     private static final String BINARY = "--binary";
     private static final String CPU = "--cpu";
     private static final String ENV = "--env";
@@ -21,14 +20,12 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
     private static final String MIN_CPU = "--min-cpu";
     private static final String MIN_MEMORY = "--min-memory";
     private static final String PORT = "--port";
-    private static final String PROJECT = "--project";
     private static final String REF = "--ref";
     private static final String WAIT = "--wait";
 
     private String componentType;
     private String componentName;
 
-    private String app;
     private String binary;
     private String cpu;
     private List<String> env;
@@ -40,7 +37,6 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
     private String minCpu;
     private String minMemory;
     private List<String> port;
-    private String project;
     private String ref;
     private Boolean wait;
 
@@ -57,19 +53,17 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
 
-        arguments.addAll(this.componentCommand.getCliCommand());
+        arguments.add(this.componentCommand.getCommandName());
 
         arguments.add(COMMAND_NAME);
         arguments.add(componentType);
+
 
         if (componentName != null) {
             arguments.add(componentName);
         }
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
+        arguments.addAll(this.componentCommand.getArguments());
 
         if (binary != null) {
             arguments.add(BINARY);
@@ -126,11 +120,6 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
             arguments.add(toCsv(port));
         }
 
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
-        }
-
         if (ref != null) {
             arguments.add(REF);
             arguments.add(ref);
@@ -154,9 +143,10 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
 
     public static class Builder extends GlobalParametersSupport.Builder<ComponentCreateCommand.Builder> {
         private ComponentCreateCommand componentCreateCommand;
-
+        private ComponentCommand componentCommand;
         public Builder(ComponentCommand componentCommand, String componentType, CliExecutor odoExecutor) {
             this.componentCreateCommand = new ComponentCreateCommand(componentCommand, componentType, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public Builder withComponentName(String componentName) {
@@ -165,7 +155,7 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
         }
 
         public Builder withApp(String app) {
-            this.componentCreateCommand.app = app;
+            this.componentCommand.app = app;
             return this;
         }
 
@@ -225,7 +215,17 @@ public class ComponentCreateCommand extends AbstractRunnableCommand<Void> {
         }
 
         public Builder withProject(String project) {
-            this.componentCreateCommand.project = project;
+            this.componentCommand.project = project;
+            return this;
+        }
+
+        public Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public Builder withContext(String context) {
+            this.componentCommand.context = context;
             return this;
         }
 
