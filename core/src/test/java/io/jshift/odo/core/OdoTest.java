@@ -57,7 +57,7 @@ public class OdoTest {
         // Given
 
         final Odo odo = new Odo(odoExecutor);
-        final UrlCreateCommand urlCreateCommand = odo.createUrl().build();
+        final UrlCreateCommand urlCreateCommand = odo.createUrl(8080).build();
 
         // When
 

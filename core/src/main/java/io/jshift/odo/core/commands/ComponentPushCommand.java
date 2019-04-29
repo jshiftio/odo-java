@@ -10,13 +10,13 @@ public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
 
     private String componentName;
 
-    private static final String APP = "--app";
     private static final String LOCAL = "--local";
-    private static final String PROJECT = "--project";
+    private static final String CONFIG = "--config";
+    private static final String SOURCE = "--source";
 
-    private String app;
     private String local;
-    private String project;
+    private Boolean config;
+    private Boolean source;
 
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
@@ -30,27 +30,27 @@ public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
 
-        arguments.addAll(componentCommand.getCliCommand());
+        arguments.add(componentCommand.getCommandName());
 
         arguments.add(COMMAND_NAME);
+
 
         if (componentName != null) {
             arguments.add(componentName);
         }
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
-
+        arguments.addAll(componentCommand.getArguments());
         if (local != null) {
             arguments.add(LOCAL);
             arguments.add(local);
         }
 
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
+        if (config != null && config) {
+            arguments.add(CONFIG);
+        }
+
+        if (source != null && source) {
+            arguments.add(SOURCE);
         }
 
         if (globalParametersSupport != null) {
@@ -62,9 +62,11 @@ public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
 
     public static class Builder extends GlobalParametersSupport.Builder<ComponentPushCommand.Builder> {
         private ComponentPushCommand componentPushCommand;
+        private ComponentCommand componentCommand;
 
         public Builder(ComponentCommand componentCommand, CliExecutor odoExecutor) {
             this.componentPushCommand = new ComponentPushCommand(componentCommand, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public ComponentPushCommand.Builder withComponentName(String componentName) {
@@ -73,7 +75,7 @@ public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
         }
 
         public ComponentPushCommand.Builder withApp(String app) {
-            this.componentPushCommand.app = app;
+            this.componentCommand.app = app;
             return this;
         }
 
@@ -82,10 +84,32 @@ public class ComponentPushCommand extends AbstractRunnableCommand<Void> {
             return this;
         }
 
-        public ComponentPushCommand.Builder withProject(String project) {
-            this.componentPushCommand.project = project;
+        public ComponentPushCommand.Builder withConfig() {
+            this.componentPushCommand.config = Boolean.TRUE;
             return this;
         }
+
+        public ComponentPushCommand.Builder withSource() {
+            this.componentPushCommand.source = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentPushCommand.Builder withProject(String project) {
+            this.componentCommand.project = project;
+            return this;
+        }
+
+        public ComponentPushCommand.Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentPushCommand.Builder withContext(String context) {
+            this.componentCommand.context = context;
+            return this;
+        }
+
+
 
         public ComponentPushCommand build() {
             this.componentPushCommand.globalParametersSupport = buildGlobalParameters();

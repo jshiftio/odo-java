@@ -40,7 +40,7 @@ public class OdoComponentPushMojoTest {
         odoComponentPushMojo.execute();
 
         // Then:
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component push fooproject --app myapp --local ~/myCode --project myproject");
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo component push fooproject --app myapp --project myproject --local ~/myCode");
     }
 
     @Test

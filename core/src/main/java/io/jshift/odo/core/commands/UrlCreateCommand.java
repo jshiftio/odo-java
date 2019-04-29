@@ -19,9 +19,10 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
     private UrlCommand urlCommand;
     private GlobalParametersSupport globalParametersSupport;
 
-    private UrlCreateCommand(UrlCommand urlCommand, CliExecutor odoExecutor){
+    private UrlCreateCommand(UrlCommand urlCommand, Integer port, CliExecutor odoExecutor){
         super(odoExecutor);
         this.urlCommand = urlCommand;
+        this.port = port;
     }
 
     @Override
@@ -57,8 +58,8 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<UrlCreateCommand.Builder> {
         private UrlCreateCommand urlCreateCommand;
 
-        public Builder(UrlCommand urlCommand, CliExecutor odoExecutor) {
-            this.urlCreateCommand = new UrlCreateCommand(urlCommand, odoExecutor);
+        public Builder(UrlCommand urlCommand, Integer port, CliExecutor odoExecutor) {
+            this.urlCreateCommand = new UrlCreateCommand(urlCommand, port, odoExecutor);
         }
 
         public UrlCreateCommand.Builder withName(String urlName) {
@@ -68,11 +69,6 @@ public class UrlCreateCommand extends AbstractRunnableCommand<Void> {
 
         public UrlCreateCommand.Builder withComponent(String component) {
             this.urlCreateCommand.component = component;
-            return this;
-        }
-
-        public UrlCreateCommand.Builder withPort(Integer port) {
-            this.urlCreateCommand.port = port;
             return this;
         }
 

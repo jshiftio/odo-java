@@ -1,8 +1,11 @@
 package io.jshift.odo.maven;
 
+import io.jshift.odo.api.Command;
 import io.jshift.odo.core.commands.AbstractRunnableCommand;
 import io.jshift.odo.core.commands.GlobalParametersSupport;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,6 +57,9 @@ public class ConfigurationInjector {
     public static void injectFields(AbstractRunnableCommand<Void> command, Map<String, String> config) {
         if (config != null) {
             Class<?> c = command.getClass();
+            Field commandField = getCommandField(c);
+            final List<String> commandFields = getCommandFields(commandField);
+
             GlobalParametersSupport globalParametersSupport = null;
             for (Map.Entry<String, String> entry : config.entrySet()) {
                 try {
@@ -69,7 +75,12 @@ public class ConfigurationInjector {
                         }
 
                     } else {
-                        copy(command, c, entry);
+                        if (isCommandParameter(commandFields, entry.getKey())) {
+                            final Object parentCommand = commandField.get(command);
+                            copy(parentCommand, commandField.getType(), entry);
+                        } else {
+                            copy(command, c, entry);
+                        }
                     }
                 } catch (IllegalStateException | IllegalAccessException exception) {
                     logger.warning(exception.getMessage());
@@ -79,7 +90,7 @@ public class ConfigurationInjector {
     }
 
     private static GlobalParametersSupport instantiateGlobalParams(Object command) throws IllegalAccessException {
-        final GlobalParametersSupport globalParametersSupport =new GlobalParametersSupport();
+        final GlobalParametersSupport globalParametersSupport = new GlobalParametersSupport();
         Field globalParam = getGlobalParamsField(command);
         globalParam.setAccessible(true);
 
@@ -103,8 +114,45 @@ public class ConfigurationInjector {
 
     }
 
+    private static boolean isCommandParameter(List<String> commandFields, String name) {
+        return commandFields.contains(name);
+    }
+
     private static boolean isGlobalParameter(String name) {
         return globalParams.contains(name);
+    }
+
+    private static Field getCommandField(Class<?> clazz) {
+
+        final Field[] declaredFields = clazz.getDeclaredFields();
+
+        for (Field declaredField : declaredFields) {
+
+            if (implementsCommand(declaredField.getType())) {
+                declaredField.setAccessible(true);
+                return declaredField;
+            }
+
+        }
+
+        return null;
+    }
+
+    private static List<String> getCommandFields(Field field) {
+        final List<String> fields = new ArrayList<>();
+
+        if (field != null) {
+            final Field[] declaredFields = field.getType().getDeclaredFields();
+            for (Field declaredField : declaredFields) {
+                fields.add(declaredField.getName());
+            }
+        }
+
+        return fields;
+    }
+
+    private static boolean implementsCommand(Class<?> clazz) {
+        return Command.class.isAssignableFrom(clazz);
     }
 
 }

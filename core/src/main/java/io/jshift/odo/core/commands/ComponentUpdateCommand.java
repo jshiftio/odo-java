@@ -7,16 +7,12 @@ import io.jshift.odo.core.CliExecutor;
 public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
 
     private static final String COMMAND_NAME = "update";
-    private static final String APP = "--app";
-    private static final String PROJECT = "--project";
     private static final String BINARY = "--binary";
     private static final String GIT = "--git";
     private static final String LOCAL = "--local";
     private static final String REF = "--ref";
 
     private String componentName;
-    private String project;
-    private String app;
 
     private String local;
     private String git;
@@ -36,24 +32,16 @@ public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
 
         final List<String> argumentList = new ArrayList<>();
 
-        argumentList.addAll(componentCommand.getCliCommand());
+        argumentList.add(componentCommand.getCommandName());
 
         argumentList.add(COMMAND_NAME);
+
 
         if (componentName != null) {
             argumentList.add(componentName);
         }
 
-        if (project != null) {
-            argumentList.add(PROJECT);
-            argumentList.add(project);
-        }
-
-        if (app != null) {
-            argumentList.add(APP);
-            argumentList.add(app);
-        }
-
+        argumentList.addAll(componentCommand.getArguments());
         if (binary != null) {
             argumentList.add(BINARY);
             argumentList.add(binary);
@@ -81,9 +69,11 @@ public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
     public static class Builder extends GlobalParametersSupport.Builder<ComponentUpdateCommand.Builder> {
 
         private ComponentUpdateCommand componentUpdateCommand;
+        private ComponentCommand componentCommand;
 
         public Builder(ComponentCommand componentCommand, CliExecutor odoExecutor) {
             componentUpdateCommand = new ComponentUpdateCommand(componentCommand, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public Builder withComponentName(String componentName) {
@@ -92,12 +82,12 @@ public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
         }
 
         public Builder withApp(String app) {
-            this.componentUpdateCommand.app = app;
+            this.componentCommand.app = app;
             return this;
         }
 
         public Builder withProject(String project) {
-            this.componentUpdateCommand.project = project;
+            this.componentCommand.project = project;
             return this;
         }
 
@@ -118,6 +108,16 @@ public class ComponentUpdateCommand extends AbstractRunnableCommand<Void> {
 
         public Builder withRef(String ref) {
             this.componentUpdateCommand.ref = ref;
+            return this;
+        }
+
+        public Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public Builder withContext(String context) {
+            this.componentCommand.context = context;
             return this;
         }
 

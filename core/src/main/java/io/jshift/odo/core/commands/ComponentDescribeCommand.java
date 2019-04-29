@@ -16,13 +16,8 @@ public class ComponentDescribeCommand extends AbstractRunnableCommand<TerminalOu
 
     private String componentName;
 
-    private static final String APP = "--app";
-    private static final String PROJECT = "--project";
     private static final String OUTPUT = "--output";
     private static final String DEFAULT_FORMAT = "json";
-
-    private String app;
-    private String project;
 
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
@@ -36,26 +31,18 @@ public class ComponentDescribeCommand extends AbstractRunnableCommand<TerminalOu
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
 
-        arguments.addAll(componentCommand.getCliCommand());
+        arguments.add(componentCommand.getCommandName());
 
         arguments.add(COMMAND_NAME);
+
 
         if (componentName != null) {
             arguments.add(componentName);
         }
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
-        }
-
         arguments.add(OUTPUT);
         arguments.add(DEFAULT_FORMAT);
+        arguments.addAll(componentCommand.getArguments());
 
         if (this.globalParametersSupport != null) {
             arguments.addAll(this.globalParametersSupport.getCliCommand());
@@ -81,9 +68,11 @@ public class ComponentDescribeCommand extends AbstractRunnableCommand<TerminalOu
 
     public static class Builder extends GlobalParametersSupport.Builder<ComponentDescribeCommand.Builder> {
         private ComponentDescribeCommand componentDescribeCommand;
+        private ComponentCommand componentCommand;
 
         public Builder(ComponentCommand componentCommand, CliExecutor odoExecutor) {
             this.componentDescribeCommand = new ComponentDescribeCommand(componentCommand, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public ComponentDescribeCommand.Builder withComponentName(String componentName) {
@@ -92,12 +81,22 @@ public class ComponentDescribeCommand extends AbstractRunnableCommand<TerminalOu
         }
 
         public ComponentDescribeCommand.Builder withApp(String app) {
-            this.componentDescribeCommand.app = app;
+            this.componentCommand.app = app;
             return this;
         }
 
         public ComponentDescribeCommand.Builder withProject(String project) {
-            this.componentDescribeCommand.project = project;
+            this.componentCommand.project = project;
+            return this;
+        }
+
+        public ComponentDescribeCommand.Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentDescribeCommand.Builder withContext(String context) {
+            this.componentCommand.context = context;
             return this;
         }
 

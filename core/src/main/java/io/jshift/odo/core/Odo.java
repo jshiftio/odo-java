@@ -2,6 +2,10 @@ package io.jshift.odo.core;
 
 import io.jshift.odo.api.OdoConfiguration;
 import io.jshift.odo.core.commands.ComponentCreateCommand;
+import io.jshift.odo.core.commands.ConfigCommand;
+import io.jshift.odo.core.commands.ConfigSetCommand;
+import io.jshift.odo.core.commands.ConfigUnsetCommand;
+import io.jshift.odo.core.commands.ConfigViewCommand;
 import java.io.IOException;
 import java.nio.file.Path;
 import io.jshift.odo.core.commands.AppCommand;
@@ -145,6 +149,21 @@ public class Odo {
         return new AppSetCommand.Builder(appCommand, appName, this.odoExecutor);
     }
 
+    public ConfigViewCommand.Builder viewConfig() {
+        final ConfigCommand configCommand = new ConfigCommand.Builder().build();
+        return new ConfigViewCommand.Builder(configCommand, this.odoExecutor);
+    }
+
+    public ConfigSetCommand.Builder setConfig(String parameter, String value) {
+        final ConfigCommand configCommand = new ConfigCommand.Builder().build();
+        return new ConfigSetCommand.Builder(configCommand, parameter, value, this.odoExecutor);
+    }
+
+    public ConfigUnsetCommand.Builder unsetConfig(String parameter) {
+        final ConfigCommand configCommand = new ConfigCommand.Builder().build();
+        return new ConfigUnsetCommand.Builder(configCommand, parameter, this.odoExecutor);
+    }
+
     public ProjectCreateCommand.Builder createProject(String projectName) {
         final ProjectCommand projectCommand = new ProjectCommand.Builder().build();
         return new ProjectCreateCommand.Builder(projectCommand, projectName, this.odoExecutor);
@@ -195,9 +214,9 @@ public class Odo {
         return new StorageListCommand.Builder(storageCommand, odoExecutor);
     }
 
-    public UrlCreateCommand.Builder createUrl() {
+    public UrlCreateCommand.Builder createUrl(Integer port) {
         final UrlCommand urlCommand = new UrlCommand.Builder().build();
-        return new UrlCreateCommand.Builder(urlCommand, this.odoExecutor);
+        return new UrlCreateCommand.Builder(urlCommand, port, this.odoExecutor);
     }
 
     public UrlDeleteCommand.Builder deleteUrl(String urlName) {

@@ -12,13 +12,8 @@ public class ComponentListCommand extends AbstractRunnableCommand<ComponentList>
 
     private static final String COMMAND_NAME = "list";
 
-    private static final String APP = "--app";
-    private static final String PROJECT = "--project";
     private static final String OUTPUT = "--output";
     private static final String DEFAULT_FORMAT = "json";
-
-    private String app;
-    private String project;
 
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
@@ -32,22 +27,14 @@ public class ComponentListCommand extends AbstractRunnableCommand<ComponentList>
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
 
-        arguments.addAll(componentCommand.getCliCommand());
+        arguments.add(componentCommand.getCommandName());
 
         arguments.add(COMMAND_NAME);
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
-        }
-
         arguments.add(OUTPUT);
         arguments.add(DEFAULT_FORMAT);
+
+        arguments.addAll(componentCommand.getArguments());
 
         if (this.globalParametersSupport != null) {
             arguments.addAll(this.globalParametersSupport.getCliCommand());
@@ -66,18 +53,30 @@ public class ComponentListCommand extends AbstractRunnableCommand<ComponentList>
 
     public static class Builder extends GlobalParametersSupport.Builder<ComponentListCommand.Builder> {
         private ComponentListCommand componentListCommand;
+        private ComponentCommand componentCommand;
 
         public Builder(ComponentCommand componentCommand, CliExecutor odoExecutor) {
             this.componentListCommand = new ComponentListCommand(componentCommand, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public ComponentListCommand.Builder withApp(String app) {
-            this.componentListCommand.app = app;
+            this.componentCommand.app = app;
             return this;
         }
 
         public ComponentListCommand.Builder withProject(String project) {
-            this.componentListCommand.project = project;
+            this.componentCommand.project = project;
+            return this;
+        }
+
+        public ComponentListCommand.Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentListCommand.Builder withContext(String context) {
+            this.componentCommand.context = context;
             return this;
         }
 

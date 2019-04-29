@@ -24,11 +24,11 @@ public class OdoExecutorStubTest {
 
         // When
 
-        odo.createUrl().build().execute();
+        odo.createUrl(8080).build().execute();
 
         // Then
 
-        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo url create");
+        OdoExecutorAssertion.assertThat(odoExecutorStub).hasExecuted("odo url create --port 8080");
 
     }
 

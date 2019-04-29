@@ -10,12 +10,8 @@ public class ComponentDeleteCommand extends AbstractRunnableCommand<Void> {
 
     private String componentName;
 
-    private static final String APP = "--app";
-    private static final String PROJECT = "--project";
     private static final String FORCE = "--force";
 
-    private String app;
-    private String project;
     private Boolean force = Boolean.TRUE;
 
     private ComponentCommand componentCommand;
@@ -31,20 +27,12 @@ public class ComponentDeleteCommand extends AbstractRunnableCommand<Void> {
     public List<String> getCliCommand() {
         final List<String> arguments = new ArrayList<>();
 
-        arguments.addAll(componentCommand.getCliCommand());
+        arguments.add(componentCommand.getCommandName());
 
         arguments.add(COMMAND_NAME);
         arguments.add(componentName);
 
-        if (app != null) {
-            arguments.add(APP);
-            arguments.add(app);
-        }
-
-        if (project != null) {
-            arguments.add(PROJECT);
-            arguments.add(project);
-        }
+        arguments.addAll(componentCommand.getArguments());
 
         if (force != null && force.booleanValue()) {
             arguments.add(FORCE);
@@ -59,18 +47,30 @@ public class ComponentDeleteCommand extends AbstractRunnableCommand<Void> {
 
     public static class Builder extends GlobalParametersSupport.Builder<ComponentDeleteCommand.Builder> {
         private ComponentDeleteCommand urComponentDeleteCommand;
+        private ComponentCommand componentCommand;
 
         public Builder(ComponentCommand componentCommand, String componentName, CliExecutor odoExecutor) {
             this.urComponentDeleteCommand = new ComponentDeleteCommand(componentCommand, componentName, odoExecutor);
+            this.componentCommand = componentCommand;
         }
 
         public ComponentDeleteCommand.Builder withApp(String app) {
-            this.urComponentDeleteCommand.app = app;
+            this.componentCommand.app = app;
             return this;
         }
 
         public ComponentDeleteCommand.Builder withProject(String project) {
-            this.urComponentDeleteCommand.project = project;
+            this.componentCommand.project = project;
+            return this;
+        }
+
+        public ComponentDeleteCommand.Builder withShort() {
+            this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentDeleteCommand.Builder withContext(String context) {
+            this.componentCommand.context = context;
             return this;
         }
 
