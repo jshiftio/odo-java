@@ -9,6 +9,7 @@ import io.jshift.odo.detectors.DetectorManager;
 import io.jshift.odo.detectors.extractor.Dependency;
 import io.jshift.odo.detectors.extractor.Extractor;
 import io.jshift.odo.detectors.util.Packaging;
+import org.apache.maven.model.DependencyManagement;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -30,7 +31,7 @@ public class OdoDetectDeployMojo extends AbstractMojo {
     public void execute() {
 
         if (odo == null) {
-            odo = OdoFactory.createOdo();
+            odo = OdoFactory.createOdo(dryRun);
         }
 
         final DetectorManager detectorManager = new DetectorManager(new MavenExtractor(project), odo);

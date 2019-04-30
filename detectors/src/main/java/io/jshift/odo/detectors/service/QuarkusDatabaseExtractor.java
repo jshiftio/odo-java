@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Set;
 
 public class QuarkusDatabaseExtractor implements DatabaseConfigurationExtractor {
 
@@ -18,8 +19,7 @@ public class QuarkusDatabaseExtractor implements DatabaseConfigurationExtractor 
 
     private static Path DEFAULT_LOCATION = Paths.get("src/main/resources");
 
-    static final Dependency QUARKUS_DEPENDENCY =
-        new Dependency("io.quarkus", "quarkus-arc");
+    static final String  QUARKUS_GROUPID = "io.quarkus";
 
     Path application = DEFAULT_LOCATION.resolve("application.properties");
 
@@ -28,7 +28,9 @@ public class QuarkusDatabaseExtractor implements DatabaseConfigurationExtractor 
     @Override
     public Optional<DatabaseConfiguration> extract() {
 
-        if (extractor.extractDependencies().contains(QUARKUS_DEPENDENCY)) {
+        final Set<Dependency> dependencies = extractor.extractDependencies();
+
+        if (containsByGroup(dependencies, QUARKUS_GROUPID)) {
 
             if (Files.exists(application)) {
                 final Properties properties = new Properties();
@@ -71,6 +73,16 @@ public class QuarkusDatabaseExtractor implements DatabaseConfigurationExtractor 
         }
 
         return new DatabaseConfiguration(username, password, JdbcUrlParser.getDatabase(url));
+    }
+
+    private boolean containsByGroup(Set<Dependency> dependencies, String groupId) {
+        for (Dependency dependency : dependencies) {
+            if (dependency.getGroupId().equalsIgnoreCase(groupId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

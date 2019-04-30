@@ -24,7 +24,7 @@ public class QuarkusDatabaseExtractorTest {
     @BeforeEach
     public void setMocks() {
         final Set<Dependency> dependencies = new HashSet<>();
-        dependencies.add(QuarkusDatabaseExtractor.QUARKUS_DEPENDENCY);
+        dependencies.add(new Dependency(QuarkusDatabaseExtractor.QUARKUS_GROUPID, "quarkus-arc"));
         when(extractor.extractDependencies()).thenReturn(dependencies);
     }
 
