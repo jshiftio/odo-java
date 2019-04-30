@@ -168,6 +168,7 @@
       </plugins>
     </pluginManagement>
   </build>
+
   <distributionManagement>
     <repository>
       <id>bintray-lordofthejars-maven</id>

@@ -14,7 +14,7 @@ public class PostgreSQLDetector extends ServiceDetector {
 
     private static String POSTGRESQL_USER = "postgresql_user";
     private static String POSTGRESQL_PASSWORD = "postgresql_password";
-    private static String POSTGRESQL_DATABASE = "postgresql_url";
+    private static String POSTGRESQL_DATABASE = "postgresql_database";
 
     public PostgreSQLDetector() {
         super();
