@@ -1,6 +1,7 @@
 = Odo-java
 
 image:https://circleci.com/gh/jshiftio/odo-java.svg?style=svg["CircleCI", link="https://circleci.com/gh/jshiftio/odo-java"]
+image:https://api.bintray.com/packages/jshiftio/jshift/odo-java/images/download.png["Jfrog Bintray", link="https://bintray.com/jshiftio/jshift/odo-java/_latestVersion"]
 
 This library provides a wrapper for https://github.com/redhat-developer/odo[odo] which is a CLI tool for developers who are writing,
 building and deploying applications on Openshift.
