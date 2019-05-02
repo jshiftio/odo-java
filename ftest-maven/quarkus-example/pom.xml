@@ -79,13 +79,6 @@
             <maxMemory>2</maxMemory>
           </createComponent>
         </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>io.jshift.odo</groupId>
-            <artifactId>odo-binary</artifactId>
-            <version>1.0.0-beta2-SNAPSHOT</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
