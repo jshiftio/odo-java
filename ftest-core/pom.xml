@@ -6,7 +6,7 @@
   <parent>
     <artifactId>odo-java</artifactId>
     <groupId>io.jshift</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-beta2-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -38,19 +38,19 @@
     <dependency>
       <groupId>io.jshift</groupId>
       <artifactId>odo-testbed</artifactId>
-      <version>${project.version}</version>
+      <version>1.0.0-beta2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.jshift</groupId>
       <artifactId>odo-binary</artifactId>
-      <version>${project.version}</version>
+      <version>1.0.0-beta2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.jshift</groupId>
       <artifactId>odo-java-core</artifactId>
-      <version>${project.version}</version>
+      <version>1.0.0-beta2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
