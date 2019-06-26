@@ -40,7 +40,7 @@
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-darwin-amd64</url>
+              <url>https://github.com/openshift/odo/releases/download/v${odo.version}/odo-darwin-amd64</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
@@ -52,7 +52,7 @@
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-linux-amd64</url>
+              <url>https://github.com/openshift/odo/releases/download/v${odo.version}/odo-linux-amd64</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
@@ -64,7 +64,7 @@
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://github.com/redhat-developer/odo/releases/download/v${odo.version}/odo-windows-amd64.exe</url>
+              <url>https://github.com/openshift/odo/releases/download/v${odo.version}/odo-windows-amd64.exe</url>
               <unpack>false</unpack>
               <outputDirectory>${project.basedir}/src/main/resources/binaries</outputDirectory>
             </configuration>
