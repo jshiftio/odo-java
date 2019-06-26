@@ -14,7 +14,9 @@ public class ComponentListCommand extends AbstractRunnableCommand<ComponentList>
 
     private static final String OUTPUT = "--output";
     private static final String DEFAULT_FORMAT = "json";
+    private static final String PATH = "--path";
 
+    private String path;
     private ComponentCommand componentCommand;
     private GlobalParametersSupport globalParametersSupport;
 
@@ -35,6 +37,11 @@ public class ComponentListCommand extends AbstractRunnableCommand<ComponentList>
         arguments.add(DEFAULT_FORMAT);
 
         arguments.addAll(componentCommand.getArguments());
+
+        if (path != null) {
+            arguments.add(PATH);
+            arguments.add(path);
+        }
 
         if (this.globalParametersSupport != null) {
             arguments.addAll(this.globalParametersSupport.getCliCommand());
@@ -72,6 +79,11 @@ public class ComponentListCommand extends AbstractRunnableCommand<ComponentList>
 
         public ComponentListCommand.Builder withShort() {
             this.componentCommand.q = Boolean.TRUE;
+            return this;
+        }
+
+        public ComponentListCommand.Builder withPath(String path) {
+            this.componentListCommand.path = path;
             return this;
         }
 

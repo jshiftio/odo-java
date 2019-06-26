@@ -1,13 +1,13 @@
 package io.jshift.odo.core.commands;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import io.jshift.odo.core.CliExecutor;
 import io.jshift.odo.core.commands.output.Component;
 import io.jshift.odo.core.commands.output.ComponentList;
 import io.jshift.odo.core.commands.output.TerminalOutput;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -319,6 +319,24 @@ public class ComponentCommandTest {
             .containsExactly("component", "list", "--output", "json");
 
     }
+    @Test
+    public void should_list_componentes_with_path() {
+
+        // Given
+
+        final ComponentListCommand componentListCommand = new ComponentListCommand.Builder(componentCommand, odoExecutor)
+            .withPath("/path/to")
+            .build();
+
+        // When
+
+        final List<String> cliCommand = componentListCommand.getCliCommand();
+
+        // Then
+
+        assertThat(cliCommand)
+            .containsExactly("component", "list", "--output", "json", "--path", "/path/to");
+    }
 
     @Test
     public void should_list_components() throws IOException {
@@ -341,5 +359,23 @@ public class ComponentCommandTest {
         assertThat(componentList.getItems()).hasSize(2);
     }
 
+    @Test
+    public void should_delete_all() {
+
+        // Given
+        final ComponentDeleteCommand componentDeleteCommand =
+            new ComponentDeleteCommand.Builder(componentCommand, "mycomponent", odoExecutor)
+                .withAll(true)
+                .build();
+
+        // When
+
+        final List<String> cliCommand = componentDeleteCommand.getCliCommand();
+
+        // Then
+        assertThat(cliCommand)
+            .containsExactly("component", "delete", "mycomponent", "--force", "--all");
+
+    }
 
 }

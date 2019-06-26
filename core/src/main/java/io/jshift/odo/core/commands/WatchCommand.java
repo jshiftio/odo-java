@@ -13,12 +13,14 @@ public class WatchCommand extends AbstractRunnableCommand<Void> {
     private static final String DELAY = "--delay";
     private static final String PROJECT = "--project";
     private static final String IGNORE = "--ignore";
+    private static final String SHOW_LOG = "--show-log";
 
     private String componentName;
 
     private String app;
     private String project;
     private Integer delay;
+    private Boolean showLog;
     private List<String> ignore = new ArrayList<>();
 
     private GlobalParametersSupport globalParametersSupport;
@@ -57,6 +59,10 @@ public class WatchCommand extends AbstractRunnableCommand<Void> {
             arguments.add(toCsv(ignore));
         }
 
+        if (showLog != null && showLog.booleanValue()) {
+            arguments.add(SHOW_LOG);
+        }
+
         if (globalParametersSupport != null) {
             arguments.addAll(globalParametersSupport.getCliCommand());
         }
@@ -89,6 +95,11 @@ public class WatchCommand extends AbstractRunnableCommand<Void> {
 
         public WatchCommand.Builder withProject(String project) {
             this.watchCommand.project = project;
+            return this;
+        }
+
+        public WatchCommand.Builder withShowLog(boolean showLog) {
+            this.watchCommand.showLog = showLog;
             return this;
         }
 

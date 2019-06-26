@@ -35,4 +35,25 @@ public class WatchCommandTest {
             .containsExactly(transform("watch frontend"));
     }
 
+    @Test
+    public void should_execute_watch_with_show_logs() {
+
+        // Given
+
+        final WatchCommand watchCommand = new WatchCommand.Builder(odoExecutor)
+            .withComponentName("frontend")
+            .withShowLog(true)
+            .build();
+
+        // When
+
+        final List<String> cliCommand = watchCommand.getCliCommand();
+
+        // Then
+
+        assertThat(cliCommand)
+            .containsExactly(transform("watch frontend --show-log"));
+
+    }
+
 }
