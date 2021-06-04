@@ -52,7 +52,7 @@
     <servicecatalog.version>1.0.3</servicecatalog.version>
     <awaitility.version>3.1.6</awaitility.version>
     <zt-exec.version>1.10</zt-exec.version>
-    <snakeyml.version>1.24</snakeyml.version>
+    <snakeyml.version>1.26</snakeyml.version>
   </properties>
 
   <modules>
